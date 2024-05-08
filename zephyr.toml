@@ -1,0 +1,8 @@
+name = "zephyr-hello-world"
+
+[[tables]]
+name = "test"
+
+[[tables.columns]]
+name = "message"
+col_type = "BYTEA"
