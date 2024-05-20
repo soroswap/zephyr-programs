@@ -4,5 +4,5 @@ name = "zephyr-hello-world"
 name = "test"
 
 [[tables.columns]]
-name = "message"
+name = "hello"
 col_type = "BYTEA"
