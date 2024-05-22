@@ -1,8 +1,28 @@
 name = "zephyr-hello-world"
 
 [[tables]]
-name = "test"
+name = "events"
 
 [[tables.columns]]
-name = "hello"
+name = "e_type"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_b"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "amount_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "amount_b"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "account"
 col_type = "BYTEA"

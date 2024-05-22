@@ -1,10 +1,17 @@
 use zephyr_sdk::{prelude::*, soroban_sdk::{xdr::{ScVal, ContractEvent, Hash, ContractEventBody}, Symbol}, EnvClient, DatabaseDerive};
 
+mod types;
+mod events;
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("test")]
-struct TestTable {
-    hello: ScVal,
+#[with_name("events")]
+struct EventsTable {
+    e_type: ScVal,
+    token_a: ScVal,
+    token_b: ScVal,
+    amount_a: ScVal,
+    amount_b: ScVal,
+    account: ScVal,
 }
 
 #[test]
@@ -26,25 +33,51 @@ pub extern "C" fn on_close() {
     .filter(|event| event.contract_id == Some(Hash(ROUTER_CONTRACT_ADDRESS)))
     .collect();
 
-    env.log().debug(
-        format!(
-            "Processing ledger {} events, total: {}",
-            env.reader().ledger_sequence(), contract_events.len()
-        ),
-        None,
-    );
-
     for event in contract_events {
         let ContractEventBody::V0(event) = &event.body;
 
-        env.log().debug(
-            format!(
-                "Event with data {:?} and topics {:?}",
-               event.data, event.topics
-            ),
-            None,
-        );
+        let action: Symbol = env.from_scval(&event.topics[1]);
 
+        let data = &event.data;
+
+        if action == Symbol::new(&env.soroban(), "remove") {
+            env.log().debug(
+                format!(
+                    "Action is remove"
+                ),
+                None,
+            );
+
+            let table: EventsTable = events::get_event_from_remove(&env, data);
+
+            table.put(&env);
+        }
+
+        if action == Symbol::new(&env.soroban(), "add") {
+            env.log().debug(
+                format!(
+                    "Action is add"
+                ),
+                None,
+            );
+
+            let table: EventsTable = events::get_event_from_add(&env, data);
+
+            table.put(&env);
+        }
+
+        if action == Symbol::new(&env.soroban(), "swap") {
+            env.log().debug(
+                format!(
+                    "Action is swap"
+                ),
+                None,
+            );
+
+            let table: EventsTable = events::get_event_from_swap(&env, data);
+            
+            table.put(&env);
+        }
 
     }
 
