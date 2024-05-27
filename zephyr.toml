@@ -1,5 +1,7 @@
 name = "zephyr-hello-world"
 
+#Router events table
+
 [[tables]]
 name = "events"
 
@@ -26,3 +28,21 @@ col_type = "BYTEA"
 [[tables.columns]]
 name = "account"
 col_type = "BYTEA"
+
+#Pairs table
+
+[[tables]]
+name = "pairs"
+
+[[tables.columns]]
+name = "address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_b"
+col_type = "BYTEA"
+

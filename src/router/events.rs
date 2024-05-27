@@ -1,6 +1,8 @@
-use zephyr_sdk::{ soroban_sdk::xdr::ScVal, EnvClient };
+use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal}, Symbol}, EnvClient };
 
-use crate::{ types, EventsTable };
+use crate::EventsTable;
+
+use crate::router::types;
 
 
 
@@ -52,4 +54,54 @@ pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal) -> EventsTabl
     };
     
     table
+}
+
+pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>) {
+    for event in contract_events {
+        let ContractEventBody::V0(event) = &event.body;
+
+        let action: Symbol = env.from_scval(&event.topics[1]);
+
+        let data = &event.data;
+
+        if action == Symbol::new(&env.soroban(), "remove") {
+            env.log().debug(
+                format!(
+                    "Event captured: remove"
+                ),
+                None,
+            );
+
+            let table: EventsTable = get_event_from_remove(&env, data);
+
+            table.put(&env);
+        }
+
+        if action == Symbol::new(&env.soroban(), "add") {
+            env.log().debug(
+                format!(
+                    "Event captured: add"
+                ),
+                None,
+            );
+
+            let table: EventsTable = get_event_from_add(&env, data);
+
+            table.put(&env);
+        }
+
+        if action == Symbol::new(&env.soroban(), "swap") {
+            env.log().debug(
+                format!(
+                    "Event captured: swap"
+                ),
+                None,
+            );
+
+            let table: EventsTable = get_event_from_swap(&env, data);
+            
+            table.put(&env);
+        }
+
+    }
 }
