@@ -4,13 +4,15 @@ use crate::PairsTable;
 
 use crate::factory::types;
 
-pub(crate) fn get_event_from_new_pair(env: &EnvClient, data: &ScVal) -> PairsTable {
+pub(crate) fn get_pair_from_new_pair(env: &EnvClient, data: &ScVal) -> PairsTable {
     let values: types::NewPairEvent = env.from_scval(data);
                 
     let table = PairsTable {
         token_a: env.to_scval(values.token_0.clone()),
         token_b: env.to_scval(values.token_1.clone() ),
         address: env.to_scval(values.pair.clone()),
+        reserve_a: env.to_scval(0),
+        reserve_b: env.to_scval(0),
     };
 
     table
@@ -32,7 +34,7 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
                 None,
             );
             
-            let table: PairsTable = get_event_from_new_pair(&env, data);
+            let table: PairsTable = get_pair_from_new_pair(&env, data);
 
             table.put(&env);
         }

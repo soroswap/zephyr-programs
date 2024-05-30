@@ -46,3 +46,11 @@ col_type = "BYTEA"
 name = "token_b"
 col_type = "BYTEA"
 
+[[tables.columns]]
+name = "reserve_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "reserve_b"
+col_type = "BYTEA"
+

@@ -10,3 +10,5 @@ pub struct NewPairEvent {
     pub pair: Address,
     pub new_pairs_length: u32
 }
+
+
