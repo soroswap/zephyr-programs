@@ -1,6 +1,6 @@
 use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal}, Symbol}, EnvClient };
 
-use crate::PairsTable;
+use crate::{PairsTable, ReservesChangeTable};
 
 use crate::pairs::types;
 
@@ -19,6 +19,8 @@ pub(crate) fn get_pair_from_sync(env: &EnvClient, data: &ScVal, row:PairsTable) 
 }
 
 pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>, row:PairsTable) {
+    let timestamp = env.reader().ledger_timestamp();
+
     for event in contract_events {
         let ContractEventBody::V0(event) = &event.body;
 
@@ -36,43 +38,16 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
             
             let table: PairsTable = get_pair_from_sync(&env, data, row.clone());
 
-            env.log().debug(
-                format!(
-                    "Updating pair new reserve a:{:?}, new reserve b: {:?}", &table.reserve_a, &table.reserve_b
-                ),
-                None,
-            );
-            
+            let reserves_change_table = ReservesChangeTable {
+                address: row.address.clone(),
+                reserve_a: table.reserve_a.clone(),
+                reserve_b: table.reserve_b.clone(),
+                timestamp: env.to_scval(timestamp),
+            };
+
+            reserves_change_table.put(&env);
 
             env.update().column_equal_to_xdr("address", &row.address).execute(&table);
         }
-
-        if action == Symbol::new(&env.soroban(), "deposit") {
-            env.log().debug(
-                format!(
-                    "Pair Event captured: deposit"
-                ),
-                None,
-            );
-        }
-
-        if action == Symbol::new(&env.soroban(), "swap") {
-            env.log().debug(
-                format!(
-                    "Pair Event captured: Swap"
-                ),
-                None,
-            );
-        }
-
-        if action == Symbol::new(&env.soroban(), "withdraw") {
-            env.log().debug(
-                format!(
-                    "Pair Event captured: Withdraw"
-                ),
-                None,
-            );
-        }
-
     }
 }

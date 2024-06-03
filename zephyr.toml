@@ -54,3 +54,27 @@ col_type = "BYTEA"
 name = "reserve_b"
 col_type = "BYTEA"
 
+#Reserves changes table
+
+[[tables]]
+name = "rsv_ch"
+
+[[tables.columns]]
+name = "address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "reserve_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "reserve_b"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "timestamp"
+col_type = "BYTEA"
+
+
+
+
