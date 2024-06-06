@@ -1,8 +1,8 @@
-import { getPairs } from "../utils/get-pairs.js";
+import { getPairs, testnetPairsTable } from "../utils/get-pairs.js";
 import { mercuryInstance } from "../utils/mercury.js";
 
 (async () => {
-  const pairs = await getPairs();
+  const pairs = await getPairs(testnetPairsTable);
 
   const subs = await Promise.all(
     pairs.map(async (p: any) => {
