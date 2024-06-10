@@ -29,6 +29,10 @@ col_type = "BYTEA"
 name = "account"
 col_type = "BYTEA"
 
+[[tables.columns]]
+name = "timestamp"
+col_type = "BYTEA"
+
 #Pairs table
 
 [[tables]]

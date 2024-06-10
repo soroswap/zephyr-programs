@@ -21,6 +21,7 @@ pub(crate) fn get_event_from_swap(env: &EnvClient, data: &ScVal) -> EventsTable 
         amount_b: env.to_scval(amount_b.clone()),
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("swap"),
+        timestamp: env.to_scval(env.reader().ledger_timestamp()),
     };
 
     table
@@ -36,6 +37,7 @@ pub(crate) fn get_event_from_add(env: &EnvClient, data: &ScVal) -> EventsTable {
         amount_b: env.to_scval(values.amount_b.clone()),
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("add"),
+        timestamp: env.to_scval(env.reader().ledger_timestamp()),
     };
 
     table
@@ -51,6 +53,7 @@ pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal) -> EventsTabl
         amount_b: env.to_scval(values.amount_b.clone()),
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("remove"),
+        timestamp: env.to_scval(env.reader().ledger_timestamp()),
     };
     
     table
