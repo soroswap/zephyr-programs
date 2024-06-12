@@ -19,6 +19,8 @@ pub(crate) fn get_pair_from_new_pair(env: &EnvClient, data: &ScVal) -> PairsTabl
 }
 
 pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>) {
+
+
     for event in contract_events {
         let ContractEventBody::V0(event) = &event.body;
 
@@ -33,10 +35,16 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
                 ),
                 None,
             );
+
+            let rows = env.read::<PairsTable>();
             
             let table: PairsTable = get_pair_from_new_pair(&env, data);
 
-            table.put(&env);
+            if rows.iter().any(|row| row.address == table.address) {
+                env.update().column_equal_to_xdr("address", &table.address).execute(&table);
+            }else{
+                table.put(&env);
+            }
         }
     }
 }

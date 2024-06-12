@@ -47,7 +47,7 @@ pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [78, 216, 77, 73, 31, 253, 
 
 pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [34, 151, 99, 1, 61, 107, 172, 116, 215, 37, 209, 146, 165, 49, 136, 45, 0, 167, 131, 14, 144, 146, 62, 167, 94, 145, 187, 169, 167, 160, 116, 124];
 
-//MAINNET
+// MAINNET
 // pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [13, 213, 199, 16, 234, 106, 74, 35, 179, 34, 7, 253, 19, 14, 173, 249, 201, 206, 137, 159, 67, 8, 233, 62, 79, 254, 83, 251, 175, 16, 138, 4];
 // pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [56, 114, 66, 107, 213, 158, 74, 97, 88, 80, 134, 227, 136, 109, 69, 121, 3, 181, 63, 34, 248, 158, 54, 30, 168, 6, 255, 203, 7, 172, 113, 159];
 
@@ -59,6 +59,7 @@ pub extern "C" fn on_close() {
     let contract_events = env
     .reader()
     .soroban_events();
+
 
     let router_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
     .filter(|event| event.contract_id == Some(Hash(ROUTER_CONTRACT_ADDRESS)))

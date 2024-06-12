@@ -1,4 +1,8 @@
-import { getPairs, testnetPairsTable } from "../utils/get-pairs.js";
+import {
+  getPairs,
+  mainnetPairsTable,
+  testnetPairsTable,
+} from "../utils/get-pairs.js";
 import { mercuryInstance } from "../utils/mercury.js";
 
 (async () => {
