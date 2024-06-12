@@ -1,2 +1,2 @@
-mercury-cli --jwt $MERCURY_JWT --local false --mainnet false catchup --contracts "CB74KXQXEGKGPU5C5FI22X64AGQ63NANVLRZBS22SSCMLJDXNHED72MO"
-mercury-cli --jwt $MERCURY_JWT --local false --mainnet false catchup --contracts "CBRR266UONXDUG3W57V2X5XCXT77RDK27LJE4QVKH2UTHYZGXPW5HBCT"
+mercury-cli --jwt $MERCURY_JWT --local false --mainnet false catchup --contracts "CBHNQTKJD76Q55TINIT3PPP3BKLIKIQEXPTQ32GUUU7I3CHBD5JECZLW"
+mercury-cli --jwt $MERCURY_JWT --local false --mainnet false catchup --contracts "CARJOYYBHVV2Y5GXEXIZFJJRRAWQBJ4DB2IJEPVHL2I3XKNHUB2HZWDX"

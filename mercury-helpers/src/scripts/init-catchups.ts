@@ -1,13 +1,14 @@
 import fs from "fs";
+import { mercuryInstance } from "../utils/mercury.js";
 
 const buildCatchupCommand = (s: string, mainnet = "false") => {
   return `mercury-cli --jwt $MERCURY_JWT --local false --mainnet ${mainnet} catchup --contracts "${s}"`;
 };
 //TESTNET
 const ROUTER_ADDRESS =
-  "CB74KXQXEGKGPU5C5FI22X64AGQ63NANVLRZBS22SSCMLJDXNHED72MO";
+  "CBHNQTKJD76Q55TINIT3PPP3BKLIKIQEXPTQ32GUUU7I3CHBD5JECZLW";
 const FACTORY_ADDRESS =
-  "CBRR266UONXDUG3W57V2X5XCXT77RDK27LJE4QVKH2UTHYZGXPW5HBCT";
+  "CARJOYYBHVV2Y5GXEXIZFJJRRAWQBJ4DB2IJEPVHL2I3XKNHUB2HZWDX";
 
 //MAINNET
 const ROUTER_ADDRESS_MAINNET =
@@ -17,6 +18,18 @@ const FACTORY_ADDRESS_MAINNET =
   "CA4HEQTL2WPEUYKYKCDOHCDNIV4QHNJ7EL4J4NQ6VADP7SYHVRYZ7AW2";
 
 (async () => {
+  const sub = await mercuryInstance.subscribeToContractEvents({
+    contractId: ROUTER_ADDRESS,
+  });
+
+  console.log("SUBSCRIBED TO ROUTER TESTNET", sub.ok);
+
+  const subFactory = await mercuryInstance.subscribeToContractEvents({
+    contractId: FACTORY_ADDRESS,
+  });
+
+  console.log("SUBSCRIBED TO FACTORY TESTNET", subFactory.ok);
+
   const routerCatchup = buildCatchupCommand(ROUTER_ADDRESS);
   const factoryCatchup = buildCatchupCommand(FACTORY_ADDRESS);
 

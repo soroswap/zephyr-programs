@@ -39,12 +39,13 @@ struct ReservesChangeTable {
 
 #[test]
 fn test() {
-    println!("{:?}", stellar_strkey::Contract::from_string("CA4HEQTL2WPEUYKYKCDOHCDNIV4QHNJ7EL4J4NQ6VADP7SYHVRYZ7AW2").unwrap().0);
+    println!("{:?}", stellar_strkey::Contract::from_string("CBHNQTKJD76Q55TINIT3PPP3BKLIKIQEXPTQ32GUUU7I3CHBD5JECZLW").unwrap().0);
 }
 
 // TESTNET
-pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [127, 197, 94, 23, 33, 148, 103, 211, 162, 233, 81, 173, 95, 220, 1, 161, 237, 180, 13, 170, 227, 144, 203, 90, 148, 132, 197, 164, 119, 105, 200, 63];
-pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [99, 29, 123, 212, 115, 110, 58, 27, 118, 239, 235, 171, 246, 226, 188, 255, 248, 141, 90, 250, 210, 78, 66, 170, 62, 169, 51, 227, 38, 187, 237, 211];
+pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [78, 216, 77, 73, 31, 253, 14, 246, 104, 106, 39, 183, 189, 251, 10, 150, 133, 34, 4, 187, 231, 13, 232, 212, 165, 62, 141, 136, 225, 31, 82, 65];
+
+pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [34, 151, 99, 1, 61, 107, 172, 116, 215, 37, 209, 146, 165, 49, 136, 45, 0, 167, 131, 14, 144, 146, 62, 167, 94, 145, 187, 169, 167, 160, 116, 124];
 
 //MAINNET
 // pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [13, 213, 199, 16, 234, 106, 74, 35, 179, 34, 7, 253, 19, 14, 173, 249, 201, 206, 137, 159, 67, 8, 233, 62, 79, 254, 83, 251, 175, 16, 138, 4];
@@ -66,6 +67,7 @@ pub extern "C" fn on_close() {
     let factory_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
     .filter(|event| event.contract_id == Some(Hash(FACTORY_CONTRACT_ADDRESS)))
     .collect();
+
 
     router::events::handle_contract_events(&env, router_contract_events);
 
