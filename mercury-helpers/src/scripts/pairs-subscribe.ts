@@ -6,7 +6,7 @@ import {
 import { mercuryInstance } from "../utils/mercury.js";
 
 (async () => {
-  const pairs = await getPairs(testnetPairsTable);
+  const pairs = await getPairs(mainnetPairsTable);
 
   const subs = await Promise.all(
     pairs.map(async (p: any) => {

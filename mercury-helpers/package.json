@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "token": "node --loader ts-node/esm src/scripts/jwt.ts",
     "pairs:subscribe": "node --loader ts-node/esm src/scripts/pairs-subscribe.ts",

@@ -47,7 +47,24 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
 
             reserves_change_table.put(&env);
 
-            env.update().column_equal_to_xdr("address", &row.address).execute(&table);
+            let update = env.update().column_equal_to_xdr("address", &row.address).execute(&table);
+
+            if update.is_err() {
+                env.log().error(
+                    format!(
+                        "Error updating pair: {:?}",
+                        update.err()
+                    ),
+                    None,
+                );
+            }else {
+                env.log().debug(
+                    format!(
+                        "Pair updated"
+                    ),
+                    None,
+                );
+            }
         }
     }
 }
