@@ -10,7 +10,7 @@ struct PairsTable {
     reserve_a: ScVal,
     reserve_b: ScVal,
 }
-
+// MAINNET CONTRACT: CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI
 pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [218, 84, 31, 49, 226, 201, 127, 151, 106, 85, 127, 229, 77, 127, 214, 20, 83, 199, 183, 54, 49, 135, 253, 221, 62, 169, 188, 21, 187, 147, 233, 135];
 
 //Phoenix Factory
