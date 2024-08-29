@@ -342,7 +342,7 @@ pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContrac
 
                                 if let ScVal::Vec(Some(vec)) = &entry.key {
                                     if let Some(ScVal::Symbol(symbol)) = vec.first() {
-                                        env.log().debug(format!("test: {:?}", test), None);
+                            //             env.log().debug(format!("test: {:?}", test), None);
 
                                         if symbol.to_string() == "ReserveA" {
                                             if let ScVal::U128(parts) = &entry.val {
