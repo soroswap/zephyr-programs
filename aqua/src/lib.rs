@@ -1,7 +1,8 @@
+use soroban_sdk::xdr::ScSymbol;
 use zephyr_sdk::{
     prelude::*, 
-    soroban_sdk::{contracttype, BytesN, xdr::{ContractEventBody, ScVal, Hash, ContractEvent}, Symbol, Address, Vec as SorobanVec},  
-    EnvClient, DatabaseDerive, PrettyContractEvent
+    soroban_sdk::{contracttype, BytesN, symbol_short, xdr::{LedgerEntryData, ScVal, Hash, ContractEvent, ScString}, Symbol, Address, Vec as SorobanVec, String as SorobanString},  
+    EnvClient, DatabaseDerive, PrettyContractEvent, utils
 };
 
 mod types;
@@ -11,6 +12,15 @@ use types::{
     SwapEvent,
     DepositEvent
 };
+
+fn soroban_string_to_string(env: &EnvClient, string: SorobanString) -> String {
+    let sc_val: ScVal = env.to_scval(string);
+    if let ScVal::String(ScString(s)) = sc_val {
+        s.to_utf8_string().unwrap()
+    } else {
+        panic!("value is not a string");
+    }
+}
 
 // https://amm-api.aqua.network/pools/?format=json
 // CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK
@@ -293,20 +303,103 @@ pub extern "C" fn on_close() {
 
    
       
-}            
+}      
+
+const RESERVEA: Symbol = symbol_short!("ReserveA");
+const RESERVEB: Symbol = symbol_short!("ReserveB");
 
 pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContractEvent, data_lenght: usize, rows: &Vec<PairsTable>, tokens: &SorobanVec<Address>) {
     if let ScVal::Vec(Some(data_vec)) = &event.data {
 
         if data_vec.len() == data_lenght {
             let pool_id = data_vec[0].clone();
+            let pool_address: Address = env.from_scval(&pool_id);
+            let lp_router_contract = stellar_strkey::Contract::from_string(&soroban_string_to_string(env, pool_address.to_string())).unwrap().0;
 
             // TODO: Should get reserves from the pool_id method "get_reserves"
+            // let entries = env.read_contract_entries(lp_router_contract).unwrap();
+            // for entry in entries {
+                
+            //     if entry.key == ScVal::LedgerKeyContractInstance {
+            //         env.log().debug(format!("entry: {:?}", entry), None);
+            //     }
+
+            // }
+
+            let instance_storage = env.read_contract_instance(lp_router_contract).unwrap();
+            
+            let mut reserve_a: u128 = 0;
+            let mut reserve_b: u128 = 0;
+
+            if let Some(instance) = instance_storage {
+                if let LedgerEntryData::ContractData(contract_data_entry) = &instance.entry.data {
+                    if let ScVal::ContractInstance(contract_instance) = &contract_data_entry.val {
+                        if let Some(storage_map) = &contract_instance.storage {
+                            // env.log().debug(format!("storage_map: {:?}", storage_map), None);                            
+
+
+                            for entry in storage_map.iter() {
+
+                                if let ScVal::Vec(Some(vec)) = &entry.key {
+                                    if let Some(ScVal::Symbol(symbol)) = vec.first() {
+                                        env.log().debug(format!("test: {:?}", test), None);
+
+                                        if symbol.to_string() == "ReserveA" {
+                                            if let ScVal::U128(parts) = &entry.val {
+                                                env.log().debug(format!("LAST: {}", parts.lo), None);
+                                                reserve_a = parts.lo.into()
+                                            }
+                                            // env.log().debug(format!("entry: {:?}", entry.val), None);
+                                        //     let ScVal::Address(test) = vec.get(1).unwrap() else {panic!()};
+                                        //     env.log().debug(format!("test: {:?}", test), None);
+                                        } else if symbol.to_string() == "ReserveB" {
+                                            if let ScVal::U128(parts) = &entry.val {
+                                                env.log().debug(format!("LAST: {}", parts.lo), None);
+                                                reserve_b = parts.lo.into()
+                                            }
+                                            // env.log().debug(format!("entry: {:?}", entry.val), None);
+                                        //     let ScVal::Address(test) = vec.get(1).unwrap() else {panic!()};
+                                        //     env.log().debug(format!("test: {:?}", test), None);
+                                        }
+
+                                    }
+                                }
+                            }
+
+
+                            // for i in 0..storage_map.len() {
+                            //     let entry = &storage_map.get(i).unwrap();  // Get the entry by index
+                            //     if let ScVal::Vec(Some(vec)) = &entry.key {
+                            //         if let Some(ScVal::Symbol(symbol)) = vec.first() {
+                            //             match symbol.to_string() {
+                            //                 RESERVEA => {
+                            //                     if let ScVal::U128(parts) = &entry.val {
+                            //                         env.log().debug(format!("ReserveA: {:?}", parts), None);
+                            //                     }
+                            //                 }
+                            //                 RESERVEB => {
+                            //                     if let ScVal::U128(parts) = &entry.val {
+                            //                         env.log().debug(format!("ReserveB: {:?}", parts), None);
+                            //                     }
+                            //                 }
+                            //                 _ => {} // Handle other cases if needed
+                            //             }
+                            //         }
+                            //     }
+                            // }
+                        }
+                    }
+                }
+                // let test = env.from_scval(instance.entry.data);
+            } else {
+                env.log().debug("No instance storage", None);
+            }
+            
 
             let table = PairsTable {
                 address: pool_id,
-                reserve_a: env.to_scval(0),
-                reserve_b: env.to_scval(0),
+                reserve_a: env.to_scval(reserve_a),
+                reserve_b: env.to_scval(reserve_b),
                 token_a: env.to_scval(tokens.first()),
                 token_b: env.to_scval(tokens.last()),
             };
