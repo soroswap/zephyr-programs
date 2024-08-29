@@ -4,9 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-zephyr-sdk = { version = "0.1.5" }
+zephyr-sdk = { version = "0.2.1" }
 stellar-strkey = "0.0.8"
-soroban-sdk = { version = "20.2.0" }
+soroban-sdk = { version = "21.5.0" }
+serde_json = "1.0.127"
 
 
 [lib]

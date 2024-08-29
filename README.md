@@ -1,5 +1,6 @@
 # zephyr-programs
 
+## Setup
 1.- Clone this Repo
 `git clone https://github.com/soroswap/zephyr-programs.git`
 
@@ -20,4 +21,10 @@ In `.env` fill your `JWT_0`, `JWT_1` and `JWT_2` values
 
 `bash run.sh`
 
+## Deploy Zephyr Programs
+
+```
+cd phoenix
+mercury-cli --jwt $JWT_0 --local false --mainnet true deploy
+```
 TODO: Complete readme and enviroment to work with multiple zephyr programs, create a JWT for each program, automate scripts 

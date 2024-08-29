@@ -1,5 +1,7 @@
 use zephyr_sdk::{prelude::*, soroban_sdk::{contracttype, symbol_short, xdr::{ScVal, LedgerEntryData }, Address, Symbol},  EnvClient, DatabaseDerive};
-
+use std::env;
+use std::fs;
+// use serde_json::Value;
 
 #[derive(DatabaseDerive, Clone)]
 #[with_name("pairs")]
@@ -10,9 +12,10 @@ struct PairsTable {
     reserve_a: ScVal,
     reserve_b: ScVal,
 }
+
 // MAINNET CONTRACT: CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI
 // pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [218, 84, 31, 49, 226, 201, 127, 151, 106, 85, 127, 229, 77, 127, 214, 20, 83, 199, 183, 54, 49, 135, 253, 221, 62, 169, 188, 21, 187, 147, 233, 135]; // TESTNET
-const FACTORY_CONTRACT_ADDRESS: &'static str = "CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI";
+// const FACTORY_CONTRACT_ADDRESS: &'static str = "CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI";
 
 //Phoenix Factory
 #[derive(Clone, Copy)]
@@ -60,13 +63,45 @@ pub struct Config {
 }
 
 
+pub(crate) fn get_contract_from_config_file() -> [u8; 32] {
+    // Read the configuration file
+    let config_file: &str = "config.json";
+    let config_data: std::string::String = fs::read_to_string(config_file).expect("Unable to read config file");
+
+    // Parse the JSON data
+    let config_json: serde_json::Value = serde_json::from_str(&config_data).expect("JSON was not well-formatted");
+
+    // Get the network argument passed during the build
+    let network = env::var("NETWORK").unwrap_or_else(|_| "no_network".to_string());
+
+    // if network is not testnet or mainnet panics
+    if network != "testnet" && network != "mainnet" {
+        panic!("Invalid network argument. Please use either testnet or mainnet {:?}", network);
+    }
+
+    // Get the contract address for the selected network
+    let address_str = config_json[&network].as_str().expect("address not found in json for that network");
+
+    let factory_contract = stellar_strkey::Contract::from_string(&address_str).unwrap().0;
+
+    factory_contract
+}
+
+
+
+#[test]
+fn test() {
+
+    println!("Using address{:?}", get_contract_from_config_file());
+}
 
 const CONFIG: Symbol = symbol_short!("CONFIG");
 
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
-    let factory_contract = stellar_strkey::Contract::from_string(&FACTORY_CONTRACT_ADDRESS).unwrap().0;
+
+    let factory_contract = get_contract_from_config_file();
 
     let entries = env.read_contract_entries(factory_contract).unwrap();
 
