@@ -1,0 +1,27 @@
+name = "zephyr-aqua"
+
+
+#Pairs table
+
+[[tables]]
+name = "pairs"
+
+[[tables.columns]]
+name = "address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_b"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "reserve_a"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "reserve_b"
+col_type = "BYTEA"

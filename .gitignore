@@ -16,3 +16,5 @@ Cargo.lock
 
 .env
 node_modules/
+*/target
+*/.vscode
