@@ -1,8 +1,8 @@
-# zephyr-indexer
+# zephyr-programs
 
-`git clone https://github.com/soroswap/zephyr-indexer.git`
+`git clone https://github.com/soroswap/zephyr-programs.git`
 
-`cd zephyr-indexer`
+`cd zephyr-programs`
 
 `docker build -t hello-zephyr .`
 
