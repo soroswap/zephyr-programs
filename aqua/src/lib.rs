@@ -301,6 +301,8 @@ pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContrac
         if data_vec.len() == data_lenght {
             let pool_id = data_vec[0].clone();
 
+            // TODO: Should get reserves from the pool_id method "get_reserves"
+
             let table = PairsTable {
                 address: pool_id,
                 reserve_a: env.to_scval(0),
