@@ -1,7 +1,7 @@
 use zephyr_sdk::{
     prelude::*, 
     soroban_sdk::{contracttype, BytesN, xdr::{ContractEventBody, ScVal, Hash, ContractEvent}, Symbol, Address, Vec as SorobanVec},  
-    EnvClient, DatabaseDerive
+    EnvClient, DatabaseDerive, PrettyContractEvent
 };
 
 mod types;
@@ -14,7 +14,8 @@ use types::{
 
 // https://amm-api.aqua.network/pools/?format=json
 // CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK
-pub(crate) const AQUA_LP_ROUTER_CONTRACT_ADDRESS: [u8; 32] = [96, 51, 180, 37, 14, 112, 78, 49, 79, 176, 100, 151, 61, 24, 93, 185, 34, 202, 224, 189, 39, 43, 165, 191, 241, 154, 172, 87, 15, 18, 172, 47];
+// pub(crate) const AQUA_LP_ROUTER_CONTRACT_ADDRESS: [u8; 32] = [96, 51, 180, 37, 14, 112, 78, 49, 79, 176, 100, 151, 61, 24, 93, 185, 34, 202, 224, 189, 39, 43, 165, 191, 241, 154, 172, 87, 15, 18, 172, 47];
+const AQUA_LP_ROUTER_CONTRACT_ADDRESS: &'static str = "CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK";
 
 #[derive(DatabaseDerive, Clone, Debug)]
 #[with_name("pairs")]
@@ -94,6 +95,7 @@ pub enum PairType {
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
+    let lp_router_contract = stellar_strkey::Contract::from_string(&AQUA_LP_ROUTER_CONTRACT_ADDRESS).unwrap().0;
     // let entries = env.read_contract_entries(AQUA_LP_ROUTER_CONTRACT_ADDRESS).unwrap();
 
     let rows = env.read::<PairsTable>();
@@ -102,91 +104,83 @@ pub extern "C" fn on_close() {
 
     // GETTING EVENTS AND LOGGING
     // The problem is that for events and catchups i would need to subscribe to each pair and so on
-    let contract_events = env.reader().soroban_events();
-    let lp_router_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
-        .filter(|event| event.contract_id == Some(Hash(AQUA_LP_ROUTER_CONTRACT_ADDRESS)))
-        .collect();
+    // let contract_events = env.reader().soroban_events();
+
+    let lp_router_contract_events: Vec<PrettyContractEvent> = {
+        let events = env.reader().pretty().soroban_events();
+        events
+            .iter()
+            .filter_map(|x| {
+                if x.contract == lp_router_contract {
+                    Some(x.clone())
+                } else {
+                    None
+                }
+            })
+            .collect()
+    };
+
+    // let lp_router_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
+    //     .filter(|event| event.contract_id == Some(Hash(lp_router_contract)))
+    //     .collect();
+
     for t_event in lp_router_contract_events {
         env.log().debug(format!("event: {:?}", &t_event), None);
-        let ContractEventBody::V0(event) = t_event.body;
+        // let ContractEventBody::V0(event) = t_event.body;
 
-        let action: Symbol = env.from_scval(&event.topics[0]);
-        let tokens: SorobanVec<Address> = env.from_scval(&event.topics[1]);
+        let action: Symbol = env.from_scval(&t_event.topics[0]);
+        let tokens: SorobanVec<Address> = env.from_scval(&t_event.topics[1]);
 
         if action == Symbol::new(env.soroban(), "deposit") {
-            // add_supply::<Supply>(&env, &event, contract_address, true);
+        //     // add_supply::<Supply>(&env, &event, contract_address, true);
             env.log().debug("Deposit Event", None);
                         
-            let data: DepositEvent = env.from_scval(&event.data);
-
-            let table = PairsTable {
-                address: env.to_scval(data.pool_id.clone()),
-                reserve_a: env.to_scval(0),
-                reserve_b: env.to_scval(0),
-                token_a: env.to_scval(tokens.first()),
-                token_b: env.to_scval(tokens.last()),
-            };
-
-            if rows.iter().any(|row| row.address == table.address) {
-                env.update().column_equal_to_xdr("address", &table.address).execute(&table).ok();
-            } else {
-                table.put(&env);
-            }
+            handle_add(&env, &action, &t_event, 3, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "swap") {
-            // add_supply::<Supply>(&env, &event, contract_address, false);
+        //     // add_supply::<Supply>(&env, &event, contract_address, false);
             env.log().debug("Swap Event", None);
             
-            let data: SwapEvent = env.from_scval(&event.data);
-
-            let table = PairsTable {
-                address: env.to_scval(data.pool_id.clone()),
-                reserve_a: env.to_scval(0),
-                reserve_b: env.to_scval(0),
-                token_a: env.to_scval(tokens.first()),
-                token_b: env.to_scval(tokens.last()),
-            };
-
-            if rows.iter().any(|row| row.address == table.address) {
-                env.update().column_equal_to_xdr("address", &table.address).execute(&table).ok();
-            } else {
-                table.put(&env);
-            }
+            handle_add(&env, &action, &t_event, 5, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "withdraw") {
-            // add_supply::<Collateral>(&env, &event, contract_address, true);
+        //     // add_supply::<Collateral>(&env, &event, contract_address, true);
             env.log().debug("Withdraw Event", None);
 
-            let data: WithdrawEvent = env.from_scval(&event.data);
-
-            let table = PairsTable {
-                address: env.to_scval(data.pool_id.clone()),
-                reserve_a: env.to_scval(0),
-                reserve_b: env.to_scval(0),
-                token_a: env.to_scval(tokens.first()),
-                token_b: env.to_scval(tokens.last()),
-            };
-
-            if rows.iter().any(|row| row.address == table.address) {
-                env.update().column_equal_to_xdr("address", &table.address).execute(&table).ok();
-            } else {
-                table.put(&env);
-            }
+            handle_add(&env, &action, &t_event, 3, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "add_pool") {
-            // add_supply::<Collateral>(&env, &event, contract_address, true);
+        //     // add_supply::<Collateral>(&env, &event, contract_address, true);
             env.log().debug("Add Pool Event", None);
-            let data: AddPoolEvent = env.from_scval(&event.data);
+            
+            if let ScVal::Vec(Some(data_vec)) = &t_event.data {
 
-            let table = PairsTable {
-                address: env.to_scval(data.pool_address.clone()),
-                reserve_a: env.to_scval(0),
-                reserve_b: env.to_scval(0),
-                token_a: env.to_scval(tokens.first()),
-                token_b: env.to_scval(tokens.last()),
-            };
-
-            table.put(&env);
+                if data_vec.len() == 4 {
+                    let pool_id = data_vec[0].clone();
+        
+                    let table = PairsTable {
+                        address: pool_id,
+                        reserve_a: env.to_scval(0),
+                        reserve_b: env.to_scval(0),
+                        token_a: env.to_scval(tokens.first()),
+                        token_b: env.to_scval(tokens.last()),
+                    };
+        
+                    env.log().debug(format!("New action Table: {:?}", table), None);
+        
+                    if rows.iter().any(|row| row.address == table.address) {
+                        env.update().column_equal_to_xdr("address", &table.address).execute(&table).ok();
+                    } else {
+                        table.put(&env);
+                    }
+        
+        
+                } else {
+                    env.log().debug("Unexpected data structure", None);
+                }
+            } else {
+                env.log().debug("Event data is not a Vec", None);
+            }
         }
     }
 
@@ -301,4 +295,33 @@ pub extern "C" fn on_close() {
       
 }            
 
+pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContractEvent, data_lenght: usize, rows: &Vec<PairsTable>, tokens: &SorobanVec<Address>) {
+    if let ScVal::Vec(Some(data_vec)) = &event.data {
 
+        if data_vec.len() == data_lenght {
+            let pool_id = data_vec[0].clone();
+
+            let table = PairsTable {
+                address: pool_id,
+                reserve_a: env.to_scval(0),
+                reserve_b: env.to_scval(0),
+                token_a: env.to_scval(tokens.first()),
+                token_b: env.to_scval(tokens.last()),
+            };
+
+            env.log().debug(format!("New action Table: {:?}", table), None);
+
+            if rows.iter().any(|row| row.address == table.address) {
+                env.update().column_equal_to_xdr("address", &table.address).execute(&table).ok();
+            } else {
+                table.put(&env);
+            }
+
+
+        } else {
+            env.log().debug("Unexpected data structure", None);
+        }
+    } else {
+        env.log().debug("Event data is not a Vec", None);
+    }
+}
