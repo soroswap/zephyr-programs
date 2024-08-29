@@ -12,6 +12,7 @@ use types::{
     DepositEvent
 };
 
+// https://amm-api.aqua.network/pools/?format=json
 // CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK
 pub(crate) const AQUA_LP_ROUTER_CONTRACT_ADDRESS: [u8; 32] = [96, 51, 180, 37, 14, 112, 78, 49, 79, 176, 100, 151, 61, 24, 93, 185, 34, 202, 224, 189, 39, 43, 165, 191, 241, 154, 172, 87, 15, 18, 172, 47];
 
