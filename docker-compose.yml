@@ -8,3 +8,5 @@ services:
     volumes:
       - ./:/workspace/
     command: tail -f /dev/null
+    env_file:
+      - .env
