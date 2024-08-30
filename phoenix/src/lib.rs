@@ -66,6 +66,8 @@ const CONFIG: Symbol = symbol_short!("CONFIG");
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
+
+    env.log().debug(format!("Executing Zephyr Program for Contract: {:?}", &FACTORY_CONTRACT_ADDRESS), None);
     let factory_contract = stellar_strkey::Contract::from_string(&FACTORY_CONTRACT_ADDRESS).unwrap().0;
 
     let entries = env.read_contract_entries(factory_contract).unwrap();
