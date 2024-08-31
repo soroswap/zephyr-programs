@@ -63,7 +63,7 @@ pub struct Config {
 }
 
 
-pub(crate) fn get_contract_from_config_file() -> [u8; 32] {
+pub(crate) fn get_contract_from_config_file() -> String {
     // Read the configuration file
     let config_file: &str = "config.json";
     let config_data: std::string::String = fs::read_to_string(config_file).expect("Unable to read config file");
@@ -82,9 +82,8 @@ pub(crate) fn get_contract_from_config_file() -> [u8; 32] {
     // Get the contract address for the selected network
     let address_str = config_json[&network].as_str().expect("address not found in json for that network");
 
-    let factory_contract = stellar_strkey::Contract::from_string(&address_str).unwrap().0;
-
-    factory_contract
+    address_str.to_string()
+   
 }
 
 
@@ -101,7 +100,12 @@ const CONFIG: Symbol = symbol_short!("CONFIG");
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
 
-    let factory_contract = get_contract_from_config_file();
+    let address_string = get_contract_from_config_file();
+
+    env.log().debug(format!("Executing Zephyr Program for Contract: {:?}", &address_string), None);
+
+    let factory_contract = stellar_strkey::Contract::from_string(&address_string).unwrap().0;
+
 
     let entries = env.read_contract_entries(factory_contract).unwrap();
 
