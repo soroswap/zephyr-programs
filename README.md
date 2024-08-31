@@ -54,12 +54,12 @@ NETWORK=testnet cargo test  -- --nocapture
 
 For Mainnet youll do
 ```bash
-mercury-cli --jwt $JWT_phoenix_mainnet --local false --mainnet true deploy
+NETWORK=mainnet mercury-cli --jwt $JWT_phoenix_mainnet --local false --mainnet true deploy
 ```
 
 For Testnet youll do
 ```bash
-mercury-cli --jwt $JWT_phoenix_testnet --local false --mainnet false deploy
+NETWORK=testnet mercury-cli --jwt $JWT_phoenix_testnet --local false --mainnet false deploy
 ```
 
 
