@@ -59,17 +59,17 @@ pub extern "C" fn on_close() {
         if action == Symbol::new(env.soroban(), "deposit") {
             env.log().debug("Deposit Event", None);
                         
-            handle_add(&env, &action, &t_event, 3, &rows, &tokens)
+            handle_add(&env, &t_event, 3, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "swap") {
             env.log().debug("Swap Event", None);
             
-            handle_add(&env, &action, &t_event, 5, &rows, &tokens)
+            handle_add(&env, &t_event, 5, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "withdraw") {
             env.log().debug("Withdraw Event", None);
 
-            handle_add(&env, &action, &t_event, 3, &rows, &tokens)
+            handle_add(&env, &t_event, 3, &rows, &tokens)
 
         } else if action == Symbol::new(env.soroban(), "add_pool") {
             env.log().debug("Add Pool Event", None);
@@ -104,7 +104,7 @@ pub extern "C" fn on_close() {
     } 
 }      
 
-pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContractEvent, data_lenght: usize, rows: &Vec<PairsTable>, tokens: &SorobanVec<Address>) {
+pub(crate) fn handle_add(env: &EnvClient, event: &PrettyContractEvent, data_lenght: usize, rows: &Vec<PairsTable>, tokens: &SorobanVec<Address>) {
     if let ScVal::Vec(Some(data_vec)) = &event.data {
 
         if data_vec.len() == data_lenght {
@@ -126,14 +126,15 @@ pub(crate) fn handle_add(env: &EnvClient, action: &Symbol, event: &PrettyContrac
 
                                 if let ScVal::Vec(Some(vec)) = &entry.key {
                                     if let Some(ScVal::Symbol(symbol)) = vec.first() {
-                                        env.log().debug(format!("entry: {:?}", entry), None);
 
                                         if symbol.to_string() == "ReserveA" {
                                             if let ScVal::U128(parts) = &entry.val {
+                                                env.log().debug(format!("ReseveA: {:?}", entry), None);
                                                 reserve_a = parts.lo.into()
                                             }
                                         } else if symbol.to_string() == "ReserveB" {
                                             if let ScVal::U128(parts) = &entry.val {
+                                                env.log().debug(format!("ReseveB: {:?}", entry), None);
                                                 reserve_b = parts.lo.into()
                                             }
                                         }
