@@ -63,8 +63,8 @@ const CONFIG: Symbol = symbol_short!("CONFIG");
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
-    let contract_address_str: &'static str = env!("CONTRACT_ADDRESS");
-    env.log().debug(format!("Executing Zephyr Program. Indexing Conract: {:?}", &contract_address_str), None);
+    let contract_address_str: &'static str = env!("PHOENIX_FACTORY");
+    env.log().debug(format!("Executing Zephyr Program. Indexing Phoenix Factory Contract: {:?}", &contract_address_str), None);
 
     let factory_contract = stellar_strkey::Contract::from_string(&contract_address_str).unwrap().0;
 

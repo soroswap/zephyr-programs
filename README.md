@@ -44,30 +44,52 @@ Be sure to do this after setting your .env, if you do some changes into your .en
 
 `bash run.sh`
 
-## Deploy a Zephyr Program
+## Check that the contract addresses you want to index are correctly defined
+Check
+```
+public/mainnet.contract-addresses.json
+public/testet.contract-addresses.json
+```
+
+## Deploy a Zephyr Program EASY WAY
+We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contract-addresses.json` depending on the network and the protocol.
+You just need to do
+```bash
+bash deploy.sh [PROTOCOL] [NETWORK]
+```
+
+For example:
+```bash
+bash deploy.sh soroswap mainnet
+```
+
+## Deploy a Zephyr Program MANUAL/HARD WAY
+
 1.- Enter to the program folder
 ```bash
 cd phoenix
 ```
 2.- Verify tests are running ok. 
-Zephyr programs need that you define both the CONTRACT ADDRESS of the contract that you will be indexing and the network. The contract address you will be indexing is defined in the `CONTRACT_ADDRESS` environmental variable.
+Zephyr programs need that you define both the CONTRACT ADDRESS of the contract that you will be indexing and the network. The contract address you will be indexing is defined in the `PHOENIX_FACTORY` environmental variable.
+
+Be aware that the required enviornmental variables and their names will depend on the protocol!!!!
 
 
 ```bash
-CONTRACT_ADDRESS=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI cargo test  -- --nocapture
+PHOENIX_FACTORY=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI cargo test  -- --nocapture
 ```
 
 3.- Deploy the zephyr program
-When deploying, besides defininf the `CONTRACT_ADDRESS` env variable  youll need to define the network with the the `--mainnet` flag. `--mainnet true` means Mainnet, and `--mainnet false` means testnet
+When deploying, besides defininf the `PHOENIX_FACTORY` env variable  youll need to define the network with the the `--mainnet` flag. `--mainnet true` means Mainnet, and `--mainnet false` means testnet
 
 For Mainnet youll do
 ```bash
-CONTRACT_ADDRESS=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI mercury-cli --jwt $JWT_phoenix_mainnet --local false --mainnet true deploy
+PHOENIX_FACTORY=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI mercury-cli --jwt $JWT_phoenix_mainnet --local false --mainnet true deploy
 ```
 
 For Testnet youll do
 ```bash
-CONTRACT_ADDRESS=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI mercury-cli --jwt $JWT_phoenix_testnet --local false --mainnet false deploy
+PHOENIX_FACTORY=CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI mercury-cli --jwt $JWT_phoenix_testnet --local false --mainnet false deploy
 ```
 
 
