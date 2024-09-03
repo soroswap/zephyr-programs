@@ -30,16 +30,36 @@ fi
 # Extract the correct contract address based on the protocol
 if [ "$protocol" == "soroswap" ]; then
     factory_address=$(jq -r '.soroswap_factory' "$contract_addresses_file")
+    router_address=$(jq -r '.soroswap_router' "$contract_addresses_file")
+
+    echo factory_address from json: $factory_address
+    echo router_address from json: $router_address
+
+    export SOROSWAP_FACTORY=$factory_address
+    export SOROSWAP_ROUTER=$router_address
+
+    echo Using env variable SOROSWAP_FACTORY $SOROSWAP_FACTORY
+    echo Using env variable SOROSWAP_ROUTER $SOROSWAP_ROUTER
+
+
 elif [ "$protocol" == "phoenix" ]; then
     factory_address=$(jq -r '.phoenix_factory' "$contract_addresses_file")
+
+    echo factory_address from json: $factory_address
+
     export PHOENIX_FACTORY=$factory_address
-    echo $factory_address
-    echo Using PHOENIX_FACTORY $PHOENIX_FACTORY
+
+    echo Using env variable PHOENIX_FACTORY $PHOENIX_FACTORY
+
+
 elif [ "$protocol" == "aqua" ]; then
     router_address=$(jq -r '.aqua_router' "$contract_addresses_file")
+    
+    echo router_address from json: $router_address
+    
     export AQUA_ROUTER=$router_address
-    echo $router_address
-    echo Using AQUA_ROUTER $AQUA_ROUTER
+
+    echo Using env variable AQUA_ROUTER $AQUA_ROUTER
 
 else
     echo "Error: Invalid protocol"
