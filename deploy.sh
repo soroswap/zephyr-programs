@@ -81,6 +81,8 @@ mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy
 output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force true)
 
 echo Got output $output
+##########
+##########
 
 echo " "
 echo " "
@@ -92,10 +94,37 @@ zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
 
 echo "Zephyr table: $zephyr_table"
 
+zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
+echo " "
+echo " "
+echo " -- "
+echo "  "
+echo "  "
+
+echo Saving zephyr tables in $zephyr_programs_addresses_file
 
 
-##########
-##########
+# Save tables depending on protocol
+if [ "$protocol" == "soroswap" ]; then
+    echo TODO SOROSWAP - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET 
+
+elif [ "$protocol" == "phoenix" ]; then
+    jq --arg address "$zephyr_address" --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+    echo New $network zephyr tables file:
+    cat $zephyr_programs_addresses_file
+
+elif [ "$protocol" == "aqua" ]; then
+    echo TODO AQUA - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET
+
+else
+    echo "Error: Invalid protocol"
+    exit 1
+fi
+
+echo " "
+echo " Saved!"
+
 
 # # Function to transform the address from zephyr_... to allZephyr...
 # transform_address() {
