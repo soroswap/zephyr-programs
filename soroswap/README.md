@@ -1,12 +1,6 @@
 # zephyr-indexer
 
-`git clone https://github.com/soroswap/zephyr-indexer.git`
-
-`cd zephyr-indexer`
-
-`docker build -t hello-zephyr .`
-
-`docker run -it hello-zephyr /bin/bash`
+inside the docker image setup the JWT for soroswap zephyr program
 
 `export MERCURY_JWT=<YOUR_MERCURY_JWT_TOKEN>`
 

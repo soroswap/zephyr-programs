@@ -1,0 +1,12 @@
+services:
+
+  zephyr-vm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zephyr-vm
+    volumes:
+      - ./:/workspace/
+    command: tail -f /dev/null
+    env_file:
+      - .env
