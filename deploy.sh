@@ -96,6 +96,26 @@ echo Saving zephyr tables in $zephyr_programs_addresses_file
 
 # Save tables depending on protocol
 if [ "$protocol" == "soroswap" ]; then
+
+    tables=$(echo "$output" | grep -o 'zephyr_[a-f0-9]\{32\}')
+    # Print the extracted addresses
+    echo "Tables: ${tables[0]}"
+
+    counter=0
+    for table in $tables; do
+        # Define the variable name
+        var_name="zephyr_table_$counter"
+        
+        # Set the environment variable
+        export $var_name=$table
+        
+        # Increment the counter
+        counter=$((counter + 1))
+    done
+    echo zephyr_table_0 $zephyr_table_0
+    echo zephyr_table_1 $zephyr_table_1
+    echo zephyr_table_2 $zephyr_table_2
+
     echo TODO SOROSWAP - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET 
 
 elif [ "$protocol" == "phoenix" ]; then
