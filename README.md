@@ -31,6 +31,10 @@ JWT_aqua_mainnet=
 JWT_aqua_testnet=
 
 ```
+
+3.- Build the Docker Image [NEED TO DO IT ONLY ONCE]
+`docker compose build`
+
 3.- Run the Docker Container
 Be sure to do this after setting your .env, if you do some changes into your .env, you`ll need to re do this again
 
