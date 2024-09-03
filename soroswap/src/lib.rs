@@ -37,38 +37,35 @@ struct ReservesChangeTable {
     timestamp: ScVal,
 }
 
-#[test]
-fn test() {
-    println!("{:?}", stellar_strkey::Contract::from_string("CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI").unwrap().0);
-}
-
-// TESTNET
-// pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [78, 216, 77, 73, 31, 253, 14, 246, 104, 106, 39, 183, 189, 251, 10, 150, 133, 34, 4, 187, 231, 13, 232, 212, 165, 62, 141, 136, 225, 31, 82, 65];
-
-// pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [34, 151, 99, 1, 61, 107, 172, 116, 215, 37, 209, 146, 165, 49, 136, 45, 0, 167, 131, 14, 144, 146, 62, 167, 94, 145, 187, 169, 167, 160, 116, 124];
-
-// MAINNET
-pub(crate) const ROUTER_CONTRACT_ADDRESS: [u8; 32] = [13, 213, 199, 16, 234, 106, 74, 35, 179, 34, 7, 253, 19, 14, 173, 249, 201, 206, 137, 159, 67, 8, 233, 62, 79, 254, 83, 251, 175, 16, 138, 4];
-pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [56, 114, 66, 107, 213, 158, 74, 97, 88, 80, 134, 227, 136, 109, 69, 121, 3, 181, 63, 34, 248, 158, 54, 30, 168, 6, 255, 203, 7, 172, 113, 159];
-
+// #[test]
+// fn test() {
+//     println!("{:?}", stellar_strkey::Contract::from_string("CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI").unwrap().0);
+// }
 
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
 
+    let factory_address_str: &'static str = env!("SOROSWAP_FACTORY");
+    let router_address_str: &'static str = env!("SOROSWAP_ROUTER");
+
+    env.log().debug(format!("Indexing Soroswap Factory: {:?}", &factory_address_str), None);
+    env.log().debug(format!("Indexing Soroswap Router: {:?}", &router_address_str), None);
+
+    let factory_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(factory_address_str).unwrap().0;
+    let router_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(router_address_str).unwrap().0;
+
     let contract_events = env
     .reader()
     .soroban_events();
 
+    let factory_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
+    .filter(|event| event.contract_id == Some(Hash(factory_address_bytes)))
+    .collect(); 
 
     let router_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
-    .filter(|event| event.contract_id == Some(Hash(ROUTER_CONTRACT_ADDRESS)))
+    .filter(|event| event.contract_id == Some(Hash(router_address_bytes)))
     .collect();
-
-    let factory_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
-    .filter(|event| event.contract_id == Some(Hash(FACTORY_CONTRACT_ADDRESS)))
-    .collect();
-
 
     router::events::handle_contract_events(&env, router_contract_events);
 

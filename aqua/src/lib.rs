@@ -16,7 +16,7 @@ fn soroban_string_to_string(env: &EnvClient, string: SorobanString) -> String {
 // https://amm-api.aqua.network/pools/?format=json
 // CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK
 // pub(crate) const AQUA_LP_ROUTER_CONTRACT_ADDRESS: [u8; 32] = [96, 51, 180, 37, 14, 112, 78, 49, 79, 176, 100, 151, 61, 24, 93, 185, 34, 202, 224, 189, 39, 43, 165, 191, 241, 154, 172, 87, 15, 18, 172, 47];
-const AQUA_LP_ROUTER_CONTRACT_ADDRESS: &'static str = "CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK";
+// const AQUA_LP_ROUTER_CONTRACT_ADDRESS: &'static str = "CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK";
 
 #[derive(DatabaseDerive, Clone, Debug)]
 #[with_name("pairs")]
@@ -31,7 +31,10 @@ struct PairsTable {
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
-    let lp_router_contract = stellar_strkey::Contract::from_string(&AQUA_LP_ROUTER_CONTRACT_ADDRESS).unwrap().0;
+    let contract_address_str: &'static str = env!("AQUA_ROUTER");
+    env.log().debug(format!("Executing Zephyr Program. Indexing Aqua Router Contract: {:?}", &contract_address_str), None);
+
+    let lp_router_contract = stellar_strkey::Contract::from_string(&contract_address_str).unwrap().0;
 
     let rows = env.read::<PairsTable>();
     env.log().debug(format!("rows: {:?}", &rows), None);
