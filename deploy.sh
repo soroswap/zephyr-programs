@@ -90,17 +90,7 @@ echo " -- "
 echo "  "
 echo "  "
 
-zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
-
-echo "Zephyr table: $zephyr_table"
-
 zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
-echo " "
-echo " "
-echo " -- "
-echo "  "
-echo "  "
-
 echo Saving zephyr tables in $zephyr_programs_addresses_file
 
 
@@ -109,13 +99,22 @@ if [ "$protocol" == "soroswap" ]; then
     echo TODO SOROSWAP - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET 
 
 elif [ "$protocol" == "phoenix" ]; then
+    zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
+    echo "Zephyr table: $zephyr_table"
+
     jq --arg address "$zephyr_address" --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
     echo New $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "aqua" ]; then
-    echo TODO AQUA - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET
+    zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
+    echo "Zephyr table: $zephyr_table"
+
+    jq --arg address "$zephyr_address" --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+    echo New $network zephyr tables file:
+    cat $zephyr_programs_addresses_file
 
 else
     echo "Error: Invalid protocol"
