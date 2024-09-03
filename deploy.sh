@@ -71,20 +71,9 @@ cd "$protocol" || exit 1
 JWT_VARIABLE="JWT_${protocol}_${network}"
 
 
-echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG"
+echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG and --force true"
 echo "---"
 echo "Using JWT ${!JWT_VARIABLE} in pwd $(pwd)"
 echo "---"
 
-mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy
-
-
-# if [ -z "$contract_address" ]; then
-#     echo "Error: Failed to retrieve contract address from $contract_addresses_file"
-#     exit 1
-# fi
-
-# # Deploy your program using the contract address
-# # Add your deployment logic here
-
-# echo "Deployment successful!"
+mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force true
