@@ -20,8 +20,8 @@ else
     exit 1
 fi
 
-# Recover the variable from public/[network].contract-addresses.json
-contract_addresses_file="./public/$network.contract-addresses.json"
+# Recover the variable from public/[network].contracts.json
+contract_addresses_file="./public/$network.contracts.json"
 if [ ! -f "$contract_addresses_file" ]; then
     echo "Error: $contract_addresses_file does not exist"
     exit 1

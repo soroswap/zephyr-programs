@@ -46,9 +46,21 @@ Be sure to do this after setting your .env, if you do some changes into your .en
 
 ## Check that the contract addresses you want to index are correctly defined
 Check
+```bash
+public/mainnet.contracts.json
+public/testet.contracts.json
 ```
-public/mainnet.contract-addresses.json
-public/testet.contract-addresses.json
+
+## Update the contract addresses
+Contract addresses can be brought from different repos like 
+https://raw.githubusercontent.com/soroswap/core/main/public/mainnet.contracts.json
+https://raw.githubusercontent.com/soroswap/core/main/public/testnet.contracts.json
+https://raw.githubusercontent.com/soroswap/aggregator/main/public/testnet.contracts.json
+
+In order to update your local contract addresses file do
+
+```bash
+bash update_contract_addresses.sh
 ```
 
 ## Deploy a Zephyr Program EASY WAY
