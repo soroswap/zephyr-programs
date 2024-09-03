@@ -32,7 +32,7 @@ JWT_aqua_testnet=
 
 ```
 
-3.- Build the Docker Image [NEED TO DO IT ONLY ONCE]
+3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
 
 3.- Run the Docker Container
