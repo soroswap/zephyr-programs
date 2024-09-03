@@ -36,7 +36,11 @@ elif [ "$protocol" == "phoenix" ]; then
     echo $factory_address
     echo Using PHOENIX_FACTORY $PHOENIX_FACTORY
 elif [ "$protocol" == "aqua" ]; then
-    factory_address=$(jq -r '.aqua_factory' "$contract_addresses_file")
+    router_address=$(jq -r '.aqua_router' "$contract_addresses_file")
+    export AQUA_ROUTER=$router_address
+    echo $router_address
+    echo Using AQUA_ROUTER $AQUA_ROUTER
+
 else
     echo "Error: Invalid protocol"
     exit 1
@@ -47,7 +51,7 @@ cd "$protocol" || exit 1
 JWT_VARIABLE="JWT_${protocol}_${network}"
 
 
-echo "Will deploy to $protocol on $network using contract address $contract_address and mainnet flag $MAINNET_FLAG"
+echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG"
 echo "---"
 echo "Using JWT ${!JWT_VARIABLE} in pwd $(pwd)"
 echo "---"
