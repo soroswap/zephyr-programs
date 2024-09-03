@@ -10,9 +10,6 @@ struct PairsTable {
     reserve_a: ScVal,
     reserve_b: ScVal,
 }
-// MAINNET CONTRACT: CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI
-// pub(crate) const FACTORY_CONTRACT_ADDRESS: [u8; 32] = [218, 84, 31, 49, 226, 201, 127, 151, 106, 85, 127, 229, 77, 127, 214, 20, 83, 199, 183, 54, 49, 135, 253, 221, 62, 169, 188, 21, 187, 147, 233, 135]; // TESTNET
-const FACTORY_CONTRACT_ADDRESS: &'static str = "CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI";
 
 //Phoenix Factory
 #[derive(Clone, Copy)]
@@ -66,7 +63,10 @@ const CONFIG: Symbol = symbol_short!("CONFIG");
 #[no_mangle]
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
-    let factory_contract = stellar_strkey::Contract::from_string(&FACTORY_CONTRACT_ADDRESS).unwrap().0;
+    let contract_address_str: &'static str = env!("CONTRACT_ADDRESS");
+    env.log().debug(format!("Executing Zephyr Program. Indexing Conract: {:?}", &contract_address_str), None);
+
+    let factory_contract = stellar_strkey::Contract::from_string(&contract_address_str).unwrap().0;
 
     let entries = env.read_contract_entries(factory_contract).unwrap();
 
