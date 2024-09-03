@@ -10,3 +10,6 @@ ENV PATH="/root/.cargo/bin:$PATH"
 RUN cargo install mercury-cli
 
 RUN rustup target add wasm32-unknown-unknown
+
+RUN apt update
+RUN apt install -y jq
