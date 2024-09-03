@@ -116,13 +116,26 @@ if [ "$protocol" == "soroswap" ]; then
     echo zephyr_table_1 $zephyr_table_1
     echo zephyr_table_2 $zephyr_table_2
 
-    echo TODO SOROSWAP - WE ARE NOT SAVING THE ZEPHYR PROGRAM ADDRESS YET 
+    # first table is events
+    jq --arg table "$zephyr_table_0" '.soroswap_events = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+
+    # second table is pairs
+    jq --arg table "$zephyr_table_1" '.soroswap_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+
+    # second table is rsv_ch
+    jq --arg table "$zephyr_table_2" '.soroswap_rsv_ch = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+
+    echo New $network zephyr tables file:
+    cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "phoenix" ]; then
     zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
     echo "Zephyr table: $zephyr_table"
 
-    jq --arg address "$zephyr_address" --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    jq --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
     echo New $network zephyr tables file:
     cat $zephyr_programs_addresses_file
@@ -131,7 +144,7 @@ elif [ "$protocol" == "aqua" ]; then
     zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
     echo "Zephyr table: $zephyr_table"
 
-    jq --arg address "$zephyr_address" --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    jq --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
     echo New $network zephyr tables file:
     cat $zephyr_programs_addresses_file

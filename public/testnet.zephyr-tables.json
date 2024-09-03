@@ -1,7 +1,8 @@
 {
-  "soroswap_events": "allZephyrBb78C5E2F153Dbca0121622E3B87D92Es",
-  "soroswap_pairs": "allZephyrAc4C7D40C78D2B474009391E80Aedb99S",
+  "soroswap_events": "zephyr_65ba290371c3f7e8062e6d9b2b0d50e2",
+  "soroswap_pairs": "zephyr_99d091664d73fb5cd2529f7617f3b947",
   "rsv_ch": "allZephyr5C10Be3769D18F24254F26Eafab4Ef45S",
   "phoenix_pairs": "zephyr_99d091664d73fb5cd2529f7617f3b947",
-  "aqua_pairs": "zephyr_99d091664d73fb5cd2529f7617f3b947"
+  "aqua_pairs": "zephyr_99d091664d73fb5cd2529f7617f3b947",
+  "soroswap_rsv_ch": "zephyr_b791666b94ffedab3424bf736540092c"
 }
