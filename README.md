@@ -32,7 +32,7 @@ JWT_aqua_testnet=
 
 ```
 
-3.- Build the Docker Image [NEED TO DO IT ONLY ONCE]
+3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
 
 3.- Run the Docker Container
@@ -64,7 +64,7 @@ bash update_contract_addresses.sh
 ```
 
 ## Deploy a Zephyr Program EASY WAY
-We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contract-addresses.json` depending on the network and the protocol.
+We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
 bash deploy.sh [PROTOCOL] [NETWORK]
@@ -74,6 +74,10 @@ For example:
 ```bash
 bash deploy.sh soroswap mainnet
 ```
+
+This will deploy the Zephyr Tables and save them in 
+`public/mainnet.zephyr-tables.json`
+`public/testnet.zephyr-tables.json`
 
 ## Deploy a Zephyr Program MANUAL/HARD WAY
 
