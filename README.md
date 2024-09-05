@@ -44,6 +44,9 @@ Be sure to do this after setting your .env, if you do some changes into your .en
 
 `bash scripts/run.sh`
 
+5.- Install node dependencies
+`yarn install`
+
 ## Check that the contract addresses you want to index are correctly defined
 Check
 ```bash
@@ -85,7 +88,7 @@ This will deploy the Zephyr Tables and save them in
 `public/mainnet.zephyr-tables.json`
 `public/testnet.zephyr-tables.json`
 
-### Do the necesary catch up of an specific zephyr program
+# Catch Ups
 Some Zephyr Programs gets "invoked" for every specific event that is emitted on the contract, like with the `new_pair` event in the `SoroswapFactory` contract, an other Zephyr Programs will just need to get an specific Ledger Entry to get all the necesary information (for example, for Phoenix).
 
 In the case of the "event" based Zephyr Programs, we will need to ask the ZephyrVM to do catch ups for past events. Learn more about this [here](https://docs.mercurydata.app/zephyr-full-customization/general-concepts/accessing-the-ledger-meta-contract-events), [here](https://docs.mercurydata.app/zephyr-full-customization/general-concepts/catchups) and [here](https://blog.xycloo.com/blog/indexing-blend-ybx-pool#catching-up)
@@ -95,6 +98,24 @@ We need to do catch ups for:
 - SoroswapPair Contract `sync` event
 - SoroswapRouter `remove`, `add` and `swap` events
 - Aqua Router `deposit`, `swap`, `withdraw` and `add_pool` events
+
+Because we can only catch upts SoroswapPairs contract after knowing what pairs do we have we will do this in 2 steps:
+
+1.- Catch ups `SoroswapFactory`, `SoroswapRouter` and `AquaRouter`
+```
+bash scripts/factory_routr_catchups.sh
+```
+This will
+- subscribe to the contracts
+- start catchup
+- write the catchup id into [network].catchup_number
+- wait until the catchup is ready.
+
+
+2.- Catch up all the pairs
+Once the previous process is ready, now youll need to catchup all the events in every pair contract.
+Because we have already catched up all the `new_pair` events, our Pair Table will be up to date.
+
 
 
 
