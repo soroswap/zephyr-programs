@@ -9,15 +9,15 @@
     "pairs:subscribe": "node --loader ts-node/esm src/scripts/pairs-subscribe.ts",
     "pairs:catchups": "node --loader ts-node/esm src/scripts/pairs-catchups.ts",
     "init:catchups": "node --loader ts-node/esm src/scripts/init-catchups.ts",
-    "catchups": "yarn build && node --trace-deprecation dist/pairs-catchups.js"
+    "catchups": "yarn build && node --trace-deprecation dist/pairs-catchups-generator.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@stellar/stellar-sdk": "^12.0.1",
+    "@stellar/stellar-sdk": "^12.1.0",
     "@types/node": "^20.14.0",
     "dotenv": "^16.4.5",
-    "mercury-sdk": "^0.1.22"
+    "mercury-sdk": "0.2.4"
   }
 }
