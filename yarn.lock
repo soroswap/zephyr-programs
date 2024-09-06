@@ -161,10 +161,10 @@ inherits@^2.0.1:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-mercury-sdk@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/mercury-sdk/-/mercury-sdk-0.2.4.tgz#252692caf72f1f85abaa8a27ee3d4f5369f1b5f4"
-  integrity sha512-oTvfII8rcno3iNUVRmDULN9uzXP80bY/O7aHtNs2xyTW3GqgEeRMhQq7JMvWh00AFSelZINjAKNQDDOhZovxsg==
+mercury-sdk@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/mercury-sdk/-/mercury-sdk-0.2.6.tgz#e6165e5b25efd1c0f2e44cf803c61202690c794d"
+  integrity sha512-+Z+fg3CoplkfOUXiPQocxrfFv5MzSuhjBAK6TXnycAuXOfpkzo9RmEs3cMrMpLcGbTJgLfgVOpssMwTVag8Kpg==
   dependencies:
     "@stellar/stellar-sdk" "^12.1.0"
     axios "^1.6.2"

@@ -1,7 +1,7 @@
 # zephyr-programs
 
 ## Setup
-
+### Setup Environment
 0.- Get Your Mercury JWT Tokens.
 For this repo youll need 3 accounts and 6 tokens, as each account can manage only one program per network. 
 So you will create 1 account for `soroswap`, 1 account for `phoenix` and 1 account for `aqua`.
@@ -101,6 +101,21 @@ Using testnet
 Checking catchup status for catchup 22...
 Catchup 22 is completed!
 ```
+## Generate a catchup script for Soroswap Pairs
+Not that our SoroswapFactory has been catched up, our `soroswap_pair` table is up to date so we can get all pairs and generate a script to catch up all pairs contracts!
+```bash
+yarn pairs:catchups:generate testnet
+yarn pairs:catchups:generate mainnet
+```
+This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
+## Catch up all pairs
+Then you can finish with
+```bash
+bash scripts/mainnet.pairs-catchups.sh
+bash scripts/testnet.pairs-catchups.sh
+```
+This will generate a BUNCH of catchup orders that will be stored in 
+`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`
 
 
 
