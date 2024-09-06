@@ -52,7 +52,7 @@ catchup_number=$(echo "$output" | grep -o 'catchup [0-9]*' | sed 's/catchup //')
 echo " "
 
 echo $catchup_number > /workspace/public/$network.catchup_number
-echo Catchup number $catchup_number saved in /workspace/public/$network.catchup_number
+echo Catchup number $catchup_number saved in /workspace/.$network.catchup_number
 
 echo "---"
 echo " "

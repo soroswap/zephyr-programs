@@ -47,14 +47,14 @@ Be sure to do this after setting your .env, if you do some changes into your .en
 5.- Install node dependencies
 `yarn install`
 
-## Check that the contract addresses you want to index are correctly defined
+### Check that the contract addresses you want to index are correctly defined
 Check
 ```bash
 public/mainnet.contracts.json
 public/testet.contracts.json
 ```
 
-## Update the contract addresses
+### Update the contract addresses
 Contract addresses can be brought from different repos like 
 https://raw.githubusercontent.com/soroswap/core/main/public/mainnet.contracts.json
 https://raw.githubusercontent.com/soroswap/core/main/public/testnet.contracts.json
@@ -66,10 +66,45 @@ In order to update your local contract addresses file do
 bash scripts/update_contract_addresses.sh
 ```
 
-## Deploy ALL Zephyr Programs in ALL networks and do ALL necesary catch ups
-```
+# Deploy
+## Fast Way
+1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
+```bash
 bash scripts/deploy_all.sh
 ```
+This will populate the `public/mainnet.zephyr-tabloes.json` and the `public/testnet.zephyr-tabloes.json` files
+
+
+"/workspace/.$network.catchup_number"
+
+## Catch up SoroswapFactory and SoroswapRouter
+In one tab run
+```bash
+bash scripts/factory_router_catchups.sh mainnet
+```
+In other tab run
+```bash
+bash scripts/factory_router_catchups.sh testnet
+```
+These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet/catchup_number` files so you can also monitor their status with
+
+```bash
+bash scripts/verify_catchup_status.sh mainnet
+```
+In other tab run
+```bash
+bash scripts/verify_catchup_status.sh testnet
+```
+When catchups are ready, these scripts will output something like this:
+```bash
+Using testnet
+Checking catchup status for catchup 22...
+Catchup 22 is completed!
+```
+
+
+
+
 ## Deploy Zephyr Programs one by one
 
 ### Deploy a Zephyr Program EASY WAY
