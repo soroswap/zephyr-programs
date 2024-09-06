@@ -27,6 +27,7 @@ catchup_numbers_file="/workspace/.${networkName}.catchups_numbers"
 echo "---"
 echo "Running catchup command ${index + 1}..."
 output=\$(eval "${command}")
+echo "Got output \${output}"
 catchup_number=\$(echo "\${output}" | grep -o 'catchup [0-9]*' | sed 's/catchup //')
 echo "Catchup number: \${catchup_number}"
 

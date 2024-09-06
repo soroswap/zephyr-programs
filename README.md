@@ -115,12 +115,21 @@ bash scripts/mainnet.pairs-catchups.sh
 bash scripts/testnet.pairs-catchups.sh
 ```
 This will generate a BUNCH of catchup orders that will be stored in 
-`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`
+`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
+The script, after generating th catchup orders it will check if they are ready.
+
+If you want to check if they are ready later you can do:
+
+```bash
+bash scripts/verify_catchups_status.sh testnet
+```
+or 
+```bash
+bash scripts/verify_catchups_status.sh mainnet
+```
 
 
-
-
-## Deploy Zephyr Programs one by one
+## Slower way: Deploy Zephyr Programs one by one
 
 ### Deploy a Zephyr Program EASY WAY
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
