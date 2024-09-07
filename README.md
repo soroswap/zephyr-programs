@@ -86,7 +86,7 @@ In other tab run
 ```bash
 bash scripts/factory_router_catchups.sh testnet
 ```
-These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet/catchup_number` files so you can also monitor their status with
+These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
 
 ```bash
 bash scripts/verify_catchup_status.sh mainnet

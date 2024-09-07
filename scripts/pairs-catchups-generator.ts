@@ -79,6 +79,7 @@ done
   console.log("🚀 ~ zephyrTableOriginal:", zephyrTableOriginal);
 
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(zephyrTableOriginal);
+  // const zephyrTableGraphQL = {address: "allZephyr923625Cad8F2Bf73069B63583354Ba4As"};
   console.log("🚀 ~ zephyrTableGraphQL:", zephyrTableGraphQL);
 
   const pairs = await getPairs(zephyrTableGraphQL.address, network);
