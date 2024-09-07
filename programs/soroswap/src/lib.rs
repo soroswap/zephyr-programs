@@ -67,16 +67,20 @@ pub extern "C" fn on_close() {
     .filter(|event| event.contract_id == Some(Hash(router_address_bytes)))
     .collect();
 
+    // Hanld the events from the Router Contract (already filtered)
     router::events::handle_contract_events(&env, router_contract_events);
 
+    // Hanld the events from the Factoryu Contract (already filtered)
     factory::events::handle_contract_events(&env, factory_contract_events);
 
+    // At this point our PairsTable is up to date. Now we can handle the events from the Pairs
     let rows = env.read::<PairsTable>();
 
     for row in rows {
 
         let pair_address: Address = env.from_scval(&row.address);
 
+        // We filter to see if there is any event related to our Pair
         let pair_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
         .filter(|event| {
             let contract_id_str = SorobanString::from_str(&env.soroban(), &stellar_strkey::Contract(event.contract_id.as_ref().unwrap().0).to_string());
@@ -84,6 +88,7 @@ pub extern "C" fn on_close() {
         })
         .collect();
     
+        // Handle the Event
         pairs::events::handle_contract_events(&env, pair_contract_events, row);
         
     }

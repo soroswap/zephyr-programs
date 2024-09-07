@@ -21,7 +21,7 @@ else
 fi
 
 # Recover the variable from public/[network].contracts.json
-contract_addresses_file="./public/$network.contracts.json"
+contract_addresses_file="/workspace/public/$network.contracts.json"
 if [ ! -f "$contract_addresses_file" ]; then
     echo "Error: $contract_addresses_file does not exist"
     exit 1
@@ -67,7 +67,7 @@ else
 fi
 
 # Change directory to the protocol
-cd "$protocol" || exit 1
+cd "/workspace/programs/$protocol" || exit 1
 JWT_VARIABLE="JWT_${protocol}_${network}"
 
 

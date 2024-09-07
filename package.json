@@ -1,0 +1,19 @@
+{
+  "name": "zephyr-programs-scripts",
+  "version": "1.0.0",
+  "description": "Zephyr Programs for Soroswap",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "pairs:catchups:generate": "yarn build && node --trace-deprecation dist/pairs-catchups-generator.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stellar/stellar-sdk": "^12.1.0",
+    "@types/node": "^20.14.0",
+    "dotenv": "^16.4.5",
+    "mercury-sdk": "0.2.6"
+  }
+}

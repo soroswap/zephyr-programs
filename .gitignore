@@ -18,3 +18,7 @@ Cargo.lock
 node_modules/
 */target
 */.vscode
+
+.*.catchup_number
+.*.catchups_numbers
+dist
