@@ -15,7 +15,6 @@ const parseValue = (value: any) => {
 export const getPairs = async (tableName: string, network: "MAINNET" | "TESTNET") => {
 
   const mercuryInstance = getMercuryInstance(network);
-  console.log("🚀 ~ getPairs ~ mercuryInstance:", mercuryInstance)
   
   const res = await mercuryInstance.getCustomQuery({
     request: `query Query {
