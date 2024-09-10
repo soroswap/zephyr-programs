@@ -75,9 +75,7 @@ echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_
 echo "---"
 echo "Using JWT ${!JWT_VARIABLE} in pwd $(pwd)"
 echo "---"
-
-mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force true
-
+cargo test -- --nocapture
 output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force true)
 
 echo Got output $output
