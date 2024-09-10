@@ -1,0 +1,1 @@
+export {getZephyrTable} from './get-table'

@@ -1,26 +1,72 @@
-import fs from "fs";
-import { zephyrTableToGraphQLParser, ZephyrTableOriginal } from "mercury-sdk";
-import { getPairs } from "../utils/get-pairs.js";
+// import fs from "fs";
+// import { zephyrTableToGraphQLParser, ZephyrTableOriginal } from "mercury-sdk";
+// import { getPairs } from "../utils/get-pairs.js";
+import { getZephyrTable } from "../utils/get-table";
 
-// interface MercuryOptions {
-//   backendEndpoint: string;
-//   graphqlEndpoint: string;
-//   defaultMaxSingleSize?: number;
-//   email: string;
-//   password: string;
-//   updateTokenOnRequest?: boolean;
-// }
 
-// const mercuryOptions: MercuryOptions = {
-//   backendEndpoint: process.env.MERCURY_BACKEND_ENDPOINT!,
-//   graphqlEndpoint: process.env.MERCURY_GRAPHQL_ENDPOINT!,
-//   email: process.env.MERCURY_TESTER_EMAIL!,
-//   password: process.env.MERCURY_TESTER_PASSWORD!,
-// };
+test('soroswap zephyr tables should exist in MAINNET with correct format', () => {
+  let soroswapTablesNames=["soroswap_pairs", "soroswap_events", "soroswap_rsv_ch"];
+  for (let tableName of soroswapTablesNames) {
+    let soroswapTable = getZephyrTable(tableName, "MAINNET")
+    expect(soroswapTable).toBeDefined();
+    expect(soroswapTable.address).toBeDefined();
+    expect(soroswapTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
+test('soroswap zephyr tables should exist in TESTNET with correct format', () => {
+  let soroswapTablesNames=["soroswap_pairs", "soroswap_events", "soroswap_rsv_ch"];
+  for (let tableName of soroswapTablesNames) {
+    let soroswapTable = getZephyrTable(tableName, "TESTNET")
+    expect(soroswapTable).toBeDefined();
+    expect(soroswapTable.address).toBeDefined();
+    expect(soroswapTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
 
-test('soroswap zephyr programs should exist in mainnet', () => {
-  let myVariable = true;
-  expect(myVariable).toBeDefined();
+
+test('aqua zephyr tables should exist in MAINNET with correct format', () => {
+  let aquaTablesNames=["aqua_pairs"];
+  for (let tableName of aquaTablesNames) {
+    let aquaTable = getZephyrTable(tableName, "MAINNET")
+    expect(aquaTable).toBeDefined();
+    expect(aquaTable.address).toBeDefined();
+    expect(aquaTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
+test('aqua zephyr tables should exist in TESTNET with correct format', () => {
+  let aquaTablesNames=["aqua_pairs"];
+  for (let tableName of aquaTablesNames) {
+    let aquaTable = getZephyrTable(tableName, "TESTNET")
+    expect(aquaTable).toBeDefined();
+    expect(aquaTable.address).toBeDefined();
+    expect(aquaTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
+
+
+test('phoenix zephyr tables should exist in MAINNET with correct format', () => {
+  let phoenixTablesNames=["phoenix_pairs"];
+  for (let tableName of phoenixTablesNames) {
+    let phoenixTable = getZephyrTable(tableName, "MAINNET")
+    expect(phoenixTable).toBeDefined();
+    expect(phoenixTable.address).toBeDefined();
+    expect(phoenixTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
+test('phoenix zephyr tables should exist in TESTNET with correct format', () => {
+  let phoenixTablesNames=["phoenix_pairs"];
+  for (let tableName of phoenixTablesNames) {
+    let phoenixTable = getZephyrTable(tableName, "TESTNET")
+    expect(phoenixTable).toBeDefined();
+    expect(phoenixTable.address).toBeDefined();
+    expect(phoenixTable.address).toMatch(/^zephyr_[a-fA-F0-9]{32}$/);
+  }
+});
+
+  // pairsTablePath = "/workspace/public/mainnet.zephyr-tables.json";
+    // pairsTablePath = "/workspace/public/testnet.zephyr-tables.json";
+  // let myVariable = true;
+  // expect(myVariable).toBeDefined();
   // const backendEndpoint = process.env.MERCURY_BACKEND_ENDPOINT!;
   // const graphqlEndpoint = process.env.MERCURY_GRAPHQL_ENDPOINT!;
   // const email = process.env.MERCURY_TESTER_EMAIL!;
@@ -40,12 +86,8 @@ test('soroswap zephyr programs should exist in mainnet', () => {
 
   // expect(password.length).toBeGreaterThan(3)
 
-});
 
-// test('Should return a new instance of Mercury', () => {
-//   const mercury = new Mercury(mercuryOptions);
-//   expect(mercury).toBeInstanceOf(Mercury);
-// });
+
 
   
 
@@ -58,9 +100,22 @@ test.todo("phoenix contracts should exist in testnet");
 test.todo("aqua contracts should exist in testnet");
 
 
-test.todo("soroswap zephyr tables should exist in mainnet with correct format");
+test('soroswap zephyr tables should exist in mainnet with correct format', () => {
+
+});
 test.todo("phoenix zephyr tables should exist in mainnet with correct format");
 test.todo("aqua zephyr tables should exist in mainnet with correct format");
 
 test.todo("soroswap pairs in MAINNET return non empty array");
 test.todo("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()");
+
+test.todo("soroswap pairs in TESTNET return non empty array");
+test.todo("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()");
+
+
+test.todo("aqua pairs in MAINNET return non empty array");
+test.todo("aqua pairs in TESTNET return non empty array");
+
+test.todo("phoenix pairs in MAINNET return non empty array");
+test.todo("phoenix pairs in TESTNET return non empty array");
+
