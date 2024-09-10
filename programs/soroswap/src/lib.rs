@@ -37,10 +37,13 @@ struct ReservesChangeTable {
     timestamp: ScVal,
 }
 
-// #[test]
-// fn test() {
-//     println!("{:?}", stellar_strkey::Contract::from_string("CB4SVAWJA6TSRNOJZ7W2AWFW46D5VR4ZMFZKDIKXEINZCZEGZCJZCKMI").unwrap().0);
-// }
+#[test]
+fn test() {
+    let factory_address_str: &'static str = env!("SOROSWAP_FACTORY");
+    let router_address_str: &'static str = env!("SOROSWAP_ROUTER");
+    println!("{:?}", factory_address_str);
+    println!("{:?}", router_address_str);
+}
 
 #[no_mangle]
 pub extern "C" fn on_close() {
