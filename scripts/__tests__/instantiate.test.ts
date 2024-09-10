@@ -2,6 +2,8 @@
 // import { zephyrTableToGraphQLParser, ZephyrTableOriginal } from "mercury-sdk";
 // import { getPairs } from "../utils/get-pairs.js";
 import { getZephyrTable } from "../utils/get-table";
+import { getContractAddress } from "../utils/get-contract";
+import { get } from "http";
 
 
 test('soroswap zephyr tables should exist in MAINNET with correct format', () => {
@@ -63,6 +65,80 @@ test('phoenix zephyr tables should exist in TESTNET with correct format', () => 
   }
 });
 
+  
+
+test("soroswap contracts should exist in mainnet", () => {
+  let soroswapContractsNames=["soroswap_router", "soroswap_factory"];
+  for (let contractName of soroswapContractsNames) {
+    let contractAddress = getContractAddress(contractName, "MAINNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+test("phoenix contracts should exist in mainnet", () => {
+  let phoenixContractsNames=["phoenix_factory"];
+  for (let contractName of phoenixContractsNames) {
+    let contractAddress = getContractAddress(contractName, "MAINNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+test("aqua contracts should exist in mainnet", () => {
+  let aquaContractsNames=["aqua_router"];
+  for (let contractName of aquaContractsNames) {
+    let contractAddress = getContractAddress(contractName, "MAINNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+
+// now the same on testnet
+test("soroswap contracts should exist in testnet", () => {
+  let soroswapContractsNames=["soroswap_router", "soroswap_factory"];
+  for (let contractName of soroswapContractsNames) {
+    let contractAddress = getContractAddress(contractName, "TESTNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+test("phoenix contracts should exist in testnet", () => {
+  let phoenixContractsNames=["phoenix_factory"];
+  for (let contractName of phoenixContractsNames) {
+    let contractAddress = getContractAddress(contractName, "TESTNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+test("aqua contracts should exist in testnet", () => {
+  let aquaContractsNames=["aqua_router"];
+  for (let contractName of aquaContractsNames) {
+    let contractAddress = getContractAddress(contractName, "TESTNET")
+    expect(contractAddress).toBeDefined();
+    expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+  }
+});
+
+
+test('soroswap zephyr tables should exist in mainnet with correct format', () => {
+
+});
+test.todo("phoenix zephyr tables should exist in mainnet with correct format");
+test.todo("aqua zephyr tables should exist in mainnet with correct format");
+
+test.todo("soroswap pairs in MAINNET return non empty array");
+test.todo("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()");
+
+test.todo("soroswap pairs in TESTNET return non empty array");
+test.todo("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()");
+
+
+test.todo("aqua pairs in MAINNET return non empty array");
+test.todo("aqua pairs in TESTNET return non empty array");
+
+test.todo("phoenix pairs in MAINNET return non empty array");
+test.todo("phoenix pairs in TESTNET return non empty array");
+
+
   // pairsTablePath = "/workspace/public/mainnet.zephyr-tables.json";
     // pairsTablePath = "/workspace/public/testnet.zephyr-tables.json";
   // let myVariable = true;
@@ -87,35 +163,4 @@ test('phoenix zephyr tables should exist in TESTNET with correct format', () => 
   // expect(password.length).toBeGreaterThan(3)
 
 
-
-
-  
-
-test.todo("soroswap contracts should exist in mainnet");
-test.todo("phoenix contracts should exist in mainnet");
-test.todo("aqua contracts should exist in mainnet");
-
-test.todo("soroswap contracts should exist in testnet");
-test.todo("phoenix contracts should exist in testnet");
-test.todo("aqua contracts should exist in testnet");
-
-
-test('soroswap zephyr tables should exist in mainnet with correct format', () => {
-
-});
-test.todo("phoenix zephyr tables should exist in mainnet with correct format");
-test.todo("aqua zephyr tables should exist in mainnet with correct format");
-
-test.todo("soroswap pairs in MAINNET return non empty array");
-test.todo("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()");
-
-test.todo("soroswap pairs in TESTNET return non empty array");
-test.todo("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()");
-
-
-test.todo("aqua pairs in MAINNET return non empty array");
-test.todo("aqua pairs in TESTNET return non empty array");
-
-test.todo("phoenix pairs in MAINNET return non empty array");
-test.todo("phoenix pairs in TESTNET return non empty array");
 
