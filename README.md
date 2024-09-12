@@ -236,3 +236,8 @@ Start Streaming the logs and check that the Program is INdexing the correct cont
 be aware to use a different JWT token for every program
 TODO: Complete readme and enviroment to work with multiple zephyr programs, create a JWT for each program, automate scripts 
 
+### Test
+To run the tests, you can do
+```bash
+  yarn test #yarn test:w if you want to watch the tests
+```
