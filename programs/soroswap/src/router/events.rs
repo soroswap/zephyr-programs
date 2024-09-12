@@ -1,4 +1,4 @@
-use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal, Hash}, Symbol}, PrettyContractEvent, EnvClient };
+use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ScVal }, Symbol}, PrettyContractEvent, EnvClient };
 
 use crate::EventsTable;
 
@@ -64,8 +64,6 @@ pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal, tx_hash: [u8;
 
 pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<(PrettyContractEvent, [u8;32])>) {
     for (event, tx_hash) in contract_events {
-        let ContractEventBody::V0(event) = &event.raw.body;
-
         let action: Symbol = env.from_scval(&event.topics[1]);
 
         let data = &event.data;

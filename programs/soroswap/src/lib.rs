@@ -1,6 +1,6 @@
 
 
-use zephyr_sdk::{prelude::*, soroban_sdk::{xdr::{ScVal, ContractEvent, Hash }, String as SorobanString, Address}, PrettyContractEvent,  EnvClient, DatabaseDerive};
+use zephyr_sdk::{prelude::*, soroban_sdk::{xdr::{ScVal, Hash }, String as SorobanString, Address}, PrettyContractEvent,  EnvClient, DatabaseDerive};
 
 pub mod router;
 pub mod factory;
@@ -53,24 +53,9 @@ pub extern "C" fn on_close() {
     let factory_address_str: &'static str = env!("SOROSWAP_FACTORY");
     let router_address_str: &'static str = env!("SOROSWAP_ROUTER");
 
-    env.log().debug(format!("✅Indexing Soroswap Factory: {:?}", &factory_address_str), None);
-    env.log().debug(format!("✅Indexing Soroswap Router: {:?}", &router_address_str), None);
-
     let factory_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(factory_address_str).unwrap().0;
     let router_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(router_address_str).unwrap().0;
-
-    /* let contract_events = env
-    .reader()
-    .soroban_events();
-
-    let factory_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
-    .filter(|event| event.contract_id == Some(Hash(factory_address_bytes)))
-    .collect(); 
-
-    let router_contract_events: Vec<ContractEvent> = contract_events.clone().into_iter()
-    .filter(|event| event.contract_id == Some(Hash(router_address_bytes)))
-    .collect(); */
-
+    
     let contract_events_with_txhash: Vec<(PrettyContractEvent, [u8; 32])> = env.reader().pretty().soroban_events_and_txhash();
 
     let filtered_router_events_with_txhash: Vec<(PrettyContractEvent, [u8; 32])> = contract_events_with_txhash.clone().into_iter()
@@ -95,7 +80,7 @@ pub extern "C" fn on_close() {
         let pair_address: Address = env.from_scval(&row.address);
 
         // We filter to see if there is any event related to our Pair
-        let pair_contract_events: Vec<ContractEvent> = contract_events_with_txhash.clone().into_iter()
+        let pair_contract_events: Vec<(PrettyContractEvent, [u8; 32])> = contract_events_with_txhash.clone().into_iter()
         .filter(|(event, _txhash)| {
             let contract_id_str = SorobanString::from_str(&env.soroban(), &stellar_strkey::Contract(event.raw.contract_id.as_ref().unwrap().0).to_string());
             contract_id_str == pair_address.to_string()
