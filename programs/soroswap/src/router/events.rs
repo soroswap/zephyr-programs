@@ -1,4 +1,4 @@
-use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal}, Symbol}, EnvClient };
+use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal, Hash}, Symbol}, PrettyContractEvent, EnvClient };
 
 use crate::EventsTable;
 
@@ -6,7 +6,7 @@ use crate::router::types;
 
 
 
-pub(crate) fn get_event_from_swap(env: &EnvClient, data: &ScVal) -> EventsTable {
+pub(crate) fn get_event_from_swap(env: &EnvClient, data: &ScVal, tx_hash: [u8; 32]) -> EventsTable {
     let values: types::SwapEvent = env.from_scval(data);
                 
     let token_a = values.path.get(0).unwrap();
@@ -22,12 +22,13 @@ pub(crate) fn get_event_from_swap(env: &EnvClient, data: &ScVal) -> EventsTable 
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("swap"),
         timestamp: env.to_scval(env.reader().ledger_timestamp()),
+        tx_hash: env.to_scval(tx_hash)
     };
 
     table
 }
 
-pub(crate) fn get_event_from_add(env: &EnvClient, data: &ScVal) -> EventsTable {
+pub(crate) fn get_event_from_add(env: &EnvClient, data: &ScVal, tx_hash: [u8; 32]) -> EventsTable {
     let values: types::AddLiquidityEvent = env.from_scval(data);
 
     let table = EventsTable {
@@ -38,12 +39,13 @@ pub(crate) fn get_event_from_add(env: &EnvClient, data: &ScVal) -> EventsTable {
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("add"),
         timestamp: env.to_scval(env.reader().ledger_timestamp()),
+        tx_hash: env.to_scval(tx_hash)
     };
 
     table
 }
 
-pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal) -> EventsTable {
+pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal, tx_hash: [u8; 32]) -> EventsTable {
     let values: types::RemoveLiquidityEvent = env.from_scval(data);
 
     let table = EventsTable {
@@ -54,14 +56,15 @@ pub(crate) fn get_event_from_remove(env: &EnvClient, data: &ScVal) -> EventsTabl
         account: env.to_scval(values.to.clone()),
         e_type: env.to_scval("remove"),
         timestamp: env.to_scval(env.reader().ledger_timestamp()),
+        tx_hash: env.to_scval(tx_hash)
     };
     
     table
 }
 
-pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>) {
-    for event in contract_events {
-        let ContractEventBody::V0(event) = &event.body;
+pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<(PrettyContractEvent, [u8;32])>) {
+    for (event, tx_hash) in contract_events {
+        let ContractEventBody::V0(event) = &event.raw.body;
 
         let action: Symbol = env.from_scval(&event.topics[1]);
 
@@ -75,7 +78,7 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
                 None,
             );
 
-            let table: EventsTable = get_event_from_remove(&env, data);
+            let table: EventsTable = get_event_from_remove(&env, data, tx_hash);
 
             table.put(&env);
         }
@@ -88,7 +91,7 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
                 None,
             );
 
-            let table: EventsTable = get_event_from_add(&env, data);
+            let table: EventsTable = get_event_from_add(&env, data, tx_hash);
 
             table.put(&env);
         }
@@ -101,7 +104,7 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
                 None,
             );
 
-            let table: EventsTable = get_event_from_swap(&env, data);
+            let table: EventsTable = get_event_from_swap(&env, data, tx_hash);
             
             table.put(&env);
         }

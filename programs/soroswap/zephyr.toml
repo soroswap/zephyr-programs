@@ -33,6 +33,10 @@ col_type = "BYTEA"
 name = "timestamp"
 col_type = "BYTEA"
 
+[[tables.columns]]
+name = "tx_hash"
+col_type = "BYTEA"
+
 
 #Pairs table
 
