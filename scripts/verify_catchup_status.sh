@@ -30,6 +30,6 @@ while true; do
         echo "Catchup $catchup_number is still in progress..."
     fi
     
-    # Wait for 1 second before trying again
-    sleep 1
+    # Wait for 10 second before trying again
+    sleep 10
 done
