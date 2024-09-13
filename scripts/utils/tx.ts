@@ -1,11 +1,9 @@
 import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
-import { config } from './env_config.js';
+import { EnvConfig } from './env_config.js';
 
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
 type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransactionStatus;
 
-const network = process.argv[2];
-const loadedConfig = config(network);
 
 export async function signWithKeypair(
   txXdr: string,
@@ -20,9 +18,10 @@ export async function signWithKeypair(
 export async function invoke(
   operation: string | xdr.Operation,
   source: Keypair,
+  loadedConfig: EnvConfig,
   sim: boolean
 ): Promise<any> {
-  const txBuilder = await createTxBuilder(source);
+  const txBuilder = await createTxBuilder(source, loadedConfig);
   if (typeof operation === 'string') {
     operation = xdr.Operation.fromXDR(operation, 'base64');
 
@@ -30,10 +29,10 @@ export async function invoke(
   txBuilder.addOperation(operation);
   const tx = txBuilder.build();
   
-  return invokeTransaction(tx, source, sim);
+  return invokeTransaction(tx, source, loadedConfig, sim);
 }
 
-export async function createTxBuilder(source: Keypair): Promise<TransactionBuilder> {
+export async function createTxBuilder(source: Keypair, loadedConfig: EnvConfig): Promise<TransactionBuilder> {
   try {
     const account: Account = await loadedConfig.rpc.getAccount(source.publicKey());
     return new TransactionBuilder(account, {
@@ -49,7 +48,11 @@ export async function createTxBuilder(source: Keypair): Promise<TransactionBuild
 
 
 
-export async function invokeTransaction(tx: Transaction, source: Keypair, sim: boolean) {
+export async function invokeTransaction(
+  tx: Transaction,
+  source: Keypair,
+  loadedConfig: EnvConfig,
+  sim: boolean) {
   // simulate the TX
   const simulation_resp = await loadedConfig.rpc.simulateTransaction(tx);
   if (SorobanRpc.Api.isSimulationError(simulation_resp)) {

@@ -3,6 +3,8 @@ import { zephyrTableToGraphQLParser} from "mercury-sdk";
 import { getPairs } from "../utils/get-pairs";
 import { getTotalPairs } from "../utils/get-total-pairs";
 import { getZephyrTable } from "../utils/get-table";
+import fs from "fs";
+
   
 test("soroswap pairs in MAINNET return non empty array", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "MAINNET")
@@ -35,6 +37,12 @@ test("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()", 
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
+  console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
+  console.log(pairs.length)
+  // save this pairs in a file
+  fs.writeFileSync('/workspace/pairs-testnet.json', JSON.stringify(pairs));
+
+
   const totalPairs = await getTotalPairs('soroswap', 'TESTNET');
   expect(pairs.length).toEqual(totalPairs);
 });

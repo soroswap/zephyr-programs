@@ -4,9 +4,9 @@ import * as fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, "../../.env") });
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 interface NetworkConfig {
   network: string;
@@ -27,20 +27,20 @@ export class EnvConfig {
   horizonRpc: Horizon.Server;
   passphrase: string;
   friendbot: string | undefined;
-  admin: Keypair;
+  user: Keypair;
 
   constructor(
     rpc: SorobanRpc.Server,
     horizonRpc: Horizon.Server,
     passphrase: string,
     friendbot: string | undefined,
-    admin: Keypair,
+    user: Keypair,
   ) {
     this.rpc = rpc;
     this.horizonRpc = horizonRpc;
     this.passphrase = passphrase;
     this.friendbot = friendbot;
-    this.admin = admin;
+    this.user = user;
  
   }
 
@@ -50,7 +50,7 @@ export class EnvConfig {
    */
   static loadFromFile(network: string): EnvConfig {
     const fileContents = fs.readFileSync(
-      path.join(__dirname, "../../configs.json"),
+      path.join(__dirname, "../configs.json"),
       "utf8",
     );
     const configs: Config = JSON.parse(fileContents);
@@ -74,7 +74,7 @@ export class EnvConfig {
       passphrase = networkConfig.soroban_network_passphrase;
     }
 
-    const admin = process.env.ADMIN_SECRET_KEY;
+    const user = process.env.TEST_SECRET_KEY;
     
     if (
       rpc_url === undefined ||
@@ -85,7 +85,7 @@ export class EnvConfig {
       throw new Error('Error: Configuration is missing required fields, include <network>');
     }
     if (   
-      admin === undefined
+      user === undefined
     ) {
       throw new Error('Error: Configuration is missing required fields, please read .env.example to set up the required fields');
     }
@@ -97,7 +97,7 @@ export class EnvConfig {
       new Horizon.Server(horizon_rpc_url, {allowHttp}),
       passphrase,
       friendbot_url,
-      Keypair.fromSecret(admin),
+      Keypair.fromSecret(user),
     );
   }
 
