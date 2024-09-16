@@ -17,14 +17,12 @@ export const getTotalPairs = async (protocolName: string, network: "MAINNET" | "
     loadedConfig = config('testnet');
     contractsJsonPath = "/workspace/public/testnet.contracts.json";
   }
-  console.log("🚀 ~ getTotalPairs ~ loadedConfig:", loadedConfig)
   const contractsJsonData = fs.readFileSync(contractsJsonPath, "utf-8");
     const contractsJson = JSON.parse(contractsJsonData);
 
 
   if (protocolName === "soroswap") {
     const factoryAddress = contractsJson['soroswap_factory'];
-    console.log("🚀 ~ getTotalPairs ~ factoryAddress:", factoryAddress)
 
     // export async function invokeCustomContract(
     //   contractId: string,

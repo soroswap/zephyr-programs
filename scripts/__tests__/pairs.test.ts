@@ -35,6 +35,7 @@ test("soroswap pairs in TESTNET return non empty array", async () => {
 
 test("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
+  console.log("using table ", soroswapPairsTable)
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
   console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)

@@ -127,6 +127,10 @@ or
 ```bash
 bash scripts/verify_catchups_status.sh mainnet
 ```
+## Check that everything is working properly
+```
+yarn test
+```
 
 
 ## Slower way: Deploy Zephyr Programs one by one
