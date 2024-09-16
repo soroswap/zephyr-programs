@@ -1,9 +1,9 @@
 name = "zephyr-soroswap"
 
-#Router events table
+#Soroswap Router events table
 
 [[tables]]
-name = "events"
+name = "soroswap_router_events"
 
 [[tables.columns]]
 name = "e_type"
@@ -34,10 +34,10 @@ name = "timestamp"
 col_type = "BYTEA"
 
 
-#Pairs table
+#Soroswap Pairs table
 
 [[tables]]
-name = "pairs"
+name = "soroswap_pairs"
 
 [[tables.columns]]
 name = "address"
@@ -59,10 +59,10 @@ col_type = "BYTEA"
 name = "reserve_b"
 col_type = "BYTEA"
 
-#Reserves changes table
+#Soroswap Reserves changes table
 
 [[tables]]
-name = "rsv_ch"
+name = "soroswap_rsv_ch"
 
 [[tables.columns]]
 name = "address"

@@ -7,7 +7,7 @@ pub mod factory;
 pub mod pairs;
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("events")]
+#[with_name("soroswap_router_events")]
 struct EventsTable {
     e_type: ScVal,
     token_a: ScVal,
@@ -19,7 +19,7 @@ struct EventsTable {
 }
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("pairs")]
+#[with_name("soroswap_pairs")]
 struct PairsTable {
     address: ScVal,
     token_a: ScVal,
@@ -29,7 +29,7 @@ struct PairsTable {
 }
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("rsv_ch")]
+#[with_name("soroswap_rsv_ch")]
 struct ReservesChangeTable {
     address: ScVal,
     reserve_a: ScVal,

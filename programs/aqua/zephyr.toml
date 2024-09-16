@@ -1,10 +1,10 @@
 name = "zephyr-aqua"
 
 
-#Pairs table
+#Aqua Pairs table
 
 [[tables]]
-name = "pairs"
+name = "aqua_pairs"
 
 [[tables.columns]]
 name = "address"
