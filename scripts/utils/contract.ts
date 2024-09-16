@@ -15,9 +15,9 @@ import {
 // import path from 'path';
 // import { fileURLToPath } from 'url';
 // import { AddressBook } from './address_book.js';
-// import { config } from './env_config.js';
+import { EnvConfig } from './env_config';
 // import { createTxBuilder, invoke, invokeTransaction } from './tx.js';
-import {invoke } from './tx.js';
+import {invoke } from './tx';
 
 
 export async function invokeCustomContract(
@@ -25,13 +25,14 @@ export async function invokeCustomContract(
   method: string,
   params: xdr.ScVal[],
   source: Keypair,
+  config: EnvConfig,
   simulation?: boolean,
 ) {
   //console.log('Invoking contract: ', contractId, ' with method: ', method);
   const contractInstance = new Contract(contractId);
 
   const contractOperation = contractInstance.call(method, ...params);
-  return await invoke(contractOperation, source, simulation ?? false);
+  return await invoke(contractOperation, source, config, simulation ?? false);
 }
 
 
