@@ -2,7 +2,7 @@ use zephyr_sdk::{prelude::*, soroban_sdk::{contracttype, symbol_short, xdr::{ScV
 
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("phoenix_pairs")]
+#[with_name("pho_pairs")]
 struct PairsTable {
     address: ScVal,
     token_a: ScVal,

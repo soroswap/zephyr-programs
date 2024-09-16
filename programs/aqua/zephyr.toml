@@ -4,7 +4,7 @@ name = "zephyr-aqua"
 #Aqua Pairs table
 
 [[tables]]
-name = "aqua_pairs"
+name = "aqa_pairs"
 
 [[tables.columns]]
 name = "address"

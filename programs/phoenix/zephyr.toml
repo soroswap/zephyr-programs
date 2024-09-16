@@ -4,7 +4,7 @@ name = "zephyr-phoenix"
 #Pairs table
 
 [[tables]]
-name = "phoenix_pairs"
+name = "pho_pairs"
 
 [[tables.columns]]
 name = "address"

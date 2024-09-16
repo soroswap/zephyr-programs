@@ -7,7 +7,7 @@ pub mod factory;
 pub mod pairs;
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("soroswap_router_events")]
+#[with_name("ssw_rt_ev")]
 struct EventsTable {
     e_type: ScVal,
     token_a: ScVal,
@@ -19,7 +19,7 @@ struct EventsTable {
 }
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("soroswap_pairs")]
+#[with_name("ssw_pairs")]
 struct PairsTable {
     address: ScVal,
     token_a: ScVal,
@@ -29,7 +29,7 @@ struct PairsTable {
 }
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("soroswap_rsv_ch")]
+#[with_name("ssw_rs_ch")]
 struct ReservesChangeTable {
     address: ScVal,
     reserve_a: ScVal,
@@ -52,8 +52,8 @@ pub extern "C" fn on_close() {
     let factory_address_str: &'static str = env!("SOROSWAP_FACTORY");
     let router_address_str: &'static str = env!("SOROSWAP_ROUTER");
 
-    env.log().debug(format!("Indexing Soroswap Factory: {:?}", &factory_address_str), None);
-    env.log().debug(format!("Indexing Soroswap Router: {:?}", &router_address_str), None);
+    env.log().debug(format!("Indexing SSW Factory: {:?}", &factory_address_str), None);
+    env.log().debug(format!("Indexing SSW Router: {:?}", &router_address_str), None);
 
     let factory_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(factory_address_str).unwrap().0;
     let router_address_bytes: [u8; 32]=stellar_strkey::Contract::from_string(router_address_str).unwrap().0;

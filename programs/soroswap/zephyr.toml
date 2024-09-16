@@ -3,7 +3,7 @@ name = "zephyr-soroswap"
 #Soroswap Router events table
 
 [[tables]]
-name = "soroswap_router_events"
+name = "ssw_rt_ev"
 
 [[tables.columns]]
 name = "e_type"
@@ -37,7 +37,7 @@ col_type = "BYTEA"
 #Soroswap Pairs table
 
 [[tables]]
-name = "soroswap_pairs"
+name = "ssw_pairs"
 
 [[tables.columns]]
 name = "address"
@@ -62,7 +62,7 @@ col_type = "BYTEA"
 #Soroswap Reserves changes table
 
 [[tables]]
-name = "soroswap_rsv_ch"
+name = "ssw_rs_ch"
 
 [[tables.columns]]
 name = "address"
