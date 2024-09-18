@@ -68,7 +68,7 @@ fi
 
 # Change directory to the protocol
 cd "/workspace/programs/$protocol" || exit 1
-JWT_VARIABLE="JWT_${protocol}_${network}"
+JWT_VARIABLE="JWT_token_${network}"
 
 
 echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG and --force true"
