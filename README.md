@@ -102,8 +102,8 @@ Catchup 22 is completed!
 ## Generate a catchup script for Soroswap Pairs
 Not that our SoroswapFactory has been catched up, our `soroswap_pair` table is up to date so we can get all pairs and generate a script to catch up all pairs contracts!
 ```bash
-yarn pairs:catchups:generate testnet
 yarn pairs:catchups:generate mainnet
+yarn pairs:catchups:generate testnet
 ```
 This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
 ## Catch up all pairs
