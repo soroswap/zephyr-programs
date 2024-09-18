@@ -72,10 +72,8 @@ bash scripts/update_contract_addresses.sh
 ```bash
 bash scripts/deploy_all.sh
 ```
-This will populate the `public/mainnet.zephyr-tabloes.json` and the `public/testnet.zephyr-tabloes.json` files
+This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
 
-
-"/workspace/.$network.catchup_number"
 
 ## Catch up SoroswapFactory and SoroswapRouter
 In one tab run
