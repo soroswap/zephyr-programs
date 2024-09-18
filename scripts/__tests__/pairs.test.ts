@@ -55,7 +55,15 @@ test.todo("aqua pairs in MAINNET return non empty array");
 test.todo("aqua pairs in MAINNET is equal to Factory all_pairs_length()");
 
 
-test.todo("phoenix pairs in MAINNET return non empty array");
+test("phoenix pairs in MAINNET return non empty array", async () => {
+  let phoenixPairsTable = getZephyrTable('phoenix_pairs', "MAINNET")
+  const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
+  const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
+  expect(pairs).toBeDefined();
+  expect(pairs.length).toBeGreaterThan(0);
+  console.log("🚀 ~ test ~ phoenix mainnet pairs.length:", pairs.length)
+});
+
 test("phoenix pairs in TESTNET return non empty array", async () => {
   let phoenixPairsTable = getZephyrTable('phoenix_pairs', "TESTNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
