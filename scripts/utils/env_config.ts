@@ -49,8 +49,7 @@ export class EnvConfig {
    * @returns Environment config
    */
   static loadFromFile(network: string): EnvConfig {
-    const fileContents = fs.readFileSync(
-      path.join(__dirname, "../configs.json"),
+    const fileContents = fs.readFileSync("/workspace/scripts/configs.json",
       "utf8",
     );
     const configs: Config = JSON.parse(fileContents);
