@@ -32,21 +32,17 @@ echo " "
 echo "---"
 echo " "
 
+# Update the mainnet contracts without deleting existing fields
+jq --arg soroswap_factory_mainnet "$soroswap_factory_mainnet" \
+   --arg soroswap_router_mainnet "$soroswap_router_mainnet" \
+   '. + {soroswap_factory: $soroswap_factory_mainnet, soroswap_router: $soroswap_router_mainnet}' \
+   public/mainnet.contracts.json > tmp.json && mv tmp.json public/mainnet.contracts.json
 
-# Create or update the JSON files
-cat <<EOF > public/mainnet.contracts.json
-{
-    "soroswap_factory": "$soroswap_factory_mainnet",
-    "soroswap_router": "$soroswap_router_mainnet"
-}
-EOF
-
-cat <<EOF > public/testnet.contracts.json
-{
-    "soroswap_factory": "$soroswap_factory_testnet",
-    "soroswap_router": "$soroswap_router_testnet",
-    "phoenix_factory": "$phoenix_factory_testnet"
-}
-EOF
+# Update the testnet contracts without deleting existing fields
+jq --arg soroswap_factory_testnet "$soroswap_factory_testnet" \
+   --arg soroswap_router_testnet "$soroswap_router_testnet" \
+   --arg phoenix_factory_testnet "$phoenix_factory_testnet" \
+   '. + {soroswap_factory: $soroswap_factory_testnet, soroswap_router: $soroswap_router_testnet, phoenix_factory: $phoenix_factory_testnet}' \
+   public/testnet.contracts.json > tmp.json && mv tmp.json public/testnet.contracts.json
 
 echo "Updated JSON files created."
