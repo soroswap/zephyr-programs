@@ -42,7 +42,8 @@ JWT_VARIABLE="JWT_soroswap_${network}"
 echo "Catching contracts using $JWT_VARIABLE", with mainnet flag $MAINNET_FLAG
 output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG catchup \
     --contracts $SOROSWAP_FACTORY \
-    --contracts $SOROSWAP_ROUTER)
+    --contracts $SOROSWAP_ROUTER \
+    --project-name zephyr-soroswap)
 
 echo "---"
 echo " "
