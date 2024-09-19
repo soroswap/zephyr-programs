@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2023"],
+    "lib": ["es2023", "dom"],
     "module": "node16",
     "target": "es2022",
     "strict": true,
@@ -11,6 +11,6 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
   },
-  "include": ["**/*"],                      // Include all TypeScript files
+  "include": ["**/*.ts"],                      // Include all TypeScript files
   "exclude": ["node_modules"]                  // Exclude node_modules
 }
