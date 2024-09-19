@@ -30,7 +30,7 @@ JWT_phoenix_testnet=
 JWT_aqua_mainnet=
 JWT_aqua_testnet=
 
-```
+``` 
 
 3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
@@ -66,7 +66,55 @@ In order to update your local contract addresses file do
 bash scripts/update_contract_addresses.sh
 ```
 
-# Deploy
+# Deploy & Catchup:
+First we will show you a way to deploy and catchup zephyr programs one by one. If you want to do them all at once (caution, you might overwrite existing tables), jump to next section
+
+## 1.- Deploy your Zephyr Program 
+We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
+You just need to do
+```bash
+bash deploy.sh [PROTOCOL] [NETWORK]
+```
+Where `PROTOCOL in {soroswap, phoenix, aqua}` and `NETWORK  in {mainnet, testnet}`
+
+For example, for Soroswap.Finance on Mainnet youll do
+```bash
+bash scripts/deploy.sh soroswap mainnet
+```
+
+NOTE! This will overwrite any table you have with the same name in the same network!
+
+This will deploy the Zephyr Tables and save them in 
+`public/mainnet.zephyr-tables.json`
+`public/testnet.zephyr-tables.json`
+
+## 2.- Do Catchup of Factory/Routers Smart Contracts
+
+In one tab run
+```bash
+bash scripts/factory_router_catchups.sh mainnet
+```
+In other tab run
+```bash
+bash scripts/factory_router_catchups.sh testnet
+```
+These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
+
+```bash
+bash scripts/verify_catchup_status.sh mainnet
+```
+In other tab run
+```bash
+bash scripts/verify_catchup_status.sh testnet
+```
+When catchups are ready, these scripts will output something like this:
+```bash
+Using testnet
+Checking catchup status for catchup 22...
+Catchup 22 is completed!
+```
+
+
 ## Fast Way
 1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
 ```bash
@@ -133,21 +181,6 @@ yarn test
 
 ## Slower way: Deploy Zephyr Programs one by one
 
-### Deploy a Zephyr Program EASY WAY
-We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
-You just need to do
-```bash
-bash deploy.sh [PROTOCOL] [NETWORK]
-```
-
-For example:
-```bash
-bash deploy.sh soroswap mainnet
-```
-
-This will deploy the Zephyr Tables and save them in 
-`public/mainnet.zephyr-tables.json`
-`public/testnet.zephyr-tables.json`
 
 # Catch Ups
 Some Zephyr Programs gets "invoked" for every specific event that is emitted on the contract, like with the `new_pair` event in the `SoroswapFactory` contract, an other Zephyr Programs will just need to get an specific Ledger Entry to get all the necesary information (for example, for Phoenix).

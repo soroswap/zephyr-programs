@@ -46,11 +46,12 @@ output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLA
     --project-name zephyr-soroswap)
 
 echo "---"
-echo " "
 
-echo Got output $output
-catchup_number=$(echo "$output" | grep -o 'catchup [0-9]*' | sed 's/catchup //')
 echo " "
+echo Got output $output
+catchup_number=$(echo "$output" | grep -o 'catchup [0-9]*' | sed 's/catchup //' | tr -d '[:space:]')
+echo " "
+echo "Catchup number: $catchup_number"
 
 echo $catchup_number > /workspace/.$network.catchup_number
 echo Catchup number $catchup_number saved in /workspace/.$network.catchup_number
@@ -62,6 +63,8 @@ echo " "
 while true; do
     # Make the GET request
     response=$(curl -s -X GET "https://api.mercurydata.app/catchups/$catchup_number")
+
+    echo Got response $response
     
     # Check if the response contains the "completed" status
     if echo "$response" | grep -q "completed"; then

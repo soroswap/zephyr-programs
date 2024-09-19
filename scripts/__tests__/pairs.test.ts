@@ -12,7 +12,7 @@ test("soroswap pairs in MAINNET return non empty array", async () => {
   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
   expect(pairs).toBeDefined();
   expect(pairs.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ Soroswap mainnet pairs.length:", pairs.length)
+  // console.log("🚀 ~ test ~ Soroswap mainnet pairs.length:", pairs.length)
 });
 
 test("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", async () => {
@@ -29,19 +29,19 @@ test("soroswap pairs in TESTNET return non empty array", async () => {
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
   expect(pairs).toBeDefined();
   expect(pairs.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
+  // console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
 });
 
 
 test("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
-  console.log("using table ", soroswapPairsTable)
+  // console.log("using table ", soroswapPairsTable)
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
-  console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
-  console.log(pairs.length)
+  // console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
+  // console.log(pairs.length)
   // save this pairs in a file
-  fs.writeFileSync('/workspace/pairs-testnet.json', JSON.stringify(pairs));
+  // fs.writeFileSync('/workspace/pairs-testnet.json', JSON.stringify(pairs));
 
 
   const totalPairs = await getTotalPairs('soroswap', 'TESTNET');
@@ -61,7 +61,7 @@ test("phoenix pairs in MAINNET return non empty array", async () => {
   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
   expect(pairs).toBeDefined();
   expect(pairs.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ phoenix mainnet pairs.length:", pairs.length)
+  // console.log("🚀 ~ test ~ phoenix mainnet pairs.length:", pairs.length)
 });
 
 test("phoenix pairs in TESTNET return non empty array", async () => {
@@ -70,7 +70,7 @@ test("phoenix pairs in TESTNET return non empty array", async () => {
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
   expect(pairs).toBeDefined();
   expect(pairs.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ phoenix testnet pairs.length:", pairs.length)
+  // console.log("🚀 ~ test ~ phoenix testnet pairs.length:", pairs.length)
 });
 
 
