@@ -4,9 +4,9 @@ import { getPairs } from "./utils/get-pairs.js";
 
 const buildCatchupCommand = (contract: string, network: string) => {
   if (network === "TESTNET") {
-    return `mercury-cli --jwt $JWT_soroswap_testnet --local false --mainnet false catchup --contracts ${contract}`;
+    return `mercury-cli --jwt $JWT_soroswap_testnet --local false --mainnet false catchup --contracts ${contract} --project-name zephyr-soroswap`;
   } else {
-    return `mercury-cli --jwt $JWT_soroswap_mainnet --local false --mainnet true catchup --contracts ${contract}`;
+    return `mercury-cli --jwt $JWT_soroswap_mainnet --local false --mainnet true catchup --contracts ${contract} --project-name zephyr-soroswap`;
   }
 };
 
@@ -28,7 +28,8 @@ echo "---"
 echo "Running catchup command ${index + 1}..."
 output=\$(eval "${command}")
 echo "Got output \${output}"
-catchup_number=\$(echo "\${output}" | grep -o 'catchup [0-9]*' | sed 's/catchup //')
+catchup_number=\$(echo "\${output}" | grep -o 'catchup [0-9]*' | sed 's/catchup //' | tr -d '[:space:]')
+
 echo "Catchup number: \${catchup_number}"
 
 # Save the catchup number to the file

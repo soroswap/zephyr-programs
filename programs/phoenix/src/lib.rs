@@ -2,7 +2,7 @@ use zephyr_sdk::{prelude::*, soroban_sdk::{contracttype, symbol_short, xdr::{ScV
 
 
 #[derive(DatabaseDerive, Clone)]
-#[with_name("pairs")]
+#[with_name("pho_pairs")]
 struct PairsTable {
     address: ScVal,
     token_a: ScVal,
@@ -64,7 +64,7 @@ const CONFIG: Symbol = symbol_short!("CONFIG");
 pub extern "C" fn on_close() {
     let env = EnvClient::new();
     let contract_address_str: &'static str = env!("PHOENIX_FACTORY");
-    env.log().debug(format!("Executing Zephyr Program. Indexing Phoenix Factory Contract: {:?}", &contract_address_str), None);
+    env.log().debug(format!("Indexing PHO Factory: {:?}", &contract_address_str), None);
 
     let factory_contract = stellar_strkey::Contract::from_string(&contract_address_str).unwrap().0;
 

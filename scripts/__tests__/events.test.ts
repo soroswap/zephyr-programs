@@ -9,9 +9,6 @@ test("soroswap events in MAINNET return non empty array", async () => {
   const events = await getSoroswapEvents(zephyrTableGraphQL.address, 'MAINNET');
   expect(events).toBeDefined();
   expect(events.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ Soroswap mainnet events.length:", events.length)
-  // console log last event
-  console.log("last event: ", events[events.length - 1])
 });
 
 
@@ -21,7 +18,4 @@ test("soroswap events in TESTNET return non empty array", async () => {
   const events = await getSoroswapEvents(zephyrTableGraphQL.address, 'TESTNET');
   expect(events).toBeDefined();
   expect(events.length).toBeGreaterThan(0);
-  console.log("🚀 ~ test ~ Soroswap mainnet events.length:", events.length)
-  // console log last event
-  console.log("last event: ", events[events.length - 1])
 });

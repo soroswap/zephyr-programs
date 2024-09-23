@@ -19,7 +19,7 @@ fn soroban_string_to_string(env: &EnvClient, string: SorobanString) -> String {
 // const AQUA_LP_ROUTER_CONTRACT_ADDRESS: &'static str = "CBQDHNBFBZYE4MKPWBSJOPIYLW4SFSXAXUTSXJN76GNKYVYPCKWC6QUK";
 
 #[derive(DatabaseDerive, Clone, Debug)]
-#[with_name("pairs")]
+#[with_name("aqa_pairs")]
 struct PairsTable {
     address: ScVal,
     token_a: ScVal,
