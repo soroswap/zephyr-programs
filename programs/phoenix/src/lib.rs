@@ -92,7 +92,7 @@ pub extern "C" fn on_close() {
                     reserve_b: env.to_scval(0),
                     token_a: env.to_scval("0"),
                     token_b: env.to_scval("0"),
-                    fee: env.to_scval(1)
+                    fee: env.to_scval(0)
                 };
 
                 for entry in pair_entries {
@@ -121,14 +121,9 @@ pub extern "C" fn on_close() {
                 }else{
                     table.put(&env);
                 }
-
             });
         }
-        
     }
-
-   
-      
 }            
 
 
