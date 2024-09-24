@@ -13,8 +13,8 @@ Make sure to change from Mainnet to Testnet (Menu in the left) in order to get y
 
 `cd zephyr-programs`
 
-2.- Fill with 3 Mercury JWT Tokens.
-Because we will be deploying 3 Zephyr programs, we will need 6 different JWT tokens.
+2.- Fill with 2 Mercury JWT Tokens.
+Because we will be deploying 2 Zephyr programs, we will need 4 different JWT tokens.
 
 `cp .env.example .env`
 
@@ -24,11 +24,8 @@ Your `.env` should look like this
 JWT_soroswap_mainnet=
 JWT_soroswap_testnet=
 
-JWT_phoenix_mainnet=
-JWT_phoenix_testnet=
-
-JWT_aqua_mainnet=
-JWT_aqua_testnet=
+JWT_token_mainnet=
+JWT_token_testnet=
 
 ``` 
 
@@ -197,7 +194,7 @@ Because we can only catch upts SoroswapPairs contract after knowing what pairs d
 
 1.- Catch ups `SoroswapFactory`, `SoroswapRouter` and `AquaRouter`
 ```
-bash scripts/factory_routr_catchups.sh
+bash scripts/factory_router_catchups.sh <network>
 ```
 This will
 - subscribe to the contracts
