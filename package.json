@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsc",
     "pairs:catchups:generate": "yarn build && node --trace-deprecation dist/pairs-catchups-generator.js",
-    "test": "jest --watchAll" 
+    "test:w": "jest --watchAll",
+    "test": "jest"
 
   },
   "keywords": [],
