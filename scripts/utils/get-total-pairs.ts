@@ -44,6 +44,29 @@ export const getTotalPairs = async (protocolName: string, network: "MAINNET" | "
       console.log("totalPairsNative: ", totalPairsNative)
     return totalPairsNative;
   }
+  else if (protocolName === "phoenix") {
+    const factoryAddress = contractsJson['phoenix_factory'];
+
+    // export async function invokeCustomContract(
+    //   contractId: string,
+    //   method: string,
+    //   params: xdr.ScVal[],
+    //   source: Keypair,
+    //   simulation?: boolean,
+    // )
+    const source = undefined;
+    const totalPairs = await invokeCustomContract(
+                                factoryAddress,
+                                "query_pools", 
+                                [], 
+                                loadedConfig.user, 
+                                loadedConfig,
+                                true);
+    const poolsVec=scValToNative(totalPairs.result.retval)
+    
+    return poolsVec.length;
+
+  }
   else {
     throw new Error("Protocol not supported");
   }
