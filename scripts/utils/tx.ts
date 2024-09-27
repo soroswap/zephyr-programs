@@ -1,5 +1,6 @@
 import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
 import { EnvConfig } from './env_config.js';
+import { AxiosClient } from '@stellar/stellar-sdk/rpc';
 
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
 type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransactionStatus;
@@ -21,6 +22,7 @@ export async function invoke(
   loadedConfig: EnvConfig,
   sim: boolean
 ): Promise<any> {
+  console.log('🟡invoking custom contract')
   const txBuilder = await createTxBuilder(source, loadedConfig);
   if (typeof operation === 'string') {
     operation = xdr.Operation.fromXDR(operation, 'base64');
@@ -33,8 +35,9 @@ export async function invoke(
 }
 
 export async function createTxBuilder(source: Keypair, loadedConfig: EnvConfig): Promise<TransactionBuilder> {
+  console.log(source.publicKey())
   try {
-    const account: Account = await loadedConfig.rpc.getAccount(source.publicKey());
+    const account: Account = await AxiosClient.get(`https://horizon.stellar.org/accounts/${source.publicKey()}`);
     return new TransactionBuilder(account, {
       fee: '10000',
       timebounds: { minTime: 0, maxTime: 0 },
