@@ -4,9 +4,9 @@ export const getContractAddress =  (contractName: string, network: "MAINNET" | "
 
     let contractsJsonPath;
     if (network === "MAINNET") {
-    contractsJsonPath = "/workspace/public/mainnet.contracts.json";
+    contractsJsonPath = "./public/mainnet.contracts.json";
     } else {
-    contractsJsonPath = "/workspace/public/testnet.contracts.json";
+    contractsJsonPath = "./public/testnet.contracts.json";
     }
     const contractsJsonData = fs.readFileSync(contractsJsonPath, "utf-8");
     const contracts = JSON.parse(contractsJsonData);
