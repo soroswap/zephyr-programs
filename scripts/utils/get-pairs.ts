@@ -23,6 +23,8 @@ export const getPairs = async (tableName: string, network: "MAINNET" | "TESTNET"
                   tokenA
                   tokenB
                   address
+                  reserveA
+                  reserveB
                 }
               }
             }`,
