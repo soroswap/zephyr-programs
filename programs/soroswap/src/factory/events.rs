@@ -26,6 +26,9 @@ pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<Contr
     for event in contract_events {
         let ContractEventBody::V0(event) = &event.body;
 
+        env.log().debug(format!("Factory event.topics: {:?}", &event.topics.clone()), None);
+
+
         let action: Symbol = env.from_scval(&event.topics[1]);
 
         let data = &event.data;
