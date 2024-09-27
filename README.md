@@ -73,7 +73,7 @@ First we will show you a way to deploy and catchup zephyr programs one by one. I
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
-bash deploy.sh [PROTOCOL] [NETWORK]
+bash scripts/deploy.sh [PROTOCOL] [NETWORK]
 ```
 Where `PROTOCOL in {soroswap, phoenix, aqua}` and `NETWORK  in {mainnet, testnet}`
 
@@ -88,7 +88,9 @@ This will deploy the Zephyr Tables and save them in
 `public/mainnet.zephyr-tables.json`
 `public/testnet.zephyr-tables.json`
 
-## 2.- Do Catchup of Factory/Routers Smart Contracts
+## 2.- Do Catchup of Factory/Routers Smart Contracts in order to get All Pairs
+Currently this will work only for Soroswap
+First we need to be updated with all Pairs
 
 In one tab run
 ```bash
@@ -113,6 +115,33 @@ Using testnet
 Checking catchup status for catchup 22...
 Catchup 22 is completed!
 ```
+
+## 3.- Generate Catchup Scripts for every Pair Contract
+Now that our SoroswapFactory has been catched up, our `ssw_pairs` table is up to date so we can get all pairs and generate a script to catch up all pairs contracts!
+```bash
+yarn pairs:catchups:generate mainnet
+yarn pairs:catchups:generate testnet
+```
+This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
+
+## 4.- Run those Catchup Scripts
+Then you can finish with
+```bash
+bash scripts/mainnet.pairs-catchups.sh
+bash scripts/testnet.pairs-catchups.sh
+```
+This will generate a BUNCH of catchup orders that will be stored in 
+`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
+The script, after generating th catchup orders it will check if they are ready.
+
+If you want to check if they are ready later you can do:
+
+```bash
+bash scripts/verify_catchups_status.sh testnet
+```
+or 
+```bash
+bash scripts/verify_catchups_status.sh mainnet
 
 
 ## Fast Way
