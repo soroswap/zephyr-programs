@@ -73,14 +73,17 @@ pub extern "C" fn on_close() {
     //handle the events from the factory contract
     factory::events::handle_contract_events(&env, filtered_factory_events_with_txhash);
 
-
-
     // At this point our PairsTable is up to date. Now we can handle the events from the Pairs
-    let rows = env.read::<PairsTable>();
+    let pairs_rows = env.read::<PairsTable>();
+    
+    env.log().debug(format!("Before pairs_rows iteration"), None);
 
-    for row in rows {
+    for pair in pairs_rows { 
 
-        let pair_address: Address = env.from_scval(&row.address);
+        let pair_address: Address = env.from_scval(&pair.address);
+        env.log().debug(format!("Checking pair: {:?}", &pair_address), None);
+
+
 
         // We filter to see if there is any event related to our Pair
         let pair_contract_events: Vec<(PrettyContractEvent, [u8; 32])> = contract_events_with_txhash.clone().into_iter()
@@ -89,11 +92,16 @@ pub extern "C" fn on_close() {
             contract_id_str == pair_address.to_string()
         })
         .collect();
+
+        env.log().debug(format!("We identified a number of events: {:?}", &pair_contract_events.len()), None);
+        env.log().debug(format!("pair_contract_events: {:?}", &pair_contract_events), None);
     
         // Handle the Event
-        pairs::events::handle_contract_events(&env, pair_contract_events, row);
+        pairs::events::handle_contract_events(&env, pair_contract_events, pair);
         
     }
+
+    env.log().debug(format!("After pairs_rows iteration"), None);
     
     
 }
