@@ -1,11 +1,13 @@
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 [network]"
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 [network] [dev|prod]"
     exit 1
 fi
 
 network=$1
+environment=$2
 
-echo Using $network
+
+echo Using $network 
 
 if [ "$network" == "mainnet" ]; then
     MAINNET_FLAG=true
@@ -15,6 +17,27 @@ else
     echo "Error: Invalid network"
     exit 1
 fi
+
+
+## Check if environment is valid
+if [ "$environment" == "dev" ]; then
+    JWT_VARIABLE="JWT_token_${network}_DEVELOPMENT"
+    zephyr_programs_addresses_file="/workspace/.dev.tables/$network.zephyr-tables.json"
+    ## create folder .dev.tables if it does not exist
+    mkdir -p /workspace/.dev.tables
+elif [ "$environment" == "prod" ]; then
+    JWT_VARIABLE="JWT_token_${network}"
+    zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
+else
+    echo "Error: Invalid environment"
+    exit 1 
+fi
+echo Using JWT variable $JWT_VARIABLE
+echo Using zephyr tables file $zephyr_programs_addresses_file
+echo "Using JWT ${!JWT_VARIABLE}"
+
+
+
 
 # Recover the variable from public/[network].contracts.json
 contract_addresses_file="/workspace/public/$network.contracts.json"
@@ -37,7 +60,6 @@ echo SOROSWAP_ROUTER $SOROSWAP_ROUTER
 echo " "
 echo Init catch ups using mercury CLI
 
-JWT_VARIABLE="JWT_soroswap_${network}"
 
 echo "Catching contracts using $JWT_VARIABLE", with mainnet flag $MAINNET_FLAG
 output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG catchup \
