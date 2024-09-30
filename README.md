@@ -186,7 +186,7 @@ Because we can only catch upts SoroswapPairs contract after knowing what pairs d
 
 1.- Catch ups `SoroswapFactory`, `SoroswapRouter` and `AquaRouter`
 ```
-bash scripts/factory_routr_catchups.sh
+bash scripts/factory_router_catchups.sh <network>
 ```
 This will
 - subscribe to the contracts
