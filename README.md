@@ -13,24 +13,11 @@ Make sure to change from Mainnet to Testnet (Menu in the left) in order to get y
 
 `cd zephyr-programs`
 
-2.- Fill with 3 Mercury JWT Tokens.
-Because we will be deploying 3 Zephyr programs, we will need 6 different JWT tokens.
+2.- Fill with 4 Mercury JWT Tokens.
 
+This is because we are going to use 2 enviroments (development and production) for 2 networks (testnet and mainnet)
 `cp .env.example .env`
 
-Your `.env` should look like this
-
-```bash
-JWT_soroswap_mainnet=
-JWT_soroswap_testnet=
-
-JWT_phoenix_mainnet=
-JWT_phoenix_testnet=
-
-JWT_aqua_mainnet=
-JWT_aqua_testnet=
-
-``` 
 
 3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
@@ -73,20 +60,28 @@ First we will show you a way to deploy and catchup zephyr programs one by one. I
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
-bash scripts/deploy.sh [PROTOCOL] [NETWORK]
+bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET]
 ```
-Where `PROTOCOL in {soroswap, phoenix, aqua}` and `NETWORK  in {mainnet, testnet}`
+Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}` and `ENVIRONMENT  in {dev, prod}`
 
 For example, for Soroswap.Finance on Mainnet youll do
 ```bash
 bash scripts/deploy.sh soroswap mainnet
 ```
 
-NOTE! This will overwrite any table you have with the same name in the same network!
+NOTE! This will overwrite any table you have with the same name in the same network and environment!
 
-This will deploy the Zephyr Tables and save them in 
+This will deploy the Zephyr Tables.
+
+If `ENVIRONMENT=prod`, tables will be written in 
 `public/mainnet.zephyr-tables.json`
 `public/testnet.zephyr-tables.json`
+
+If `ENVIRONMENT=dev`, tables will be written in 
+`.dev.tables/mainnet.zephyr-tables.json`
+`.dev.tables/testnet.zephyr-tables.json`
+
+Where `.dev.tables` is a git ignored folder used just for development and testing purposes.
 
 ## 2.- Do Catchup of Factory/Routers Smart Contracts in order to get All Pairs
 Currently this will work only for Soroswap
