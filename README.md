@@ -13,21 +13,11 @@ Make sure to change from Mainnet to Testnet (Menu in the left) in order to get y
 
 `cd zephyr-programs`
 
-2.- Fill with 2 Mercury JWT Tokens.
-Because we will be deploying 2 Zephyr programs, we will need 4 different JWT tokens.
+2.- Fill with 4 Mercury JWT Tokens.
 
+This is because we are going to use 2 enviroments (development and production) for 2 networks (testnet and mainnet)
 `cp .env.example .env`
 
-Your `.env` should look like this
-
-```bash
-JWT_soroswap_mainnet=
-JWT_soroswap_testnet=
-
-JWT_token_mainnet=
-JWT_token_testnet=
-
-``` 
 
 3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
@@ -70,20 +60,28 @@ First we will show you a way to deploy and catchup zephyr programs one by one. I
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
-bash scripts/deploy.sh [PROTOCOL] [NETWORK]
+bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET]
 ```
-Where `PROTOCOL in {soroswap, phoenix, aqua}` and `NETWORK  in {mainnet, testnet}`
+Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}` and `ENVIRONMENT  in {dev, prod}`
 
 For example, for Soroswap.Finance on Mainnet youll do
 ```bash
 bash scripts/deploy.sh soroswap mainnet
 ```
 
-NOTE! This will overwrite any table you have with the same name in the same network!
+NOTE! This will overwrite any table you have with the same name in the same network and environment!
 
-This will deploy the Zephyr Tables and save them in 
+This will deploy the Zephyr Tables.
+
+If `ENVIRONMENT=prod`, tables will be written in 
 `public/mainnet.zephyr-tables.json`
 `public/testnet.zephyr-tables.json`
+
+If `ENVIRONMENT=dev`, tables will be written in 
+`.dev.tables/mainnet.zephyr-tables.json`
+`.dev.tables/testnet.zephyr-tables.json`
+
+Where `.dev.tables` is a git ignored folder used just for development and testing purposes.
 
 ## 2.- Do Catchup of Factory/Routers Smart Contracts in order to get All Pairs
 Currently this will work only for Soroswap
@@ -91,11 +89,11 @@ First we need to be updated with all Pairs
 
 In one tab run
 ```bash
-bash scripts/factory_router_catchups.sh mainnet
+bash scripts/factory_router_catchups.sh mainnet [ENVIROMNET]
 ```
 In other tab run
 ```bash
-bash scripts/factory_router_catchups.sh testnet
+bash scripts/factory_router_catchups.sh testnet [ENVIROMNET]
 ```
 These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
 
@@ -119,13 +117,21 @@ Now that our SoroswapFactory has been catched up, our `ssw_pairs` table is up to
 yarn pairs:catchups:generate mainnet
 yarn pairs:catchups:generate testnet
 ```
+
+If you wanna generate these catchupts for your local development tables in `.dev.tables`, do:
+```bash
+yarn pairs:catchups:generate:dev mainnet
+yarn pairs:catchups:generate:dev testnet
+```
+
+
 This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
 
 ## 4.- Run those Catchup Scripts
 Then you can finish with
 ```bash
-bash scripts/mainnet.pairs-catchups.sh
-bash scripts/testnet.pairs-catchups.sh
+bash scripts/mainnet.pairs-catchups.sh [ENVIROMNET]
+bash scripts/testnet.pairs-catchups.sh [ENVIROMNET]
 ```
 This will generate a BUNCH of catchup orders that will be stored in 
 `/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
@@ -149,59 +155,16 @@ bash scripts/deploy_all.sh
 This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
 
 
-## Catch up SoroswapFactory and SoroswapRouter
-In one tab run
-```bash
-bash scripts/factory_router_catchups.sh mainnet
-```
-In other tab run
-```bash
-bash scripts/factory_router_catchups.sh testnet
-```
-These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
-
-```bash
-bash scripts/verify_catchup_status.sh mainnet
-```
-In other tab run
-```bash
-bash scripts/verify_catchup_status.sh testnet
-```
-When catchups are ready, these scripts will output something like this:
-```bash
-Using testnet
-Checking catchup status for catchup 22...
-Catchup 22 is completed!
-```
-## Generate a catchup script for Soroswap Pairs
-Not that our SoroswapFactory has been catched up, our `soroswap_pair` table is up to date so we can get all pairs and generate a script to catch up all pairs contracts!
-```bash
-yarn pairs:catchups:generate mainnet
-yarn pairs:catchups:generate testnet
-```
-This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
-## Catch up all pairs
-Then you can finish with
-```bash
-bash scripts/mainnet.pairs-catchups.sh
-bash scripts/testnet.pairs-catchups.sh
-```
-This will generate a BUNCH of catchup orders that will be stored in 
-`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
-The script, after generating th catchup orders it will check if they are ready.
-
-If you want to check if they are ready later you can do:
-
-```bash
-bash scripts/verify_catchups_status.sh testnet
-```
-or 
-```bash
-bash scripts/verify_catchups_status.sh mainnet
-```
 ## Check that everything is working properly
-```
+You can run tests agains your local development deployed tables that are in `.dev.tables` or those deployed for production in `public`
+
+For production tables in `public` run 
+```bash
 yarn test
+```
+For local development tables in `.dev.tables` run
+```bash
+yarn test:dev
 ```
 
 
