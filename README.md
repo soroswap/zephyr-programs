@@ -89,11 +89,11 @@ First we need to be updated with all Pairs
 
 In one tab run
 ```bash
-bash scripts/factory_router_catchups.sh mainnet
+bash scripts/factory_router_catchups.sh mainnet [ENVIROMNET]
 ```
 In other tab run
 ```bash
-bash scripts/factory_router_catchups.sh testnet
+bash scripts/factory_router_catchups.sh testnet [ENVIROMNET]
 ```
 These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
 
@@ -147,59 +147,16 @@ bash scripts/deploy_all.sh
 This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
 
 
-## Catch up SoroswapFactory and SoroswapRouter
-In one tab run
-```bash
-bash scripts/factory_router_catchups.sh mainnet
-```
-In other tab run
-```bash
-bash scripts/factory_router_catchups.sh testnet
-```
-These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
-
-```bash
-bash scripts/verify_catchup_status.sh mainnet
-```
-In other tab run
-```bash
-bash scripts/verify_catchup_status.sh testnet
-```
-When catchups are ready, these scripts will output something like this:
-```bash
-Using testnet
-Checking catchup status for catchup 22...
-Catchup 22 is completed!
-```
-## Generate a catchup script for Soroswap Pairs
-Not that our SoroswapFactory has been catched up, our `soroswap_pair` table is up to date so we can get all pairs and generate a script to catch up all pairs contracts!
-```bash
-yarn pairs:catchups:generate mainnet
-yarn pairs:catchups:generate testnet
-```
-This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
-## Catch up all pairs
-Then you can finish with
-```bash
-bash scripts/mainnet.pairs-catchups.sh
-bash scripts/testnet.pairs-catchups.sh
-```
-This will generate a BUNCH of catchup orders that will be stored in 
-`/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
-The script, after generating th catchup orders it will check if they are ready.
-
-If you want to check if they are ready later you can do:
-
-```bash
-bash scripts/verify_catchups_status.sh testnet
-```
-or 
-```bash
-bash scripts/verify_catchups_status.sh mainnet
-```
 ## Check that everything is working properly
+You can run tests agains your local development deployed tables that are in `.dev.tables` or those deployed for production in `public`
+
+For production tables in `public` run 
+```bash
+yarn test:prod
 ```
-yarn test
+For local development tables in `.dev.tables` run
+```bash
+yarn test:dev
 ```
 
 
