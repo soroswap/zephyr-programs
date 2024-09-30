@@ -22,3 +22,8 @@ node_modules/
 .*.catchup_number
 .*.catchups_numbers
 dist
+
+scripts/mainnet.pairs-catchups.sh
+scripts/testnet.pairs-catchups.sh
+
+.dev.*

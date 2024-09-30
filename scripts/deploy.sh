@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# Check if protocol and network arguments are provided
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 [protocol] [network]"
+# Check if protocol, network and dev/prod arguments are provided
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 [protocol] [network] [dev|prod]"
     exit 1
 fi
 
 protocol=$1
 network=$2
+environment=$3
 
-echo Usins $protocol in $network
+echo Using $protocol in $network with envirioment $environment
 
+## Check if the protocol is valid
 if [ "$network" == "mainnet" ]; then
     MAINNET_FLAG=true
 elif [ "$network" == "testnet" ]; then
@@ -19,6 +21,27 @@ else
     echo "Error: Invalid network"
     exit 1
 fi
+echo Using mainnet flag $MAINNET_FLAG
+
+## Check if environment is valid
+if [ "$environment" == "dev" ]; then
+    JWT_VARIABLE="JWT_token_${network}_DEVELOPMENT"
+    zephyr_programs_addresses_file="/workspace/.dev.tables/$network.zephyr-tables.json"
+    ## create folder .dev.tables if it does not exist
+    mkdir -p /workspace/.dev.tables
+elif [ "$environment" == "prod" ]; then
+    JWT_VARIABLE="JWT_token_${network}"
+    zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
+else
+    echo "Error: Invalid environment"
+    exit 1 
+fi
+echo Using JWT variable $JWT_VARIABLE
+echo Using zephyr tables file $zephyr_programs_addresses_file
+echo "Using JWT ${!JWT_VARIABLE}"
+
+
+
 
 # Recover the variable from public/[network].contracts.json
 contract_addresses_file="/workspace/public/$network.contracts.json"
@@ -68,7 +91,6 @@ fi
 
 # Change directory to the protocol
 cd "/workspace/programs/$protocol" || exit 1
-JWT_VARIABLE="JWT_token_${network}"
 
 
 echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG and --force true"
@@ -88,9 +110,19 @@ echo " -- "
 echo "  "
 echo "  "
 
-zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
 echo Saving zephyr tables in $zephyr_programs_addresses_file
 
+# Initialize file if it doesn't exist
+if [ ! -f "$zephyr_programs_addresses_file" ]; then
+    echo "{}" > "$zephyr_programs_addresses_file"
+    echo "Initialized $zephyr_programs_addresses_file with an empty JSON object."
+fi
+
+# Initialize file with empty JSON object if it's empty
+if [ ! -s "$zephyr_programs_addresses_file" ]; then
+    echo "{}" > "$zephyr_programs_addresses_file"
+    echo "Initialized $zephyr_programs_addresses_file with an empty JSON object."
+fi
 
 # Save tables depending on protocol
 if [ "$protocol" == "soroswap" ]; then
@@ -126,7 +158,7 @@ if [ "$protocol" == "soroswap" ]; then
     jq --arg table "$zephyr_table_2" '.soroswap_rsv_ch = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
 
-    echo New $network zephyr tables file:
+    echo New  $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "phoenix" ]; then
@@ -135,7 +167,7 @@ elif [ "$protocol" == "phoenix" ]; then
 
     jq --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
-    echo New $network zephyr tables file:
+    echo New $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "aqua" ]; then
@@ -144,7 +176,7 @@ elif [ "$protocol" == "aqua" ]; then
 
     jq --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
-    echo New $network zephyr tables file:
+    echo New $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 else

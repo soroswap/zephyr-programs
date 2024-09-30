@@ -54,6 +54,11 @@ export const getSoroswapRsvCh = async (tableName: string, network: "MAINNET" | "
     const parsedData: MercuryRsvCh[] = parseMercuryScvalResponse(
       res.data?.events?.data
     );  
+    //console log last 
+    // console.log("🚀 ~ getSoroswapRsvCh ~ parsedData", parsedData[parsedData.length - 1])
+    parsedData.sort((a, b) => Number(a.timestamp) - Number(b.timestamp));
+    // console.log("🚀 ~ getSoroswapRsvCh ~ parsedData", parsedData[parsedData.length - 1])
+
     return parsedData;
 
   }

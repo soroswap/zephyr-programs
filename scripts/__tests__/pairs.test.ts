@@ -3,11 +3,10 @@ import { zephyrTableToGraphQLParser} from "mercury-sdk";
 import { getAquaPairs, getPairs } from "../utils/get-pairs";
 import { getTotalPairs } from "../utils/get-total-pairs";
 import { getZephyrTable } from "../utils/get-table";
-import fs from "fs";
 import { getFeesFromPair } from "../utils/get-fees-from-pair";
 
   
-test.skip("soroswap pairs in MAINNET return non empty array", async () => {
+test("soroswap pairs in MAINNET return non empty array", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "MAINNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
@@ -16,7 +15,7 @@ test.skip("soroswap pairs in MAINNET return non empty array", async () => {
   // console.log("🚀 ~ test ~ Soroswap mainnet pairs.length:", pairs.length)
 });
 
-test.skip("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", async () => {
+test("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "MAINNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
@@ -24,7 +23,7 @@ test.skip("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length
   expect(pairs.length).toEqual(totalPairs);
 });
 
-test.skip("soroswap pairs in TESTNET return non empty array", async () => {
+test("soroswap pairs in TESTNET return non empty array", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
@@ -34,7 +33,7 @@ test.skip("soroswap pairs in TESTNET return non empty array", async () => {
 });
 
 
-test.skip("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()", async () => {
+test("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
   // console.log("using table ", soroswapPairsTable)
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
@@ -48,6 +47,8 @@ test.skip("soroswap pairs in TESTNET amount is equal to Factory all_pairs_length
   const totalPairs = await getTotalPairs('soroswap', 'TESTNET');
   expect(pairs.length).toEqual(totalPairs);
 });
+
+test.todo("FOR EACH PAIR, CHECK IN BLOCKCHAIN IF RESERVES ARE OK");
 
 test.todo("aqua pairs in TESTNET return non empty array");
 test.todo("aqua pairs in TESTNET is equal to Factory all_pairs_length()");
@@ -70,7 +71,7 @@ test("aqua pairs in MAINNET amount is greater than 0", async () => {
 test.todo("aqua pairs in MAINNET is equal to Factory all_pairs_length()");
 
 
-test.skip("phoenix pairs in MAINNET return non empty array", async () => {
+test("phoenix pairs in MAINNET return non empty array", async () => {
   let phoenixPairsTable = getZephyrTable('phoenix_pairs', "MAINNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
@@ -79,7 +80,18 @@ test.skip("phoenix pairs in MAINNET return non empty array", async () => {
   // console.log("🚀 ~ test ~ phoenix mainnet pairs.length:", pairs.length)
 });
 
-test.skip("phoenix pairs in TESTNET return non empty array", async () => {
+
+test("PHOENIX pairs in MAINNET amount is equal to Factory query_pools() length", async () => {
+  let phoenixPairsTable = getZephyrTable('phoenix_pairs', "MAINNET")
+  const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
+  const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
+  const totalPairs = await getTotalPairs('phoenix', 'MAINNET');
+  expect(pairs.length).toEqual(totalPairs);
+
+});
+
+
+test("phoenix pairs in TESTNET return non empty array", async () => {
   let phoenixPairsTable = getZephyrTable('phoenix_pairs', "TESTNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
@@ -89,3 +101,11 @@ test.skip("phoenix pairs in TESTNET return non empty array", async () => {
 });
 
 
+test("PHOENIX pairs in TESTNET amount is equal to Factory query_pools() length", async () => {
+  let phoenixPairsTable = getZephyrTable('phoenix_pairs', "TESTNET")
+  const zephyrTableGraphQL = zephyrTableToGraphQLParser(phoenixPairsTable);
+  const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
+  const totalPairs = await getTotalPairs('phoenix', 'TESTNET');
+  expect(pairs.length).toEqual(totalPairs);
+
+});

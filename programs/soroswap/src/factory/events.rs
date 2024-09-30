@@ -1,4 +1,4 @@
-use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal}, Symbol}, EnvClient };
+use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ScVal}, Symbol}, EnvClient, PrettyContractEvent };
 
 use crate::PairsTable;
 
@@ -20,11 +20,12 @@ pub(crate) fn get_pair_from_new_pair(env: &EnvClient, data: &ScVal) -> PairsTabl
     table
 }
 
-pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>) {
+pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<(PrettyContractEvent, [u8; 32])>) {
 
 
-    for event in contract_events {
-        let ContractEventBody::V0(event) = &event.body;
+    for (event, _txhash) in contract_events {
+
+        env.log().debug(format!("Factory event.topics: {:?}", &event.topics.clone()), None);
 
         let action: Symbol = env.from_scval(&event.topics[1]);
 
