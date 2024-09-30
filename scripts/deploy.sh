@@ -34,7 +34,7 @@ elif [ "$environment" == "prod" ]; then
     zephyr_programs_addresses_file="/workspace/public/$network.zephyr-tables.json"
 else
     echo "Error: Invalid environment"
-    exit 1
+    exit 1 
 fi
 echo Using JWT variable $JWT_VARIABLE
 echo Using zephyr tables file $zephyr_programs_addresses_file
@@ -112,6 +112,17 @@ echo "  "
 
 echo Saving zephyr tables in $zephyr_programs_addresses_file
 
+# Initialize file if it doesn't exist
+if [ ! -f "$zephyr_programs_addresses_file" ]; then
+    echo "{}" > "$zephyr_programs_addresses_file"
+    echo "Initialized $zephyr_programs_addresses_file with an empty JSON object."
+fi
+
+# Initialize file with empty JSON object if it's empty
+if [ ! -s "$zephyr_programs_addresses_file" ]; then
+    echo "{}" > "$zephyr_programs_addresses_file"
+    echo "Initialized $zephyr_programs_addresses_file with an empty JSON object."
+fi
 
 # Save tables depending on protocol
 if [ "$protocol" == "soroswap" ]; then
@@ -147,7 +158,7 @@ if [ "$protocol" == "soroswap" ]; then
     jq --arg table "$zephyr_table_2" '.soroswap_rsv_ch = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
 
-    echo New $network zephyr tables file:
+    echo New  $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "phoenix" ]; then
@@ -156,7 +167,7 @@ elif [ "$protocol" == "phoenix" ]; then
 
     jq --arg table "$zephyr_table" '.phoenix_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
-    echo New $network zephyr tables file:
+    echo New $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 elif [ "$protocol" == "aqua" ]; then
@@ -165,7 +176,7 @@ elif [ "$protocol" == "aqua" ]; then
 
     jq --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
-    echo New $network zephyr tables file:
+    echo New $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file
 
 else
