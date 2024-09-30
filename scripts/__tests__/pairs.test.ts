@@ -58,14 +58,12 @@ test("aqua pairs in MAINNET amount is greater than 0", async () => {
   const aquaPairsTable = getZephyrTable('aqua_pairs', "MAINNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(aquaPairsTable);
   const pairs = await getAquaPairs(zephyrTableGraphQL.address, 'MAINNET');
-  console.log('🟡Pairs', pairs)
   for(let pair of pairs){
     const address = pair.address;
     const fee = pair.fee;
-    console.log('🟡address', address)
-    console.log('🟡fee', fee)
-    const blockchainFees = await getFeesFromPair('aqua', 'MAINNET', address)
-    console.log('🟡blockchainFees', blockchainFees)
+    const blockchainFee = await getFeesFromPair('aqua', 'MAINNET', address)
+    console.log('🟡blockchainFee', blockchainFee)
+    //To do: check if blockchainFee are equal to fee
   }
 });
 test.todo("aqua pairs in MAINNET is equal to Factory all_pairs_length()");

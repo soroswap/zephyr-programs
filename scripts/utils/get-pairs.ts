@@ -65,7 +65,6 @@ export const getAquaPairs = async (tableName: string, network: "MAINNET" | "TEST
             }`,
   });
 
-  console.log('res', res)
   if (res.ok) {
     const pairs = res.data.events.data.map((d: any) => {
       let n: any = {};
