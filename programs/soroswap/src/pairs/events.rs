@@ -1,4 +1,4 @@
-use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ContractEvent,  ContractEventBody, ScVal}, Symbol}, EnvClient };
+use zephyr_sdk::{ prelude::*, soroban_sdk::{xdr::{ ScVal }, Symbol}, EnvClient, PrettyContractEvent };
 
 use crate::{PairsTable, ReservesChangeTable};
 
@@ -18,13 +18,10 @@ pub(crate) fn get_pair_from_sync(env: &EnvClient, data: &ScVal, row:PairsTable) 
     table
 }
 
-pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<ContractEvent>, row:PairsTable) {
-    
+pub(crate) fn handle_contract_events(env: &EnvClient, contract_events: Vec<(PrettyContractEvent, [u8; 32])>, row:PairsTable) {
     let timestamp = env.reader().ledger_timestamp();
 
-    for event in contract_events {
-        let ContractEventBody::V0(event) = &event.body;
-
+    for (event, _txhash) in contract_events {
         // Attempt to convert to a Symbol safely using a Result
         let action_result = env.try_from_scval::<Symbol>(&event.topics[1]);
 
