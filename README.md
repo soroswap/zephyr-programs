@@ -117,13 +117,21 @@ Now that our SoroswapFactory has been catched up, our `ssw_pairs` table is up to
 yarn pairs:catchups:generate mainnet
 yarn pairs:catchups:generate testnet
 ```
+
+If you wanna generate these catchupts for your local development tables in `.dev.tables`, do:
+```bash
+yarn pairs:catchups:generate:dev mainnet
+yarn pairs:catchups:generate:dev testnet
+```
+
+
 This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
 
 ## 4.- Run those Catchup Scripts
 Then you can finish with
 ```bash
-bash scripts/mainnet.pairs-catchups.sh
-bash scripts/testnet.pairs-catchups.sh
+bash scripts/mainnet.pairs-catchups.sh [ENVIROMNET]
+bash scripts/testnet.pairs-catchups.sh [ENVIROMNET]
 ```
 This will generate a BUNCH of catchup orders that will be stored in 
 `/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
@@ -152,7 +160,7 @@ You can run tests agains your local development deployed tables that are in `.de
 
 For production tables in `public` run 
 ```bash
-yarn test:prod
+yarn test
 ```
 For local development tables in `.dev.tables` run
 ```bash

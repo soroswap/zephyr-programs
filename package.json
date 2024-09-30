@@ -4,9 +4,10 @@
   "description": "Zephyr Programs for Soroswap",
   "scripts": {
     "build": "tsc",
-    "pairs:catchups:generate": "yarn build && node --trace-deprecation dist/pairs-catchups-generator.js",
+    "pairs:catchups:generate": "yarn build && ENVIRONMENT=prod node --trace-deprecation dist/pairs-catchups-generator.js",
+    "pairs:catchups:generate:dev": "yarn build && ENVIRONMENT=dev node --trace-deprecation dist/pairs-catchups-generator.js",
     "test:dev": "ENVIRONMENT=dev jest",
-    "test:prod": "ENVIRONMENT=prod jest"
+    "test": "ENVIRONMENT=prod jest"
 
   },
   "keywords": [],

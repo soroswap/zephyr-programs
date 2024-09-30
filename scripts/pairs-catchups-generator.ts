@@ -1,12 +1,29 @@
 import fs from "fs";
 import { zephyrTableToGraphQLParser, ZephyrTableOriginal } from "mercury-sdk";
 import { getPairs } from "./utils/get-pairs.js";
+import { getZephyrTable } from "./utils/get-table";
+
 
 const buildCatchupCommand = (contract: string, network: string) => {
-  if (network === "TESTNET") {
-    return `mercury-cli --jwt $JWT_soroswap_testnet --local false --mainnet false catchup --contracts ${contract} --project-name zephyr-soroswap`;
-  } else {
-    return `mercury-cli --jwt $JWT_soroswap_mainnet --local false --mainnet true catchup --contracts ${contract} --project-name zephyr-soroswap`;
+  const environment = process.env.ENVIRONMENT;
+  let isDev = false;
+  if (environment === 'dev') {
+    isDev = true;
+  } 
+  
+  if (isDev){
+    if (network === "TESTNET") {
+      return `mercury-cli --jwt $JWT_token_testnet_DEVELOPMENT --local false --mainnet false catchup --contracts ${contract} --project-name zephyr-soroswap`;
+    } else {
+      return `mercury-cli --jwt $JWT_token_mainnet_DEVELOPMENT --local false --mainnet true catchup --contracts ${contract} --project-name zephyr-soroswap`;
+    }
+  }
+  else {
+    if (network === "TESTNET") {
+      return `mercury-cli --jwt $JWT_token_testnet --local false --mainnet false catchup --contracts ${contract} --project-name zephyr-soroswap`;
+    } else {
+      return `mercury-cli --jwt $JWT_token_mainnet --local false --mainnet true catchup --contracts ${contract} --project-name zephyr-soroswap`;
+    }
   }
 };
 
@@ -66,20 +83,8 @@ done
 (async () => {
   const network = process.argv[2] === "mainnet" ? "MAINNET" : "TESTNET";
   console.log("🚀 ~ network:", network);
-
-  let pairsTablePath;
-  if (network === "MAINNET") {
-    pairsTablePath = "/workspace/public/mainnet.zephyr-tables.json";
-  } else {
-    pairsTablePath = "/workspace/public/testnet.zephyr-tables.json";
-  }
-  const pairsTableData = fs.readFileSync(pairsTablePath, "utf-8");
-  const pairsTable = JSON.parse(pairsTableData);
-  const zephyrTableAddress = pairsTable["soroswap_pairs"];
-  const zephyrTableOriginal: ZephyrTableOriginal = { address: zephyrTableAddress };
-  console.log("🚀 ~ zephyrTableOriginal:", zephyrTableOriginal);
-
-  const zephyrTableGraphQL = zephyrTableToGraphQLParser(zephyrTableOriginal);
+  let soroswapPairsTable = getZephyrTable('soroswap_pairs', network)
+  const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
   // const zephyrTableGraphQL = {address: "allZephyr923625Cad8F2Bf73069B63583354Ba4As"};
   console.log("🚀 ~ zephyrTableGraphQL:", zephyrTableGraphQL);
 
