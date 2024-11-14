@@ -1,4 +1,10 @@
-# zephyr-programs
+# Zephyr Programs for Soroswap.Finance AMM and Soroswap Aggregator
+Browse our sub folders
+
+- [`./server`: API to show our deployed zephyr tables](./server/README.md)
+- [`./programs/soroswap`: Zephyr Programs to track Soroswap AMM](./programs/soroswap/README.md)
+- [`./programs/aqua`: Zephyr Programs to track Aqua AMM](./programs/aqua/)
+- [`./programs/phoenix`: Zephyr Programs to track Phoenix AMM](./programs/phoenix/)
 
 ## Setup
 ### Setup Environment
