@@ -1,0 +1,1 @@
+export type ProtocolType = "SOROSWAP" | "PHOENIX" | "AQUA";
