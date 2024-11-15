@@ -84,6 +84,45 @@ col_type = "BYTEA"
 name = "timestamp"
 col_type = "BYTEA"
 
+# Soroswap Liquidity Providers table
+[[tables]]
+name = "ssw_providers"
+
+[[tables.columns]]
+name = "provider_address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "pool_address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "shares"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "share_percentage"
+col_type = "FLOAT"
+
+[[tables.columns]]
+name = "token_a_amount"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_b_amount"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "timestamp"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "action"
+col_type = "VARCHAR"
+
+[[tables.columns]]
+name = "tx_hash"
+col_type = "BYTEA"
 
 
 
