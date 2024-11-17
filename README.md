@@ -70,9 +70,9 @@ bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET]
 ```
 Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}` and `ENVIRONMENT  in {dev, prod}`
 
-For example, for Soroswap.Finance on Mainnet youll do
+For example, for Soroswap.Finance on Mainnet and in Production youll do
 ```bash
-bash scripts/deploy.sh soroswap mainnet
+bash scripts/deploy.sh soroswap mainnet prod
 ```
 
 NOTE! This will overwrite any table you have with the same name in the same network and environment!
