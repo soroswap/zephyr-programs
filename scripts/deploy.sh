@@ -107,7 +107,7 @@ echo "---"
 echo "Using JWT ${!JWT_VARIABLE} in pwd $(pwd)"
 echo "---"
 cargo test -- --nocapture
-output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force $FORCE_FLAG")
+output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force $FORCE_FLAG)
 
 echo Got output $output
 ##########
