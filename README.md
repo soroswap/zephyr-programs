@@ -28,16 +28,16 @@ This is because we are going to use 2 enviroments (development and production) f
 3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
 `docker compose build`
 
-3.- Run the Docker Container
+4.- Run the Docker Container
 Be sure to do this after setting your .env, if you do some changes into your .env, you`ll need to re do this again
 
 `docker compose up -d`
 
-4.- Enter to the Docker Terminal
+5.- Enter to the Docker Terminal
 
 `bash scripts/run.sh`
 
-5.- Install node dependencies
+6.- Install node dependencies
 `yarn install`
 
 ### Check that the contract addresses you want to index are correctly defined
