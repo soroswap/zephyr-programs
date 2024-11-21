@@ -12,9 +12,8 @@ const removeExtension = (fileName: string) => fileName.split('.').shift();
 fs.readdirSync(routesPath).filter( fileName => {
     const name = removeExtension(fileName);
     if(name !== 'index') {
-        import(path.join(routesPath, fileName)).then( module => {
-            router.use(`/${name}`, module.default);
-        });
+        const module = require(path.join(routesPath, fileName));
+        router.use(`/${name}`, module.default);
     }
 });
 

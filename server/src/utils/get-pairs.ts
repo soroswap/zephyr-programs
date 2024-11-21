@@ -1,5 +1,7 @@
 import * as StellarSdk from '@stellar/stellar-sdk';
 import { zephyrTableToGraphQLParser } from 'mercury-sdk';
+import { getZephyrTable } from './get-table';
+import { getMercuryInstance } from './mercury';
 
 interface Pair {
     tokenA: string;
@@ -14,7 +16,7 @@ const parseValue = (value: any) => {
     return StellarSdk.scValToNative(scval);
 };
 
-export const getPairs = async (protocol: string, network: 'MAINNET' | 'TESTNET') => {
+const getPairs = async (protocol: string, network: 'MAINNET' | 'TESTNET') => {
     let tableNameKey: string
 
     switch (protocol.toLowerCase()) {
@@ -65,3 +67,5 @@ export const getPairs = async (protocol: string, network: 'MAINNET' | 'TESTNET')
 
     return [];
 };
+
+export default getPairs;

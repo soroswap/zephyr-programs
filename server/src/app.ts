@@ -4,6 +4,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import routes from './routes';
+import { errorHandler } from './middlewares/errorHandler';
 
 dotenv.config();
 
@@ -28,7 +29,10 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Access routes
+// Route Access
 app.use('/api', routes);
+
+// Error handler middleware
+app.use(errorHandler)
 
 export default app;

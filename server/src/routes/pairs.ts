@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { getHandlerPairs } from "../controllers/pairsController";
 
 const router = Router();
 
@@ -29,6 +29,6 @@ const router = Router();
  *          500:
  *            description: Internal server error
  */
-router.get('/', pairsController.getPairs);
+router.get('/', getHandlerPairs);
 
 export default router;

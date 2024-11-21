@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { getHandlerEvents } from "../controllers/eventsController";
 
 const router = Router();
 
@@ -34,7 +34,7 @@ const router = Router();
  *          500:
  *            description: Internal server error
  */
-router.get('/', eventsController.getEvents);
+router.get('/', getHandlerEvents);
 
 export default router;
 

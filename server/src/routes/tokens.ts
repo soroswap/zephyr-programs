@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { getHandlerTokens } from "../controllers/tokensController";
 
 const router = Router();
 
@@ -23,6 +23,6 @@ const router = Router();
  *          500:
  *            description: Internal server error
  */
-router.get('/', tokensController.getTokens);
+router.get('/', getHandlerTokens);
 
 export default router;
