@@ -27,3 +27,4 @@ scripts/mainnet.pairs-catchups.sh
 scripts/testnet.pairs-catchups.sh
 
 .dev.*
+.temp*
