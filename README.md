@@ -66,16 +66,14 @@ First we will show you a way to deploy and catchup zephyr programs one by one. I
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
-bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET]
+bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET] [FORCE]
 ```
-Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}` and `ENVIRONMENT  in {dev, prod}`
+Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}`, `ENVIRONMENT  in {dev, prod}` and `FORCE in {force, empty}`
 
-For example, for Soroswap.Finance on Mainnet youll do
+For example, for Soroswap.Finance on Mainnet and in Production youll do
 ```bash
-bash scripts/deploy.sh soroswap mainnet
+bash scripts/deploy.sh soroswap mainnet prod
 ```
-
-NOTE! This will overwrite any table you have with the same name in the same network and environment!
 
 This will deploy the Zephyr Tables.
 
@@ -88,6 +86,18 @@ If `ENVIRONMENT=dev`, tables will be written in
 `.dev.tables/testnet.zephyr-tables.json`
 
 Where `.dev.tables` is a git ignored folder used just for development and testing purposes.
+
+### Force Redeployment:
+
+  ⚠️ ⚠️ ⚠️ ⚠️ 
+  If you want to force the redeployment of the program, maning to erase all the previous tables, you can do
+  ```bash
+  bash scripts/deploy.sh soroswap mainnet prod force
+  ```
+  ⚠️ ⚠️ ⚠️ ⚠️ 
+
+  NOTE! This will overwrite any table you have with the same name in the same network and environment!
+
 
 ## 2.- Do Catchup of Factory/Routers Smart Contracts in order to get All Pairs
 Currently this will work only for Soroswap

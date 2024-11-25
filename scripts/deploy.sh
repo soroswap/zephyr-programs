@@ -9,6 +9,7 @@ fi
 protocol=$1
 network=$2
 environment=$3
+force=$4
 
 echo Using $protocol in $network with envirioment $environment
 
@@ -36,9 +37,17 @@ else
     echo "Error: Invalid environment"
     exit 1 
 fi
+
+## Check if force is valid
+if [ "$force" == "force" ]; then
+    FORCE_FLAG=true
+else
+    FORCE_FLAG=false
+fi
 echo Using JWT variable $JWT_VARIABLE
 echo Using zephyr tables file $zephyr_programs_addresses_file
 echo "Using JWT ${!JWT_VARIABLE}"
+echo "⚠️ Using force flag $FORCE_FLAG ⚠️"
 
 
 
@@ -93,12 +102,12 @@ fi
 cd "/workspace/programs/$protocol" || exit 1
 
 
-echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG and --force true"
+echo "Will deploy to $protocol on $network using contract mainnet flag $MAINNET_FLAG and --force $FORCE_FLAG"
 echo "---"
 echo "Using JWT ${!JWT_VARIABLE} in pwd $(pwd)"
 echo "---"
 cargo test -- --nocapture
-output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force true)
+output=$(mercury-cli --jwt ${!JWT_VARIABLE} --local false --mainnet $MAINNET_FLAG  deploy --force $FORCE_FLAG)
 
 echo Got output $output
 ##########

@@ -25,5 +25,4 @@ pairs::events::handle_contract_events(&env, pair_contract_events, pair);
 ```
 
 The `sync` event at a Liquidity Pool level it gets executed after every `deposit`, `swap` or `withdraw` at the `SoroswapPair` contract.
-
-So this table will track all the changes on the reserves, and will keep a good track of the TVL.
+Every time there is a `sync` event, the corresponding row of the Soroswap Pair Table gets updated!
