@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "pairs:catchups:generate": "yarn build && ENVIRONMENT=prod node --trace-deprecation dist/pairs-catchups-generator.js",
+    "get:tables": "yarn build && ENVIRONMENT=prod node --trace-deprecation dist/get-tables.js",
     "pairs:catchups:generate:dev": "yarn build && ENVIRONMENT=dev node --trace-deprecation dist/pairs-catchups-generator.js",
     "test:dev": "ENVIRONMENT=dev jest",
     "test": "ENVIRONMENT=prod jest"
