@@ -5,6 +5,7 @@ import { getTotalPairs } from "../utils/get-total-pairs";
 import { getZephyrTable } from "../utils/get-table";
 import fs from "fs";
 
+jest.setTimeout(30000); // Set timeout to 30 seconds
   
 test("soroswap pairs in MAINNET return non empty array", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "MAINNET")

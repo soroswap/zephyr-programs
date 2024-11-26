@@ -175,6 +175,15 @@ For local development tables in `.dev.tables` run
 yarn test:dev
 ```
 
+## Get Tables in the `.temp` folder
+You can get all the tables, in order to inspect them.
+```
+yarn get:tables mainnet
+```
+
+```
+yarn get:tables testnet
+```
 
 ## Fast Way
 1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
