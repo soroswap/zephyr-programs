@@ -1,6 +1,8 @@
 
 import { getZephyrTable } from "../utils/get-table";
 
+jest.setTimeout(30000); // Set timeout to 30 seconds
+
 test('soroswap zephyr tables should exist in MAINNET with correct format', () => {
   let soroswapTablesNames=["soroswap_pairs", "soroswap_events", "soroswap_rsv_ch"];
   for (let tableName of soroswapTablesNames) {

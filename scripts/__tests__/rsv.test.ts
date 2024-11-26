@@ -5,6 +5,7 @@ import { getZephyrTable } from "../utils/get-table";
 import { getReservesFromPair } from "../utils/get-reserves-from-pair";
 import fs from "fs";
 
+jest.setTimeout(30000); // Set timeout to 30 seconds
 
 test("soroswap rsv_ch in MAINNET return non empty array", async () => {
   let soroswapEventsTable = getZephyrTable('soroswap_rsv_ch', "MAINNET")
@@ -13,7 +14,7 @@ test("soroswap rsv_ch in MAINNET return non empty array", async () => {
   expect(rsv_ch).toBeDefined();
   expect(rsv_ch.length).toBeGreaterThan(0);
   console.log("🚀 ~ test ~ Soroswap mainnet rsv_ch.length:", rsv_ch.length)
-});
+}, 30000); // Set timeout to 30 seconds for this test
 
 
 test("soroswap rsv_ch in TESTNET return non empty array", async () => {
@@ -24,7 +25,7 @@ test("soroswap rsv_ch in TESTNET return non empty array", async () => {
   expect(rsv_ch.length).toBeGreaterThan(0);
   console.log("🚀 ~ test ~ Soroswap testnet rsv_ch.length:", rsv_ch.length)
   
-});
+}, 30000); // Set timeout to 30 seconds for this test
 
 test("Last Soroswap rsv_ch  in MAINNET reflects current reserve on that pair", async () => {
   let soroswapEventsTable = getZephyrTable('soroswap_rsv_ch', "MAINNET")
@@ -49,7 +50,7 @@ test("Last Soroswap rsv_ch  in MAINNET reflects current reserve on that pair", a
   expect(onChainReserveA.toString()).toBe(last_rsv_ch.reserveA);
   expect(onChainReserveB.toString()).toBe(last_rsv_ch.reserveB);
 
-});
+}, 30000); // Set timeout to 30 seconds for this test
 
 
 
@@ -72,4 +73,4 @@ test("Last Soroswap rsv_ch  in TESTNET reflects current reserve on that pair", a
   expect(onChainReserveA.toString()).toBe(last_rsv_ch.reserveA);
   expect(onChainReserveB.toString()).toBe(last_rsv_ch.reserveB);
 
-});
+}, 30000); // Set timeout to 30 seconds for this test
