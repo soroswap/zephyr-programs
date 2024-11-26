@@ -9,6 +9,7 @@ export interface SoroswapEvent {
   amountB: string;
   account: string;
   timestamp: string;
+  txHash: string;
 }
 export const parseScvalValue = (value: any) => {
   const scval = StellarSdk.xdr.ScVal.fromXDR(value, "base64");
@@ -21,9 +22,12 @@ export const parseMercuryScvalResponse = (data: any) => {
 
     for (let key in d) {
       const value = parseScvalValue(d[key]);
-
       if (typeof value === "bigint" || typeof value === "number") {
         n[key] = value.toString();
+      } else if( key == 'txHash'){
+        const txHash = StellarSdk.xdr.Hash.fromXDR(value, 'hex').toString('hex')
+        if(txHash.length != 64)throw new Error('Invalid txHash length');
+        n[key] = txHash;
       } else {
         n[key] = value;
       }
@@ -32,7 +36,6 @@ export const parseMercuryScvalResponse = (data: any) => {
     return n;
   });
 };
-
 
 export const getSoroswapEvents = async (tableName: string, network: "MAINNET" | "TESTNET") => {
 
@@ -48,6 +51,7 @@ export const getSoroswapEvents = async (tableName: string, network: "MAINNET" | 
         amountB
         account
         timestamp
+        txHash
       }
     }
   }`,
