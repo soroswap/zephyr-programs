@@ -17,6 +17,7 @@ export const getZephyrTable = (tableName: string, network: 'MAINNET' | 'TESTNET'
     if (isDev) {
       tablesPath = path.join(__dirname, '../../../.dev.tables/mainnet.zephyr-tables.json');
     } else {
+      console.log('está entrando aquì')
       tablesPath = path.join(__dirname, '../../../public/mainnet.zephyr-tables.json');
     }
   } else {
@@ -26,9 +27,11 @@ export const getZephyrTable = (tableName: string, network: 'MAINNET' | 'TESTNET'
       tablesPath = path.join(__dirname, '../../../public/testnet.zephyr-tables.json');
     }
   }
-
+  console.log('tableName', tableName)
+  console.log('tablesPath', tablesPath)
   const tablesData = fs.readFileSync(tablesPath, 'utf-8');
   const tables = JSON.parse(tablesData);
+  console.log('tables', tables)
   const zephyrTableAddress = tables[tableName];
   const zephyrTableOriginal: ZephyrTableOriginal = { address: zephyrTableAddress };
   return zephyrTableOriginal;

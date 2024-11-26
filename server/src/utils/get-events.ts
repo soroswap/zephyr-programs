@@ -2,6 +2,7 @@ import * as StellarSdk from '@stellar/stellar-sdk';
 import { getMercuryInstance } from './mercury';
 import { getZephyrTable } from './get-table';
 import { zephyrTableToGraphQLParser } from 'mercury-sdk';
+import { mockData } from './loadMockData';
 
 interface Event {
   tokenA: string;
@@ -24,16 +25,15 @@ const getEvents = async (
   network: 'MAINNET' | 'TESTNET',
   eventType?: string
 ) => {
-  let tableNameKey: string;
+  let tableNameKey: string = protocol;
 
-  switch (protocol.toLowerCase()) {
-    case 'soroswap':
-      tableNameKey = 'soroswap_events';
-      break;
-    // Puedes agregar más protocolos si es necesario
-    default:
-      throw new Error('Protocolo inválido o sin eventos disponibles');
-  }
+  const environment = process.env.ENVIRONMENT;
+    const isDev = environment === 'dev';
+
+  if (isDev) {
+    const data = mockData(protocol, 'events');
+    return data;
+}
 
   const zephyrTableOriginal = getZephyrTable(tableNameKey, network);
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(zephyrTableOriginal);

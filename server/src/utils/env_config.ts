@@ -1,4 +1,3 @@
-// src/utils/env_config.ts
 import { Horizon, Keypair, SorobanRpc } from '@stellar/stellar-sdk';
 import fs from 'fs';
 import path from 'path';
