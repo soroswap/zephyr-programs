@@ -1,0 +1,30 @@
+[
+    {
+      "tokenA": "CAAV3AE3VKD2P4TY7LWTQMMJHIJ4WOCZ5ANCIJPC3NRSERKVXNHBU2W7",
+      "tokenB": "CACFQEH2USDRGSBYFOVJMX4DMX7HMRYAYOV2IWR7XEX3DD3HYQEWPAAL",
+      "address": "address1",
+      "reserveA": "1000",
+      "reserveB": "2000"
+    },
+    {
+        "tokenA": "CAAV3AE3VKD2P4TY7LWTQMMJHIJ4WOCZ5ANCIJPC3NRSERKVXNHBU2W7",
+        "tokenB": "CACFQEH2USDRGSBYFOVJMX4DMX7HMRYAYOV2IWR7XEX3DD3HYQEWPAAL",
+        "address": "address2",
+        "reserveA": "1000",
+        "reserveB": "2000"
+      },
+      {
+        "tokenA": "CAAV3AE3VKD2P4TY7LWTQMMJHIJ4WOCZ5ANCIJPC3NRSERKVXNHBU2W7",
+        "tokenB": "CACFQEH2USDRGSBYFOVJMX4DMX7HMRYAYOV2IWR7XEX3DD3HYQEWPAAL",
+        "address": "address3",
+        "reserveA": "1000",
+        "reserveB": "2000"
+      },
+      {
+        "tokenA": "CAAV3AE3VKD2P4TY7LWTQMMJHIJ4WOCZ5ANCIJPC3NRSERKVXNHBU2W7",
+        "tokenB": "CACFQEH2USDRGSBYFOVJMX4DMX7HMRYAYOV2IWR7XEX3DD3HYQEWPAAL",
+        "address": "address4",
+        "reserveA": "1000",
+        "reserveB": "2000"
+      }
+  ]
