@@ -73,13 +73,6 @@ Register at [vercel.com](https://vercel.com) if you don't have an account yet.
 
 From the Vercel dashboard, click on **"New Project"** and select your GitHub repository that contains the `zephyr-programs` project.
 
-### Configure the Project
-
-- **Root Directory**: If your project has multiple subdirectories, ensure that the root points to the `server` folder.
-- **Build Command**: `yarn build`
-- **Install Command**: `yarn install`
-- **Output Directory**: Let Vercel handle it automatically.
-
 ### Set Environment Variables
 
 In **Environment Variables**, add the necessary variables. The same variables of configuration
@@ -93,8 +86,14 @@ Ensure you have a `vercel.json` file at the root of your project (or in the `ser
 ```
 {
   "version": 2,
-  "builds": [{ "src": "server/index.ts", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "server/index.ts" }]
+  "builds": [
+    { "src": "server/src/index.ts", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "server/src/index.ts" }
+  ],
+  "installCommand": "cd server && yarn install",
+  "buildCommand": "cd server && yarn build"
 }
 ```
 
