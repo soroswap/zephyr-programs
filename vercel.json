@@ -4,7 +4,8 @@
     { "src": "server/src/index.ts", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "server/dist/index.js" }
+    { "src": "/(.*)", "dest": "server/src/index.ts" }
   ],
+  "installCommand": "cd server && yarn install",
   "buildCommand": "cd server && yarn build"
 }
