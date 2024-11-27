@@ -29,8 +29,9 @@ const getEvents = async (
 
   const environment = process.env.ENVIRONMENT;
     const isDev = environment === 'dev';
-
+ console.log('environment: ', environment);
   if (isDev) {
+    console.log('llega a getEvents dentro de dev')
     const data = mockData(protocol, 'events');
     return data;
 }
