@@ -93,8 +93,8 @@ Ensure you have a `vercel.json` file at the root of your project (or in the `ser
 ```
 {
   "version": 2,
-  "builds": [    {      "src": "src/index.ts",      "use": "@vercel/node"    }  ],
-  "routes": [    {      "src": "/(.*)",      "dest": "src/index.ts"    }  ]
+  "builds": [{ "src": "server/index.ts", "use": "@vercel/node" }],
+    "routes": [{ "src": "/(.*)", "dest": "server/index.ts" }]
 }
 ```
 

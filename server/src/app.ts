@@ -5,6 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import routes from './routes';
 import { errorHandler } from './middlewares/errorHandler';
+import yaml from 'yamljs';
+import path from 'path';
 
 dotenv.config();
 
@@ -26,13 +28,20 @@ const swaggerOptions = {
     apis: ['./src/routes/*.ts'],
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// Load the Swagger document
+const swaggerDocument = yaml.load(path.join(__dirname, '../swagger.yaml'));
+
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Route Access
 app.use('/api', routes);
 
 // Error handler middleware
 app.use(errorHandler)
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the Soroswap Finance API');
+  });
 
 export default app;
