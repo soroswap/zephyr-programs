@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/server",
-    "build": "tsc && cp -R src/mock dist/mock && cp src/swagger.yaml dist/swagger.yaml",
+    "build": "tsc && cp -R src/mock dist/mock && cp swagger.yaml dist/swagger.yaml",
     "test": "jest",
     "dev": "nodemon --watch src --exec ts-node src/server.ts"
   },
@@ -45,6 +45,7 @@
     "fs": "^0.0.1-security",
     "mercury-sdk": "0.2.6",
     "path": "^0.12.7",
+    "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
