@@ -10,6 +10,7 @@ import path from 'path';
 
 dotenv.config();
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
@@ -41,6 +42,9 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Soroswap Finance API');
   });
 
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
 // Error handler middleware
 app.use(errorHandler)
 
