@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server",
-    "build": "tsc && cp -R src/mock dist/mock && cp swagger.yaml dist/swagger.yaml",
+    "start": "node dist/index",
+    "build": "tsc && cp -R src/mock dist/mock && cp src/swagger.yaml dist/swagger.yaml",
     "test": "jest",
-    "dev": "nodemon --watch src --exec ts-node src/server.ts"
+    "dev": "nodemon --watch src --exec ts-node src/index.ts"
   },
   "jest": {
     "preset": "ts-jest",
