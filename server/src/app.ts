@@ -10,38 +10,30 @@ import path from 'path';
 
 dotenv.config();
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// swagger config
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Zephyr Programs API',
-            version: '1.0.0',
-            description: 'API to get information from Soroswap, Phoenix and Aqua'
-        },
-    },
-    apis: ['./src/routes/*.ts'],
-};
-
 // Load the Swagger document
-const swaggerDocument = yaml.load(path.join(__dirname, '../swagger.yaml'));
+const swaggerDocument = yaml.load(path.join(__dirname, 'swagger.yaml'));
+
+// Swagger UI CSS public URL
+const customCssUrl = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css';
 
 // Serve Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customCssUrl }));
 
 // Route Access
 app.use('/api', routes);
 
-// Error handler middleware
-app.use(errorHandler)
-
 app.get('/', (req, res) => {
     res.send('Welcome to the Soroswap Finance API');
   });
+
+
+// // Error handler middleware
+// app.use(errorHandler)
 
 export default app;

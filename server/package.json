@@ -1,13 +1,14 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
+    "start": "node src/server.ts",
+    "build": "tsc && cp -R src/mock dist/mock && cp src/swagger.yaml dist/swagger.yaml",
     "test": "jest",
-    "dev": "nodemon --watch src --exec ts-node src/server.ts"
+    "dev": "nodemon --watch src --exec ts-node src/server.ts",
+    "vercel-build": "echo hello"
   },
   "jest": {
     "preset": "ts-jest",
@@ -34,7 +35,7 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@stellar/stellar-sdk": "^12.1.0",
@@ -45,8 +46,12 @@
     "fs": "^0.0.1-security",
     "mercury-sdk": "0.2.6",
     "path": "^0.12.7",
+    "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.18.2",
     "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "yamljs": "^0.3.0"
   }
 }
