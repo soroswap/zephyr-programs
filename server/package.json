@@ -48,6 +48,7 @@
     "path": "^0.12.7",
     "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.18.2",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
