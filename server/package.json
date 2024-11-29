@@ -4,10 +4,10 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server",
+    "start": "node src/server.ts",
     "build": "tsc && cp -R src/mock dist/mock && cp src/swagger.yaml dist/swagger.yaml",
     "test": "jest",
-    "dev": "nodemon --watch src --exec ts-node src/app.ts",
+    "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "vercel-build": "echo hello"
   },
   "jest": {

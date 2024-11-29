@@ -42,9 +42,6 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Soroswap Finance API');
   });
 
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
 // Error handler middleware
 app.use(errorHandler)
 

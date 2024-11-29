@@ -11,6 +11,6 @@
     "outDir": "./dist",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "./api/*.ts", "../scripts/api"],
+  "include": ["src/**/*", "./api/*.ts", "src/api"],
   "exclude": ["node_modules"]
 }
