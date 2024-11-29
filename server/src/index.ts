@@ -4,7 +4,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import routes from './routes';
-import { errorHandler } from './middlewares/errorHandler';
+// import { errorHandler } from './middlewares/errorHandler';
 import yaml from 'yamljs';
 import path from 'path';
 
@@ -42,12 +42,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Soroswap Finance API');
   });
 
-
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
-
 // // Error handler middleware
 // app.use(errorHandler)
 
-export default app;
+module.exports = app;
