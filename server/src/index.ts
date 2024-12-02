@@ -33,7 +33,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customC
 app.use('/api', routes);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the Soroswap Finance API <3 ');
+    res.send('Welcome to the Soroswap Finance API');
   });
 
 // // Error handler middleware
