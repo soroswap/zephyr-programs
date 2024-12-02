@@ -37,6 +37,15 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@types/cors": "^2.8.17",
+    "typescript": "^5.7.2",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.1",
+    "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
+    "@types/yamljs": "^0.2.34",
     "@stellar/stellar-sdk": "^12.1.0",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
