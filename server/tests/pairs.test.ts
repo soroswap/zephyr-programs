@@ -1,6 +1,6 @@
 // tests/pairs.test.ts
-import request from 'supertest';
-import app from '../src/app';
+// import request from 'supertest';
+// import app from '../src/app';
 
 // describe('GET /api/pairs', () => {
 //   it('should return a list of pairs', async () => {
