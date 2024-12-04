@@ -5,8 +5,5 @@
         "src": "package.json",
         "use": "@vercel/node"
       }
-    ],
-    "engines": {
-      "node": "16.x"
-    }
+    ]
   }
