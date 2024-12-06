@@ -4,7 +4,6 @@ import {ZephyrTableOriginal } from "mercury-sdk";
 export const getZephyrTable =  (tableName: string, network: "MAINNET" | "TESTNET") => {
 
     const environment = process.env.ENVIRONMENT;
-    console.log("🚀 ~ getZephyrTable ~ environment:", environment)
     let isDev = false;
     if (environment === 'dev') {
       console.log('Running in development mode');

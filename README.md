@@ -1,4 +1,10 @@
-# zephyr-programs
+# Zephyr Programs for Soroswap.Finance AMM and Soroswap Aggregator
+Browse our sub folders
+
+- [`./server`: API to show our deployed zephyr tables](./server/README.md)
+- [`./programs/soroswap`: Zephyr Programs to track Soroswap AMM](./programs/soroswap/README.md)
+- [`./programs/aqua`: Zephyr Programs to track Aqua AMM](./programs/aqua/)
+- [`./programs/phoenix`: Zephyr Programs to track Phoenix AMM](./programs/phoenix/)
 
 ## Setup
 ### Setup Environment
@@ -130,8 +136,8 @@ This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and 
 ## 4.- Run those Catchup Scripts
 Then you can finish with
 ```bash
-bash scripts/mainnet.pairs-catchups.sh [ENVIROMNET]
-bash scripts/testnet.pairs-catchups.sh [ENVIROMNET]
+bash scripts/mainnet.pairs-catchups.sh
+bash scripts/testnet.pairs-catchups.sh
 ```
 This will generate a BUNCH of catchup orders that will be stored in 
 `/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
@@ -145,15 +151,7 @@ bash scripts/verify_catchups_status.sh testnet
 or 
 ```bash
 bash scripts/verify_catchups_status.sh mainnet
-
-
-## Fast Way
-1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
-```bash
-bash scripts/deploy_all.sh
 ```
-This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
-
 
 ## Check that everything is working properly
 You can run tests agains your local development deployed tables that are in `.dev.tables` or those deployed for production in `public`
@@ -167,6 +165,20 @@ For local development tables in `.dev.tables` run
 yarn test:dev
 ```
 
+
+## Fast Way
+1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
+```bash
+bash scripts/deploy_all.sh
+```
+This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
+
+
+-----------------
+-----------------
+-----------------
+-----------------
+OLD README
 
 ## Slower way: Deploy Zephyr Programs one by one
 

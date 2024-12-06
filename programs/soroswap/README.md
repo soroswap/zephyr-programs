@@ -1,75 +1,29 @@
-# zephyr-indexer
+# Zephyr Program for Soroswap AMM
 
-inside the docker image setup the JWT for soroswap zephyr program
+This program will create 3 tables as defined in the `zephyr.toml` file:
 
-`export MERCURY_JWT=<YOUR_MERCURY_JWT_TOKEN>`
+- The Soroswap Router Events Table `ssw_rt_ev`
+- The Soroswap Pairs Table `ssw_pairs`
+- The Soroswap Reserves Changes Table `ssw_rs_ch`
 
-`mercury-cli --jwt $MERCURY_JWT --local false --mainnet false deploy`
+These tables are filled like this:
 
-## Steps for the deploy
-
-### 1. Get and Set Your Mercury Token
-
-```bash
-cd mercury-helpers
-yarn token
-cd ..
-export MERCURY_JWT=your_token_here
+- The Router Events Table is easy, because it records every event in the `SoroswapRouter` contract, nothing more, nothing less. It records every thime there is a `remove` (remove liquidity), `add` (add liquidity) and `swap`.
+```rust
+router::events::handle_contract_events(&env, filtered_router_events_with_txhash);
 ```
 
-Replace `your_token_here` with your actual Mercury JWT token.
-
-### 2. Deploy Zephyr Program
-
-```bash
-mercury-cli --jwt $MERCURY_JWT --local false --mainnet true deploy
+- The Soroswap Pairs Table is being filled evey time there is a `new_pair` event in the `SoroswapFactory` contract.
+```rust
+factory::events::handle_contract_events(&env, filtered_factory_events_with_txhash);
 ```
 
-- To deploy in testnet, change `--mainnet` to `false`.
+And finally, after we have both the Router Events Table and the Pairs Table, up to dated, if there is any event emited by any of our pairs, we will handle all `sync` events.
 
-### 3. Run Catchups for Router and Factory
-
-```bash
-mercury-cli --jwt $MERCURY_JWT --local false --mainnet true catchup --contracts "router_address"
-mercury-cli --jwt $MERCURY_JWT --local false --mainnet true catchup --contracts "factory_address"
+```rust
+pairs::events::handle_contract_events(&env, pair_contract_events, pair);
 ```
 
-You can monitor the catchup progress at:
+The `sync` event at a Liquidity Pool level it gets executed after every `deposit`, `swap` or `withdraw` at the `SoroswapPair` contract.
 
-`https://mainnet.mercurydata.app/catchups/{catchup_id}`
-
-Wait until all catchups are completed before proceeding.
-
-### 4. Subscribe to All Pairs
-
-Once the router and factory catchups are completed:
-
-1. Go to `mercury-helpers/src/scripts/pairs-subscribe.ts`.
-2. Choose between `mainnetPairsTable` or `testnetPairsTable` to subscribe to the pairs you desire.
-3. Run the subscription command:
-
-```bash
-cd mercury-helpers
-yarn pairs:subscribe
-```
-
-### 5. Run Catchups for All Pairs
-
-After subscribing to the pairs, run:
-
-```bash
-yarn pairs:catchups
-```
-
-This will generate `pairs-catchups-mainnet.sh` with the commands needed to catch up each pair. To avoid overloading the system:
-
-- Run the first 5 pairs and wait until they complete.
-- Then, proceed with the next set of 5 pairs, and so on. (to avoid mercury crash)
-
-Once all catchups are completed, your data should be fully synchronized.
-
----
-
-**Next Steps:**
-
-- Verify that all data is correct and synchronized.
+So this table will track all the changes on the reserves, and will keep a good track of the TVL.
