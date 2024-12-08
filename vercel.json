@@ -1,9 +1,2 @@
-{
-    "projects": {
-      "default": {
-        "source": "server",
-        "projectType": "nextjs"
-      }
-    }
-  }
+{ "framework": "nextjs", "name": "zephyr-programs" }
   
