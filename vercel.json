@@ -1,1 +1,9 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/server" }] }
+{
+    "projects": {
+      "default": {
+        "source": "server",
+        "projectType": "nextjs"
+      }
+    }
+  }
+  
