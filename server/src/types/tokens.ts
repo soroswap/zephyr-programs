@@ -1,4 +1,4 @@
-// import { PriceChartData, TvlChartData, VolumeChartData } from "./pools";
+import { PriceChartData, TvlChartData, VolumeChartData } from "./pools";
 
 export interface Token {
   fees24h: number;
@@ -12,9 +12,10 @@ export interface Token {
   tvlSlippage24h: number;
   volume24hChange: number;
   volume7dChange: number;
-//   volumeChartData?: VolumeChartData[];
-//   tvlChartData?: TvlChartData[];
-//   priceChartData?: PriceChartData[];
+  volumeChartData?: VolumeChartData[];
+  tvlChartData?: TvlChartData[];
+  priceChartData?: PriceChartData[];
+  issuer: string;
 }
 
 export interface TokenType {
