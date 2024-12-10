@@ -12,6 +12,6 @@
     "resolveJsonModule": true,
   },
   "include": [
-    "scripts",
+    "scripts", "server/src/api", "server/src/index.ts",
   ],
 }
