@@ -1,23 +1,3 @@
-/**
- * @swagger
- * /api/events?network=mainnet:
- *   get:
- *     tags:
- *       - "MAINNET"
- *     summary: Retrieve Mercury Events
- *     responses:
- *       200:
- *         description: Successful response
- * 
- * /api/events?network=testnet:
- *   get:
- *     tags:
- *       - "TESTNET"
- *     summary: Retrieve Mercury Events
- *     responses:
- *       200:
- *         description: Successful response
- */
 import { fetchTokenList } from "services/tokens";
 import { getMercuryEvents, getMercuryPools } from "zephyr/helpers";
 import { Network } from "types/network";

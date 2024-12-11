@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
+import swaggerPaths from "utils/swagger/swagger";
 const swaggerJSDoc = require('swagger-jsdoc')
 
 const swaggerDefinition = {
@@ -14,6 +14,7 @@ const swaggerDefinition = {
           url: 'https://zephyr-programs-blush.vercel.app',
         },
     ],
+    ...swaggerPaths
 }
 
 const options = {
@@ -25,8 +26,6 @@ const swaggerSpec = swaggerJSDoc(options)
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     try{
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Content-Type', 'application/json');
         res.status(200).json(swaggerSpec)
     } catch (error) {
         console.error('Swagger spec error:', error);
