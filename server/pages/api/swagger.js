@@ -7,15 +7,25 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: 'This is the API documentation for my Next.js application',
     },
+    servers: [
+        {
+          url: 'https://zephyr-programs-blush.vercel.app',
+        },
+    ],
 }
 
 const options = {
     swaggerDefinition,
-    apis: ['src/pages/api/*.js'],
+    apis: ['./pages/api/**/*.{ts,tsx}'],
 }
 
 const swaggerSpec = swaggerJSDoc(options)
 
 export default function handler(req, res) {
-    res.status(200).json(swaggerSpec)
+    try{
+        res.status(200).json(swaggerSpec)
+    } catch (error) {
+        console.error('Swagger spec error:', error);
+        res.status(500).json({ error: 'Unable to generate Swagger spec' });
+    }
 }

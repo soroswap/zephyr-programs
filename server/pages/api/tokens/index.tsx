@@ -1,3 +1,24 @@
+/**
+ * @swagger
+ * /api/tokens?network=mainnet:
+ *   get:
+ *     tags:
+ *        - "MAINNET"
+ *     summary: Retrieves tokens
+ *     responses:
+ *       200:
+ *         description: Successful response
+ * 
+ * /api/tokens?network=testnet:
+ *   get:
+ *     tags:
+ *        - "TESTNET"
+ *     summary: Retrieves tokens
+ *     responses:
+ *       200:
+ *         description: Successful response
+ */
+
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTokenList } from "services/tokens";
 import { Network } from "types/network";

@@ -1,3 +1,24 @@
+/**
+ * @swagger
+ * /api?network=mainnet:
+ *   get:
+ *     tags:
+ *        - "MAINNET"
+ *     summary: Retrieves XLM Price
+ *     responses:
+ *       200:
+ *         description: Successful response
+ * 
+ * /api?network=testnet:
+ *   get:
+ *     tags:
+ *        - "TESTNET"
+ *     summary: Retrieves XLM Price
+ *     responses:
+ *       200:
+ *         description: Successful response
+ */
+
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTokenList } from "services/tokens";
 import { Network } from "types/network";
