@@ -1,6 +1,6 @@
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function DocsPage() {
   const [swaggerSpec, setSwaggerSpec] = useState(null);
@@ -21,5 +21,9 @@ export default function DocsPage() {
     return <div>Loading...</div>; // Show a loading state while fetching
   }
 
-  return <SwaggerUI spec={swaggerSpec} />;
+  return (
+    <React.StrictMode>
+        <SwaggerUI spec={swaggerSpec} />;
+    </React.StrictMode>
+  )
 }
