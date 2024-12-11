@@ -35,7 +35,9 @@
     "recharts": "^2.10.4",
     "slick-carousel": "^1.8.1",
     "soroswap-router-sdk": "^1.2.6",
-    "soroswap-ui": "^0.0.8"
+    "soroswap-ui": "^0.0.8",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-react": "^5.18.2"
   },
   "devDependencies": {
     "@types/node": "latest",
