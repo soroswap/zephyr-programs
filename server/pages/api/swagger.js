@@ -23,6 +23,8 @@ const swaggerSpec = swaggerJSDoc(options)
 
 export default function handler(req, res) {
     try{
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Content-Type', 'application/json');
         res.status(200).json(swaggerSpec)
     } catch (error) {
         console.error('Swagger spec error:', error);
