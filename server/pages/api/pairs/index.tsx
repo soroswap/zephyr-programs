@@ -19,6 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const address = queryParams?.address as string;
   const protocol = queryParams?.protocol as string;
+  let full = queryParams?.full as string;
   let network = queryParams?.network as string;
   network = network?.toUpperCase() as Network;
 
@@ -40,6 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   let data;
   switch (protocol.toLowerCase()) {
     case "soroswap":
+      if(full = "true") return handlePoolRequest(req, res, getMercuryPools);
       data = await getMercuryPools(network);
       break;
     case "phoenix":
