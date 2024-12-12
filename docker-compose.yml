@@ -1,12 +1,10 @@
 services:
-
-  zephyr-vm:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: zephyr-vm
+  zephyr-soroban:
+    image: esteblock/soroban-preview:22.0.1@sha256:c3074481338f167d4cedac550b7dfa73b9e01c0dcd5740026b013df7c5568b40
+    container_name: zephyr-soroban
     volumes:
-      - ./:/workspace/
+      - .:/workspace
+    ipc: host
     command: tail -f /dev/null
     env_file:
       - .env
