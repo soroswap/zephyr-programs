@@ -1,1 +1,1 @@
- docker exec --tty --interactive zephyr-vm bash
+ docker exec --tty --interactive zephyr-soroban bash
