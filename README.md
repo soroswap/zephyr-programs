@@ -25,9 +25,6 @@ This is because we are going to use 2 enviroments (development and production) f
 `cp .env.example .env`
 
 
-3.- Build the Docker Image [NEED TO DO IT ONLY ONCE or every time you do changes in the Dockerfile]
-`docker compose build`
-
 3.- Run the Docker Container
 Be sure to do this after setting your .env, if you do some changes into your .env, you`ll need to re do this again
 
