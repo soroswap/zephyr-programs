@@ -1,5 +1,6 @@
 use zephyr_sdk::{EnvClient};
 use crate::{PairsTable};
+use zephyr_sdk::soroban_sdk::String as SorobanString;
 
 // Decimal precision used throughout the pricing calculations
 // We use 7 decimal places (10^7) to maintain high precision while avoiding overflow
@@ -7,7 +8,7 @@ const DECIMALS: i128 = 10_000_000; // 10^7
 
 // Addresses of XLM-Stablecoin pairs used as price oracles
 // These pairs were obtained from dune analytics and are used to calculate XLM price
-const USDC_XLM_PAIR: &str = "CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP";
+const USDC_XLM_PAIR: &str = "CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP";// sacado de dune analytics.
 const USDX_XLM_PAIR: &str = "CDJDRGUCHANJDXALZVJ5IZVB76HX4MWCON5SHF4DE5HB64CBBR7W2ZCD";
 
 /// Calculates the current price of XLM in USD using two stablecoin pairs as oracles
@@ -16,11 +17,11 @@ const USDX_XLM_PAIR: &str = "CDJDRGUCHANJDXALZVJ5IZVB76HX4MWCON5SHF4DE5HB64CBBR7
 pub fn get_xlm_price_in_usd(env: &EnvClient) -> i128 {
     // Read pairs table once to avoid multiple reads
     let pairs = env.read::<PairsTable>();
-    
+
     // Find both stablecoin pairs in the pairs table
     let usdc_pair = pairs.iter()
-        .find(|p| p.address == env.to_scval(USDC_XLM_PAIR));
-        
+        .find(|p| p.address == env.to_scval(USDC_XLM_PAIR));//¿por qué iterar? 
+
     let usdx_pair = pairs.iter()
         .find(|p| p.address == env.to_scval(USDX_XLM_PAIR));
 
@@ -34,25 +35,25 @@ pub fn get_xlm_price_in_usd(env: &EnvClient) -> i128 {
 
         // Calculate total XLM liquidity across both pairs
         let total_liquidity_xlm = reserve_b_usdc + reserve_b_usdx;
-        
+
         // Calculate individual prices, multiplied by DECIMALS for precision
-        let usdc_price = (reserve_a_usdc * DECIMALS) / reserve_b_usdc;
-        let usdx_price = (reserve_a_usdx * DECIMALS) / reserve_b_usdx;
-        
+        let usdc_price = (reserve_a_usdc) / reserve_b_usdc;
+        let usdx_price = (reserve_a_usdx) / reserve_b_usdx;
+
         // Calculate liquidity weights for each pair
-        let usdc_weight = (reserve_b_usdc * DECIMALS) / total_liquidity_xlm;
-        let usdx_weight = (reserve_b_usdx * DECIMALS) / total_liquidity_xlm;
-        
+        let usdc_weight = (reserve_b_usdc) / total_liquidity_xlm;
+        let usdx_weight = (reserve_b_usdx) / total_liquidity_xlm;
+
         // Return weighted average price, adjusting for DECIMALS
-        return (usdc_price * usdc_weight + usdx_price * usdx_weight) / DECIMALS;
+        return (usdc_price * usdc_weight + usdx_price * usdx_weight) / DECIMALS;//para ver precio real 
     } 
     // Fallback to USDC pair if it's the only one available
     else if let Some(usdc_pair) = usdc_pair {
         let reserve_a: i128 = env.from_scval(&usdc_pair.reserve_a);
         let reserve_b: i128 = env.from_scval(&usdc_pair.reserve_b);
-        return (reserve_a * DECIMALS) / reserve_b;
+        return (reserve_a / DECIMALS) / reserve_b;
     }
-    
+
     0
 }
 
@@ -119,41 +120,47 @@ const MINIMUM_LIQUIDITY_THRESHOLD_XLM: i128 = 2_0000000; // 2 XLM with 7 decimal
 /// Finds the XLM price of a given token using whitelisted pairs
 /// Returns the price with DECIMALS precision, or 0 if no valid pair is found
 pub fn find_xlm_per_token(env: &EnvClient, token_address: &str) -> i128 {
-    // If the token is XLM itself, return 1 (with DECIMALS precision)
-    if token_address == "XLM_ADDRESS" {
+    // Convertir token_address a SorobanString
+    let token_address = SorobanString::from_str(&env.soroban(), token_address);
+    
+    // Si el token es XLM itself, return 1 (with DECIMALS precision)
+    if token_address == SorobanString::from_str(&env.soroban(), "XLM_ADDRESS") {
         return DECIMALS;
     }
 
     // Search through whitelisted tokens for a valid pair
     for whitelist_token in WHITELIST {
         let pairs_table = env.read::<PairsTable>();
+        // Convertir whitelist_token a SorobanString
+        let whitelist_token = SorobanString::from_str(&env.soroban(), whitelist_token);
+        
         // Look for a pair containing both the target token and a whitelisted token
         let pair = pairs_table
             .iter()
             .find(|p| {
-                let token_a: String = env.from_scval(&p.token_a);
-                let token_b: String = env.from_scval(&p.token_b);
-                (token_a == token_address && token_b == *whitelist_token) ||
-                (token_b == token_address && token_a == *whitelist_token)
+                let token_a: SorobanString = env.from_scval(&p.token_a);
+                let token_b: SorobanString = env.from_scval(&p.token_b);
+                (token_a == token_address && token_b == whitelist_token) ||
+                (token_b == token_address && token_a == whitelist_token)
             });
 
         if let Some(pair) = pair {
             let reserve_a: i128 = env.from_scval(&pair.reserve_a);
             let reserve_b: i128 = env.from_scval(&pair.reserve_b);
-            let token_a: String = env.from_scval(&pair.token_a);
-            
+            let token_a: SorobanString = env.from_scval(&pair.token_a);
+
             // Only use pairs with sufficient liquidity
             if reserve_b > MINIMUM_LIQUIDITY_THRESHOLD_XLM {
                 // Calculate price based on token position in the pair
                 if token_a == token_address {
-                    return (reserve_a * DECIMALS) / reserve_b;
+                    return ((reserve_a) / reserve_b)/DECIMALS;
                 } else {
-                    return (reserve_b * DECIMALS) / reserve_a;
+                    return ((reserve_b) / reserve_a)/DECIMALS;
                 }
             }
         }
     }
-    
+
     0
 }
 
