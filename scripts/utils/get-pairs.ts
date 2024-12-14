@@ -1,5 +1,5 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
-import { getMercuryInstance } from "./mercury";
+import { getMercuryInstance } from "../../server/src/zephyr/mercury";
 
 interface Pair {
   tokenA: string;
