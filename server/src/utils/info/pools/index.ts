@@ -16,7 +16,6 @@ import { Network } from "types/network";
 import {
   MercuryRsvCh,
   getMercuryEvents,
-  getMercuryPools,
   getMercuryRsvCh,
 } from "zephyr/helpers";
 import { MercuryPair } from "../../../../pages/api/pairs";

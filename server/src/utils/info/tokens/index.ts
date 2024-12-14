@@ -1,4 +1,3 @@
-import { fetchTokenList } from "services/tokens";
 import { Network } from "types/network";
 import {
   Pool,
