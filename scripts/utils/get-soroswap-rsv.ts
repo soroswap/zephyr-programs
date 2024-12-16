@@ -1,5 +1,5 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
-import { getMercuryInstance } from "../../server/src/zephyr/mercury";
+import { getMercuryInstance } from "../../src/zephyr/mercury";
 
 export interface MercuryRsvCh {
   address: string;

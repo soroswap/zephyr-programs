@@ -4,7 +4,7 @@
 currentDir=$(pwd)
 
 # Set the name, image and version for the Docker container
-containerName=soroswapInfoFrontend
+containerName=infoApi
 imageName=node
 versionTag=18.18.2
 
