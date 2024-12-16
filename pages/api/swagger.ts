@@ -11,7 +11,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3100', // Fallback for local development
+            url: 'https://zephyr-programs-blush.vercel.app',
         },
     ],
     ...swaggerPaths
