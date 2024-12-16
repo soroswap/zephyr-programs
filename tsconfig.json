@@ -19,7 +19,7 @@
     "outDir": "./dist",
   },
   "include": [
-    "scripts", "server/src/api", "server/src/index.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.js"
+    "scripts", "next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.js", "/src/**/*"
   ],
   "exclude": ["node_modules"]
 }

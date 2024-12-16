@@ -4500,10 +4500,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
-mercury-sdk@0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/mercury-sdk/-/mercury-sdk-0.2.6.tgz#e6165e5b25efd1c0f2e44cf803c61202690c794d"
-  integrity sha512-+Z+fg3CoplkfOUXiPQocxrfFv5MzSuhjBAK6TXnycAuXOfpkzo9RmEs3cMrMpLcGbTJgLfgVOpssMwTVag8Kpg==
+mercury-sdk@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mercury-sdk/-/mercury-sdk-1.0.0.tgz#4863c9bf49c3de7fd0a267fd651996dacdebb750"
+  integrity sha512-VrdwNNWtBM5agkxV8HKaT6rG+bAICYusfT3XfZ8FWxLneyprSvDxISwcl+3eMy8ekY2jpjM3NHm2VmwUpqVovQ==
   dependencies:
     "@stellar/stellar-sdk" "^12.1.0"
     axios "^1.6.2"
