@@ -57,6 +57,19 @@ const swaggerPaths = {
                 "tags": [
                     "MAINNET"
                 ],
+                "summary": "Retrieves filtered soroswap pairs",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/pairs?protocol=soroswap&network=mainnet&full=true": {
+            "get": {
+                "tags": [
+                    "MAINNET"
+                ],
                 "summary": "Retrieves soroswap pairs",
                 "responses": {
                     "200": {
@@ -92,6 +105,19 @@ const swaggerPaths = {
             }
         },
         "/api/pairs?protocol=soroswap&network=testnet": {
+            "get": {
+                "tags": [
+                    "TESTNET"
+                ],
+                "summary": "Retrieves filtered soroswap pairs",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/pairs?protocol=soroswap&network=testnet&full=true": {
             "get": {
                 "tags": [
                     "TESTNET"
