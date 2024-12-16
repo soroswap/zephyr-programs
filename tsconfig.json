@@ -18,8 +18,6 @@
     "baseUrl": "src",
     "outDir": "./dist",
   },
-  "include": [
-    "scripts", "next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.js", "/src/**/*"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

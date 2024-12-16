@@ -9,11 +9,11 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: 'This is the API documentation for my Next.js application',
     },
-    servers: [
-        {
-            url: 'https://zephyr-programs-blush.vercel.app',
-        },
-    ],
+    // servers: [
+    //     {
+    //         url: 'http://localhost:3100',
+    //     },
+    // ],
     ...swaggerPaths
 }
 

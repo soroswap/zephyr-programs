@@ -160,16 +160,14 @@ const fromAddressAndAmountToCurrencyAmount = (
 
 export const getRouterFromPools = (pools: MercuryPair[], network: Networks) => {
   return new Router({
-    ...( {
-      getPairsFn: async () => {
-        return new Promise((resolve) => {
-          resolve(pools);
-        });
-      },
-      pairsCacheInSeconds: 60,
-      network,
-      maxHops: 5,
-    } as any), // Suppress TypeScript error
+    getPairsFn: async () => {
+      return new Promise((resolve) => {
+        resolve(pools);
+      });
+    },
+    pairsCacheInSeconds: 60,
+    network,
+    maxHops: 5,
   });
 };
 
