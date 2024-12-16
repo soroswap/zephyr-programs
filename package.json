@@ -28,7 +28,7 @@
     "axios": "^1.6.7",
     "bignumber.js": "^9.1.2",
     "@vercel/analytics": "^1.2.2",
-    "mercury-sdk": "0.2.6",
+    "mercury-sdk": "^1.0.0",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
