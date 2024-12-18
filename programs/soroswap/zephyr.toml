@@ -37,6 +37,18 @@ col_type = "BYTEA"
 name = "tx_hash"
 col_type = "BYTEA"
 
+[[tables.columns]]
+name = "token_a_price_usd"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "token_b_price_usd"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "volume_usd"
+col_type = "BYTEA"
+
 
 #Soroswap Pairs table
 
@@ -61,6 +73,10 @@ col_type = "BYTEA"
 
 [[tables.columns]]
 name = "reserve_b"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "tvl_usd"
 col_type = "BYTEA"
 
 #Soroswap Reserves changes table

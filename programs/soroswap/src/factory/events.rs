@@ -15,6 +15,7 @@ pub(crate) fn get_pair_from_new_pair(env: &EnvClient, data: &ScVal) -> PairsTabl
         address: env.to_scval(values.pair.clone()),
         reserve_a: env.to_scval(zero.clone()),
         reserve_b: env.to_scval(zero.clone()),
+        tvl_usd: env.to_scval(zero.clone()),
     };
 
     table
