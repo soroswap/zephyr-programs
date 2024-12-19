@@ -36,10 +36,10 @@ Once done fill the api key in the `.env` file for mainnet and testnet.
 # Zephyr Programs for Soroswap.Finance AMM and Soroswap Aggregator
 Browse our sub folders
 
-- [`./server`: API to show our deployed zephyr tables](./server/README.md)
-- [`./programs/soroswap`: Zephyr Programs to track Soroswap AMM](./programs/soroswap/README.md)
-- [`./programs/aqua`: Zephyr Programs to track Aqua AMM](./programs/aqua/)
-- [`./programs/phoenix`: Zephyr Programs to track Phoenix AMM](./programs/phoenix/)
+- [`./pages/api`: API to show our deployed zephyr tables](./server/README.md)
+- [`./src/deploy/programs/soroswap`: Zephyr Programs to track Soroswap AMM](./src/deploy/programs/soroswap/README.md)
+- [`./src/deploy/programs/aqua`: Zephyr Programs to track Aqua AMM](./src/deploy/programs/aqua/)
+- [`./src/deploy/programs/phoenix`: Zephyr Programs to track Phoenix AMM](./src/deploy/programs/phoenix/)
 
 ## Setup
 ### Setup Environment
@@ -67,7 +67,7 @@ Be sure to do this after setting your .env, if you do some changes into your .en
 
 4.- Enter to the Docker Terminal
 
-`bash scripts/run.sh`
+`bash src/deploy/scripts/run.sh`
 
 5.- Install node dependencies
 `yarn install`
@@ -88,7 +88,7 @@ https://raw.githubusercontent.com/soroswap/aggregator/main/public/testnet.contra
 In order to update your local contract addresses file do
 
 ```bash
-bash scripts/update_contract_addresses.sh
+bash src/deploy/src/deploy/scripts/update_contract_addresses.sh
 ```
 
 # Deploy & Catchup:
@@ -98,13 +98,13 @@ First we will show you a way to deploy and catchup zephyr programs one by one. I
 We have prepared a `deploy.sh` bash that will compile the Zephyr Programs using the addresses defined in `public/[NETWORK].contracts.json` depending on the network and the protocol.
 You just need to do
 ```bash
-bash scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET] [FORCE]
+bash src/deploy/scripts/deploy.sh [PROTOCOL] [NETWORK] [ENVIROMNET] [FORCE]
 ```
 Where `PROTOCOL in {soroswap, phoenix, aqua}`,  `NETWORK  in {mainnet, testnet}`, `ENVIRONMENT  in {dev, prod}` and `FORCE in {force, empty}`
 
 For example, for Soroswap.Finance on Mainnet and in Production youll do
 ```bash
-bash scripts/deploy.sh soroswap mainnet prod
+bash src/deploy/scripts/deploy.sh soroswap mainnet prod
 ```
 
 This will deploy the Zephyr Tables.
@@ -124,7 +124,7 @@ Where `.dev.tables` is a git ignored folder used just for development and testin
   ⚠️ ⚠️ ⚠️ ⚠️ 
   If you want to force the redeployment of the program, maning to erase all the previous tables, you can do
   ```bash
-  bash scripts/deploy.sh soroswap mainnet prod force
+  bash src/deploy/scripts/deploy.sh soroswap mainnet prod force
   ```
   ⚠️ ⚠️ ⚠️ ⚠️ 
 
@@ -137,20 +137,20 @@ First we need to be updated with all Pairs
 
 In one tab run
 ```bash
-bash scripts/factory_router_catchups.sh mainnet [ENVIROMNET]
+bash src/deploy/scripts/factory_router_catchups.sh mainnet [ENVIROMNET]
 ```
 In other tab run
 ```bash
-bash scripts/factory_router_catchups.sh testnet [ENVIROMNET]
+bash src/deploy/scripts/factory_router_catchups.sh testnet [ENVIROMNET]
 ```
 These scripts will start catchups and monitor their status. Also, they will populate `/workspace/.mainnet.catchup_number` and `/workspace/.testnet.catchup_number` files so you can also monitor their status with
 
 ```bash
-bash scripts/verify_catchup_status.sh mainnet
+bash src/deploy/scripts/verify_catchup_status.sh mainnet
 ```
 In other tab run
 ```bash
-bash scripts/verify_catchup_status.sh testnet
+bash src/deploy/scripts/verify_catchup_status.sh testnet
 ```
 When catchups are ready, these scripts will output something like this:
 ```bash
@@ -173,13 +173,13 @@ yarn pairs:catchups:generate:dev testnet
 ```
 
 
-This will generate the files `/workspace/scripts/mainnet.pairs-catchups.sh` and `/workspace/scripts/testnet.pairs-catchups.sh`
+This will generate the files `/workspace/src/deploy/scripts/mainnet.pairs-catchups.sh` and `/workspace/src/deploy/scripts/testnet.pairs-catchups.sh`
 
 ## 4.- Run those Catchup Scripts
 Then you can finish with
 ```bash
-bash scripts/mainnet.pairs-catchups.sh
-bash scripts/testnet.pairs-catchups.sh
+bash src/deploy/scripts/mainnet.pairs-catchups.sh
+bash src/deploy/scripts/testnet.pairs-catchups.sh
 ```
 This will generate a BUNCH of catchup orders that will be stored in 
 `/workspace/.testnet.catchups_numbers` and  `/workspace/.mainnet.catchups_numbers`. 
@@ -188,11 +188,11 @@ The script, after generating th catchup orders it will check if they are ready.
 If you want to check if they are ready later you can do:
 
 ```bash
-bash scripts/verify_catchups_status.sh testnet
+bash src/deploy/scripts/verify_catchups_status.sh testnet
 ```
 or 
 ```bash
-bash scripts/verify_catchups_status.sh mainnet
+bash src/deploy/scripts/verify_catchups_status.sh mainnet
 ```
 
 ## Check that everything is working properly
@@ -211,7 +211,7 @@ yarn test:dev
 ## Fast Way
 1.- Deploy ALL Zephyr Programs in both Mainnet and Testnet at once
 ```bash
-bash scripts/deploy_all.sh
+bash src/deploy/scripts/deploy_all.sh
 ```
 This will populate the `public/mainnet.zephyr-tables.json` and the `public/testnet.zephyr-tables.json` files
 
@@ -240,7 +240,7 @@ Because we can only catch upts SoroswapPairs contract after knowing what pairs d
 
 1.- Catch ups `SoroswapFactory`, `SoroswapRouter` and `AquaRouter`
 ```
-bash scripts/factory_router_catchups.sh <network>
+bash src/deploy/scripts/factory_router_catchups.sh <network>
 ```
 This will
 - subscribe to the contracts

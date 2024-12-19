@@ -1,7 +1,7 @@
 import fs from "fs";
 import { zephyrTableToGraphQLParser } from "mercury-sdk";
-import { getPairs } from "./utils/get-pairs.js";
-import { getZephyrTable } from "./utils/get-table";
+import { getPairs } from "../../utils/get-pairs.js";
+import { getZephyrTable } from "../../utils/get-table.js";
 
 
 const buildCatchupCommand = (contract: string, network: string) => {
