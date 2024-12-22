@@ -93,6 +93,15 @@ elif [ "$protocol" == "aqua" ]; then
 
     echo Using env variable AQUA_ROUTER $AQUA_ROUTER
 
+elif [ "$protocol" == "comet" ]; then
+    address=$(jq -r '.comet_pool' "$contract_addresses_file")
+    
+    echo address from json: $address
+    
+    export COMET_POOL=$address
+
+    echo Using env variable COMET_POOL $COMET_POOL
+
 else
     echo "Error: Invalid protocol"
     exit 1
@@ -184,6 +193,15 @@ elif [ "$protocol" == "aqua" ]; then
     echo "Zephyr table: $zephyr_table"
 
     jq --arg table "$zephyr_table" '.aqua_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+    echo New $protocol $network zephyr tables file:
+    cat $zephyr_programs_addresses_file
+
+elif [ "$protocol" == "comet" ]; then
+    zephyr_table=$(echo $output | grep -o 'zephyr_[a-f0-9]\{32\}')
+    echo "Zephyr table: $zephyr_table"
+
+    jq --arg table "$zephyr_table" '.comet = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
     echo New $protocol $network zephyr tables file:
     cat $zephyr_programs_addresses_file

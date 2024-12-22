@@ -6,3 +6,6 @@ bash /workspace/scripts/deploy.sh phoenix testnet
 
 # bash /workspace/scripts/deploy.sh aqua mainnet
 # bash /workspace/scripts/deploy.sh aqua testnet
+
+# bash /workspace/scripts/deploy.sh comet mainnet
+# bash /workspace/scripts/deploy.sh comet testnet
