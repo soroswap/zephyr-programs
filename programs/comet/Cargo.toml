@@ -1,0 +1,23 @@
+[package]
+name = "zephyr-comet"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+zephyr-sdk = { version = "0.2.1" }
+stellar-strkey = "0.0.8"
+soroban-sdk = { version = "21.5.0" }
+
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
