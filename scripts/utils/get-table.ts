@@ -1,5 +1,5 @@
 import fs from "fs";
-// import { ZephyrTableOriginal } from "mercury-sdk";
+import {ZephyrTableOriginal } from "mercury-sdk";
 
 export const getZephyrTable =  (tableName: string, network: "MAINNET" | "TESTNET") => {
 
@@ -29,7 +29,7 @@ export const getZephyrTable =  (tableName: string, network: "MAINNET" | "TESTNET
     const pairsTableData = fs.readFileSync(pairsTablePath, "utf-8");
     const pairsTable = JSON.parse(pairsTableData);
     const zephyrTableAddress = pairsTable[tableName];
-    const zephyrTableOriginal: any = { address: zephyrTableAddress };
+    const zephyrTableOriginal: ZephyrTableOriginal = { address: zephyrTableAddress };
     return zephyrTableOriginal;
   };
   

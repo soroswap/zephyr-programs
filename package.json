@@ -2,49 +2,26 @@
   "name": "zephyr-programs-scripts",
   "version": "1.0.0",
   "description": "Zephyr Programs for Soroswap",
-  "private": true,
   "scripts": {
-    "typescript": "tsc",
-    "build": "next build",
-    "dev": "next dev -p 3100",
-    "start": "next start -p 3100",
-    "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest",
+    "build": "tsc",
     "pairs:catchups:generate": "yarn build && ENVIRONMENT=prod node --trace-deprecation dist/pairs-catchups-generator.js",
     "pairs:catchups:generate:dev": "yarn build && ENVIRONMENT=dev node --trace-deprecation dist/pairs-catchups-generator.js",
     "test:dev": "ENVIRONMENT=dev jest",
     "test": "ENVIRONMENT=prod jest"
   },
-  "packageManager": "yarn@1.22.22",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@emotion/react": "latest",
     "@stellar/stellar-sdk": "^12.1.0",
     "@types/node": "^20.14.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
-    "axios": "^1.6.7",
-    "bignumber.js": "^9.1.2",
-    "@vercel/analytics": "^1.2.2",
-    "mercury-sdk": "^1.0.0",
-    "next": "latest",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "soroswap-router-sdk": "1.2.6",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-react": "^5.18.2"
+    "mercury-sdk": "0.2.6"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
-    "@types/react": "latest",
-    "@types/react-slick": "^0.23.13",
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
-    "ts-jest": "^29.1.2",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
-    "typescript": "latest"
+    "ts-jest": "^29.1.2"
   }
 }

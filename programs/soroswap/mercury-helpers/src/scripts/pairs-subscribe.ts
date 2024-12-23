@@ -3,11 +3,11 @@ import {
   mainnetPairsTable,
   testnetPairsTable,
 } from "../utils/get-pairs.js";
-import { getMercuryInstance } from "../../../../../src/zephyr/mercury.js";
+import { mercuryInstance } from "../utils/mercury.js";
 
 (async () => {
   const pairs = await getPairs(mainnetPairsTable);
-  const mercuryInstance = getMercuryInstance("MAINNET")
+
   const subs = await Promise.all(
     pairs.map(async (p: any) => {
       const sub = await mercuryInstance.subscribeToContractEvents({
