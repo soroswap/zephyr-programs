@@ -1,5 +1,5 @@
 import fs from "fs";
-import { getMercuryInstance } from "../../../../../src/zephyr/mercury.js";
+import { mercuryInstance } from "../utils/mercury.js";
 
 const buildCatchupCommand = (s: string, mainnet = "false") => {
   return `mercury-cli --jwt $MERCURY_JWT --local false --mainnet ${mainnet} catchup --contracts "${s}"`;
@@ -18,7 +18,6 @@ const FACTORY_ADDRESS_MAINNET =
   "CA4HEQTL2WPEUYKYKCDOHCDNIV4QHNJ7EL4J4NQ6VADP7SYHVRYZ7AW2";
 
 (async () => {
-  const mercuryInstance = getMercuryInstance("MAINNET")
   const sub = await mercuryInstance.subscribeToContractEvents({
     contractId: ROUTER_ADDRESS,
   });

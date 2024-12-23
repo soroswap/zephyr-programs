@@ -1,5 +1,5 @@
 import fs from "fs";
-import { zephyrTableToGraphQLParser } from "mercury-sdk";
+import { zephyrTableToGraphQLParser, ZephyrTableOriginal } from "mercury-sdk";
 import { getPairs } from "./utils/get-pairs.js";
 import { getZephyrTable } from "./utils/get-table";
 

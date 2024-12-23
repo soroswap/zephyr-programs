@@ -1,5 +1,5 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
-import { getMercuryInstance } from "../../../../../src/zephyr/mercury.js";
+import { mercuryInstance } from "./mercury.js";
 
 interface Pair {
   tokenA: string;
@@ -17,7 +17,6 @@ const parseValue = (value: any) => {
 };
 
 export const getPairs = async (tableName: string) => {
-  const mercuryInstance = getMercuryInstance("MAINNET")
   const res = await mercuryInstance.getCustomQuery({
     request: `query Query {
               events: ${tableName}	 {
