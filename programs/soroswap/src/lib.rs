@@ -5,6 +5,7 @@ use zephyr_sdk::{prelude::*, soroban_sdk::{xdr::{ScVal, Hash }, String as Soroba
 pub mod router;
 pub mod factory;
 pub mod pairs;
+pub mod providers;
 
 #[derive(DatabaseDerive, Clone)]
 #[with_name("ssw_rt_ev")]
@@ -36,6 +37,15 @@ struct ReservesChangeTable {
     reserve_a: ScVal,
     reserve_b: ScVal,
     timestamp: ScVal,
+}
+
+#[derive(DatabaseDerive, Clone)]
+#[with_name("ssw_prov")]
+struct LiquidityProviderTable {
+    provider_address: ScVal,
+    pool_address: ScVal,
+    shares: ScVal,
+    percentage: ScVal,
 }
 
 #[test]
@@ -101,8 +111,9 @@ pub extern "C" fn on_close() {
         
     }
 
+    providers::events::handle_contract_events(&env, contract_events_with_txhash.clone());
+
     env.log().debug(format!("After pairs_rows iteration"), None);
-    
     
 }
 
