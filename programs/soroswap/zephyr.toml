@@ -85,5 +85,25 @@ name = "timestamp"
 col_type = "BYTEA"
 
 
+#Soroswap Providers table
+
+[[tables]]
+name = "ssw_prov"
+
+[[tables.columns]]
+name = "provider_address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "pool_address"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "shares"
+col_type = "BYTEA"
+
+[[tables.columns]]
+name = "percentage"
+col_type = "BYTEA"
 
 

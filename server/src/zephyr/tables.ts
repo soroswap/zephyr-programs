@@ -6,6 +6,7 @@ export interface ZephyrTables {
   soroswap_rsv_ch: string;
   phoenix_pairs: string;
   aqua_pairs: string;
+  soroswap_providers:string;
 }
 
 const parseZephyrAddress = (address: string) => {
@@ -41,6 +42,7 @@ export const fetchZephyrTables = async ({ network }: ApiNetwork) => {
     soroswap_rsv_ch: parseZephyrAddress(data.soroswap_rsv_ch),
     phoenix_pairs: parseZephyrAddress(data.phoenix_pairs),
     aqua_pairs: parseZephyrAddress(data.aqua_pairs),
+    soroswap_providers: parseZephyrAddress(data.soroswap_providers),
   };
   return response;
 }
