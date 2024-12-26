@@ -23,7 +23,7 @@ pub(crate) fn get_pair_from_sync(env: &EnvClient, data: &ScVal, row:PairsTable) 
     env.log().debug(
         format!(
             "Pair TVL calculated: {} USD", 
-            tvl as f64 / 10_000_000.0 // Convert from 7 decimals to human readable
+            tvl as f64 
         ),
         None,
     );

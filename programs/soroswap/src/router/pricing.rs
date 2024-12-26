@@ -20,7 +20,7 @@ pub fn get_xlm_price_in_usd(env: &EnvClient) -> i128 {
 
     // Find both stablecoin pairs in the pairs table
     let usdc_pair = pairs.iter()
-        .find(|p| p.address == env.to_scval(USDC_XLM_PAIR));//¿por qué iterar? 
+        .find(|p| p.address == env.to_scval(USDC_XLM_PAIR));
 
     let usdx_pair = pairs.iter()
         .find(|p| p.address == env.to_scval(USDX_XLM_PAIR));
@@ -45,7 +45,7 @@ pub fn get_xlm_price_in_usd(env: &EnvClient) -> i128 {
         let usdx_weight = (reserve_b_usdx) / total_liquidity_xlm;
 
         // Return weighted average price, adjusting for DECIMALS
-        return (usdc_price * usdc_weight + usdx_price * usdx_weight) / DECIMALS;//para ver precio real 
+        return (usdc_price * usdc_weight + usdx_price * usdx_weight) / DECIMALS; 
     } 
     // Fallback to USDC pair if it's the only one available
     else if let Some(usdc_pair) = usdc_pair {
@@ -250,8 +250,8 @@ pub fn calculate_tvl(
     let price1 = find_xlm_per_token(env, token1_address.clone());
     
     // Convertir precios a USD
-    let price0_usd = price0 * xlm_price / DECIMALS;
-    let price1_usd = price1 * xlm_price / DECIMALS;
+    let price0_usd = price0 * xlm_price;
+    let price1_usd = price1 * xlm_price; 
 
     // Calcular el valor total en USD
     let value0_usd = token0_reserve * price0_usd / DECIMALS;
@@ -259,4 +259,92 @@ pub fn calculate_tvl(
 
     // Sumar ambos valores
     value0_usd + value1_usd
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use ledger_meta_factory::TransitionPretty;
+    use stellar_xdr::next::{Hash, Int128Parts, ScSymbol, ScVal, ScVec, WriteXdr};
+    use zephyr_sdk::testutils::TestHost;
+
+    // Helper para simular un evento sync con reservas específicas
+    fn add_sync_event(transition: &mut TransitionPretty, pair_address: &str, reserve_a: i128, reserve_b: i128) {
+        transition.inner.set_sequence(2000);
+        transition
+            .contract_event(
+                pair_address,
+                vec![
+                    ScVal::Symbol(ScSymbol("sync".try_into().unwrap())),
+                    ScVal::Vec(Some(ScVec(vec![
+                        ScVal::I128(Int128Parts {
+                            hi: 0,
+                            lo: reserve_a as u64,
+                        }),
+                        ScVal::I128(Int128Parts {
+                            hi: 0,
+                            lo: reserve_b as u64,
+                        }),
+                    ].try_into().unwrap()))),
+                ],
+                ScVal::Vec(Some(ScVec(vec![
+                    ScVal::I128(Int128Parts {
+                        hi: 0,
+                        lo: reserve_a as u64,
+                    }),
+                    ScVal::I128(Int128Parts {
+                        hi: 0,
+                        lo: reserve_b as u64,
+                    }),
+                ].try_into().unwrap()))),
+            )
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_xlm_price_calculation() {
+        let env = TestHost::default();
+        let mut program = env.new_program("./target/wasm32-unknown-unknown/release/soroswap.wasm");
+
+        // Configurar base de datos de prueba
+        let mut db = env.database("postgres://postgres:postgres@localhost:5432");
+        db.load_table(0, "ssw_pairs", vec!["address", "token_a", "token_b", "reserve_a", "reserve_b", "tvl_usd"])
+            .await;
+
+        assert_eq!(db.get_rows_number(0, "ssw_pairs").await.unwrap(), 0);
+
+        // Crear transición vacía inicial
+        let mut transition = TransitionPretty::new();
+        program.set_transition(transition.inner.clone());
+
+        // Verificar que no hay eventos inicialmente
+        let invocation = program.invoke_vm("on_close").await;
+        assert!(invocation.is_ok());
+        let inner_invocation = invocation.unwrap();
+        assert!(inner_invocation.is_ok());
+
+        // Simular eventos sync para los pares XLM-USDC y XLM-USDX
+        add_sync_event(&mut transition, USDC_XLM_PAIR, 1_000_000_000, 200_000_000); // 1000 USDC = 200 XLM
+        add_sync_event(&mut transition, USDX_XLM_PAIR, 500_000_000, 100_000_000);   // 500 USDX = 100 XLM
+        
+        program.set_transition(transition.inner);
+
+        // Ejecutar el programa con los eventos simulados
+        let invocation = program.invoke_vm("on_close").await;
+        assert!(invocation.is_ok());
+        let inner_invocation = invocation.unwrap();
+        assert!(inner_invocation.is_ok());
+
+        // Verificar que el precio de XLM se calculó correctamente
+        let xlm_price = get_xlm_price_in_usd(&env);
+        assert!(xlm_price > 0, "XLM price should be greater than 0");
+        
+        // El precio esperado debería ser aproximadamente 5 USD 
+        // (basado en las reservas simuladas: 1000 USDC/200 XLM = 5 USD/XLM)
+        let expected_price = 5_0000000; // 5 USD con 7 decimales
+        let price_diff = (xlm_price - expected_price).abs();
+        assert!(price_diff < 1000000, "XLM price should be close to expected value"); // Permitimos una diferencia de 0.1 USD
+
+        db.close().await
+    }
 }
