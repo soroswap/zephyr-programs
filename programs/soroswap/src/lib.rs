@@ -1,5 +1,3 @@
-
-
 use zephyr_sdk::{prelude::*, soroban_sdk::{xdr::{ScVal, Hash }, String as SorobanString, Address}, PrettyContractEvent,  EnvClient, DatabaseDerive};
 
 pub mod router;
@@ -17,6 +15,9 @@ struct EventsTable {
     account: ScVal,
     timestamp: ScVal,
     tx_hash: ScVal,
+    token_a_price_usd: ScVal,
+    token_b_price_usd: ScVal,
+    volume_usd: ScVal,
 }
 
 #[derive(DatabaseDerive, Clone)]
@@ -27,6 +28,7 @@ struct PairsTable {
     token_b: ScVal,
     reserve_a: ScVal,
     reserve_b: ScVal,
+    tvl_usd: ScVal,
 }
 
 #[derive(DatabaseDerive, Clone)]
