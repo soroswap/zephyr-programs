@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Check if protocol, network and dev/prod arguments are provided
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 [protocol] [network] [dev|prod]"
+if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+    echo "Usage: $0 [protocol] [network] [dev|prod] [force]"
+    echo "force parameter is optional"
     exit 1
 fi
 
@@ -163,6 +164,8 @@ if [ "$protocol" == "soroswap" ]; then
     echo zephyr_table_0 $zephyr_table_0
     echo zephyr_table_1 $zephyr_table_1
     echo zephyr_table_2 $zephyr_table_2
+    echo zephyr_table_3 $zephyr_table_3
+
 
     # first table is events
     jq --arg table "$zephyr_table_0" '.soroswap_events = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
@@ -172,8 +175,12 @@ if [ "$protocol" == "soroswap" ]; then
     jq --arg table "$zephyr_table_1" '.soroswap_pairs = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
 
-    # second table is rsv_ch
+    # third table is rsv_ch
     jq --arg table "$zephyr_table_2" '.soroswap_rsv_ch = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
+    mv tmp.$$.json "$zephyr_programs_addresses_file"
+    
+    # fourth table is rsv_ch
+    jq --arg table "$zephyr_table_3" '.soroswap_providers = $table' "$zephyr_programs_addresses_file" > tmp.$$.json    
     mv tmp.$$.json "$zephyr_programs_addresses_file"
 
     echo New  $protocol $network zephyr tables file:
