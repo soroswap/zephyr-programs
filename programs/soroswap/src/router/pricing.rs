@@ -301,6 +301,11 @@ mod test {
             .unwrap();
     }
 
+    // Helper para crear un token whitelisted de prueba
+    fn create_test_token(env: &EnvClient, address: &str) -> SorobanString {
+        SorobanString::from_str(&env.soroban(), address)
+    }
+
     #[tokio::test]
     async fn test_xlm_price_calculation() {
         let env = TestHost::default();
@@ -340,10 +345,152 @@ mod test {
         assert!(xlm_price > 0, "XLM price should be greater than 0");
         
         // El precio esperado debería ser aproximadamente 5 USD 
-        // (basado en las reservas simuladas: 1000 USDC/200 XLM = 5 USD/XLM)
         let expected_price = 5_0000000; // 5 USD con 7 decimales
         let price_diff = (xlm_price - expected_price).abs();
-        assert!(price_diff < 1000000, "XLM price should be close to expected value"); // Permitimos una diferencia de 0.1 USD
+        assert!(price_diff < 1000000, "XLM price should be close to expected value");
+
+        db.close().await
+    }
+
+    #[tokio::test]
+    async fn test_find_xlm_per_token() {
+        let env = TestHost::default();
+        let mut program = env.new_program("./target/wasm32-unknown-unknown/release/soroswap.wasm");
+
+        // Configurar base de datos
+        let mut db = env.database("postgres://postgres:postgres@localhost:5432");
+        db.load_table(0, "ssw_pairs", vec!["address", "token_a", "token_b", "reserve_a", "reserve_b", "tvl_usd"])
+            .await;
+
+        // Test con token whitelisted
+        let test_token = create_test_token(&env, "CCXY3CNHSU2DPUOZFKNNH67IVRMBRCATX4SABDSLBY5LAJI66LRLHTJQ");
+        let xlm_per_token = find_xlm_per_token(&env, test_token);
+        assert!(xlm_per_token > 0, "Should return valid price for whitelisted token");
+
+        // Test con token no whitelisted
+        let non_whitelisted = create_test_token(&env, "INVALID_TOKEN_ADDRESS");
+        let xlm_per_token = find_xlm_per_token(&env, non_whitelisted);
+        assert_eq!(xlm_per_token, 0, "Should return 0 for non-whitelisted token");
+
+        db.close().await
+    }
+
+    #[tokio::test]
+    async fn test_tracked_volume_usd() {
+        let env = TestHost::default();
+        let mut program = env.new_program("./target/wasm32-unknown-unknown/release/soroswap.wasm");
+
+        // Configurar base de datos
+        let mut db = env.database("postgres://postgres:postgres@localhost:5432");
+        db.load_table(0, "ssw_pairs", vec!["address", "token_a", "token_b", "reserve_a", "reserve_b", "tvl_usd"])
+            .await;
+
+        // Test con dos tokens whitelisted
+        let token0 = create_test_token(&env, "CCXY3CNHSU2DPUOZFKNNH67IVRMBRCATX4SABDSLBY5LAJI66LRLHTJQ");
+        let token1 = create_test_token(&env, "CD25MNVTZDL4Y3XBCPCJXGXATV5WUHHOWMYFF4YBEGU5FCPGMYTVG5JY");
+        
+        let volume = get_tracked_volume_usd(
+            &env,
+            1_000_000_000, // 1000 tokens
+            token0.clone(),
+            500_000_000,   // 500 tokens
+            token1.clone()
+        );
+        assert!(volume > 0, "Should track volume for whitelisted pair");
+
+        // Test con un token whitelisted y otro no
+        let non_whitelisted = create_test_token(&env, "INVALID_TOKEN_ADDRESS");
+        let volume = get_tracked_volume_usd(
+            &env,
+            1_000_000_000,
+            token0.clone(),
+            500_000_000,
+            non_whitelisted
+        );
+        assert!(volume > 0, "Should track volume for single whitelisted token");
+
+        // Test con tokens no whitelisted
+        let volume = get_tracked_volume_usd(
+            &env,
+            1_000_000_000,
+            create_test_token(&env, "INVALID_1"),
+            500_000_000,
+            create_test_token(&env, "INVALID_2")
+        );
+        assert_eq!(volume, 0, "Should return 0 for non-whitelisted pair");
+
+        db.close().await
+    }
+
+    #[tokio::test]
+    async fn test_tracked_liquidity_usd() {
+        let env = TestHost::default();
+        let mut program = env.new_program("./target/wasm32-unknown-unknown/release/soroswap.wasm");
+
+        // Configurar base de datos
+        let mut db = env.database("postgres://postgres:postgres@localhost:5432");
+        db.load_table(0, "ssw_pairs", vec!["address", "token_a", "token_b", "reserve_a", "reserve_b", "tvl_usd"])
+            .await;
+
+        // Test con dos tokens whitelisted
+        let token0 = create_test_token(&env, "CCXY3CNHSU2DPUOZFKNNH67IVRMBRCATX4SABDSLBY5LAJI66LRLHTJQ");
+        let token1 = create_test_token(&env, "CD25MNVTZDL4Y3XBCPCJXGXATV5WUHHOWMYFF4YBEGU5FCPGMYTVG5JY");
+        
+        let liquidity = get_tracked_liquidity_usd(
+            &env,
+            1_000_000_000,
+            token0.clone(),
+            500_000_000,
+            token1.clone()
+        );
+        assert!(liquidity > 0, "Should track liquidity for whitelisted pair");
+
+        // Test con un solo token whitelisted (debe duplicar el valor)
+        let non_whitelisted = create_test_token(&env, "INVALID_TOKEN_ADDRESS");
+        let single_sided_liquidity = get_tracked_liquidity_usd(
+            &env,
+            1_000_000_000,
+            token0.clone(),
+            500_000_000,
+            non_whitelisted
+        );
+        assert!(single_sided_liquidity > liquidity, "Single-sided liquidity should be doubled");
+
+        db.close().await
+    }
+
+    #[tokio::test]
+    async fn test_calculate_tvl() {
+        let env = TestHost::default();
+        let mut program = env.new_program("./target/wasm32-unknown-unknown/release/soroswap.wasm");
+
+        // Configurar base de datos
+        let mut db = env.database("postgres://postgres:postgres@localhost:5432");
+        db.load_table(0, "ssw_pairs", vec!["address", "token_a", "token_b", "reserve_a", "reserve_b", "tvl_usd"])
+            .await;
+
+        // Test con dos tokens whitelisted y reservas significativas
+        let token0 = create_test_token(&env, "CCXY3CNHSU2DPUOZFKNNH67IVRMBRCATX4SABDSLBY5LAJI66LRLHTJQ");
+        let token1 = create_test_token(&env, "CD25MNVTZDL4Y3XBCPCJXGXATV5WUHHOWMYFF4YBEGU5FCPGMYTVG5JY");
+        
+        let tvl = calculate_tvl(
+            &env,
+            1_000_000_000, // 1000 token0
+            500_000_000,   // 500 token1
+            token0.clone(),
+            token1.clone()
+        );
+        assert!(tvl > 0, "TVL should be positive for valid pair");
+
+        // Test con reservas cero
+        let zero_tvl = calculate_tvl(
+            &env,
+            0,
+            0,
+            token0.clone(),
+            token1.clone()
+        );
+        assert_eq!(zero_tvl, 0, "TVL should be 0 for empty reserves");
 
         db.close().await
     }
