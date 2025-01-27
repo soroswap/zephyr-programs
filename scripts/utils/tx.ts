@@ -1,5 +1,6 @@
 import { Account, Keypair, SorobanRpc, Transaction, TransactionBuilder, xdr } from '@stellar/stellar-sdk';
 import { EnvConfig } from './env_config.js';
+import { AxiosClient } from '@stellar/stellar-sdk/rpc';
 
 type txResponse = SorobanRpc.Api.SendTransactionResponse | SorobanRpc.Api.GetTransactionResponse;
 type txStatus = SorobanRpc.Api.SendTransactionStatus | SorobanRpc.Api.GetTransactionStatus;
