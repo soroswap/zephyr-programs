@@ -1,7 +1,7 @@
 // import fs from "fs";
 import { zephyrTableToGraphQLParser} from "mercury-sdk";
 import { getPairs } from "../utils/get-pairs";
-import { getTotalPairs } from "../utils/get-total-pairs";
+import { getTotalPairs, getAllPairs } from "../utils/get-total-pairs";
 import { getZephyrTable } from "../utils/get-table";
 import fs from "fs";
 
@@ -22,6 +22,41 @@ test("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", 
   const totalPairs = await getTotalPairs('soroswap', 'MAINNET');
   expect(pairs.length).toEqual(totalPairs);
 });
+
+test("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", async () => {
+  const pairs = await getAllPairs('soroswap', 'MAINNET');
+  const totalPairs = await getTotalPairs('soroswap', 'MAINNET');
+  expect(pairs.length).toEqual(totalPairs);
+  console.log("🚀 ~ test IMPORTANT ~ soroswap mainnet pairs:", pairs)
+});
+
+test("identify missing pairs in MAINNET", async () => {
+  let soroswapPairsTable = getZephyrTable('soroswap_pairs', "MAINNET")
+  const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapPairsTable);
+  const zephyrPairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
+  const onChainPairs = await getAllPairs('soroswap', 'MAINNET');
+  
+  // Añadir logs para debug
+  console.log("Ejemplo de zephyrPair:", zephyrPairs[0]);
+  console.log("Ejemplo de onChainPair:", onChainPairs[0]);
+  
+  const missingPairs = onChainPairs.filter((onChainPair: any) => 
+    !zephyrPairs.some(zephyrPair => zephyrPair.address === onChainPair)
+  );
+  
+  console.log("Total on-chain pairs:", onChainPairs.length);
+  console.log("Total indexed pairs:", zephyrPairs.length);
+  console.log("Missing pairs:", missingPairs);
+  console.log("Pares indexados:", zephyrPairs.map(p => ({
+    address: p.address,
+    tokenA: p.tokenA,
+    tokenB: p.tokenB
+  })));
+
+  fs.writeFileSync('indexed-pairs.json', JSON.stringify(zephyrPairs, null, 2));
+  fs.writeFileSync('onchain-pairs.json', JSON.stringify(onChainPairs, null, 2));
+});
+
 
 test("soroswap pairs in TESTNET return non empty array", async () => {
   let soroswapPairsTable = getZephyrTable('soroswap_pairs', "TESTNET")
