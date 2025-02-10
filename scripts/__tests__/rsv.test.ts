@@ -27,9 +27,10 @@ test("soroswap rsv_ch in TESTNET return non empty array", async () => {
 });
 
 test("Last Soroswap rsv_ch  in MAINNET reflects current reserve on that pair", async () => {
+  jest.setTimeout(30000); // 30 segundos
   let soroswapEventsTable = getZephyrTable('soroswap_rsv_ch', "MAINNET")
   const zephyrTableGraphQL = zephyrTableToGraphQLParser(soroswapEventsTable);
-  const rsv_ch = await getSoroswapRsvCh("allZephyr75975A6609Cbc8F6Ca44Be2B6A15004Fs", 'MAINNET');
+  const rsv_ch = await getSoroswapRsvCh("allZephyrE8A3A518322Efa50D0Ec76Ac478Dc39Es", 'MAINNET');
 
   // // save rsv in a json in /workspace/rsv.json
   fs.writeFileSync('/workspace/rsv_not_ordered.json', JSON.stringify(rsv_ch));
@@ -49,7 +50,7 @@ test("Last Soroswap rsv_ch  in MAINNET reflects current reserve on that pair", a
   expect(onChainReserveA.toString()).toBe(last_rsv_ch.reserveA);
   expect(onChainReserveB.toString()).toBe(last_rsv_ch.reserveB);
 
-});
+}, 30000); // También especificar el timeout como tercer parámetro
 
 
 

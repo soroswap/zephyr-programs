@@ -1,0 +1,218 @@
+// RUST version: 1.75.0
+// SDK version: 20.2.0#6e198b79a51c48ccc8f22b02dcc4046d8cb7a887
+
+// FUNCTIONS
+
+/// Returns the recipient of the fee.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized.
+fn fee_to() -> result<address,FactoryError>
+
+/// Returns the address allowed to change the fee recipient.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized.
+fn fee_to_setter() -> result<address,FactoryError>
+
+/// Checks if fees are enabled.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized.
+fn fees_enabled() -> result<bool,FactoryError>
+
+/// Returns the total number of pairs created through the factory so far.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized.
+fn all_pairs_length() -> result<u32,FactoryError>
+
+/// Returns the address of the pair for `token_a` and `token_b`, if it has been created.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `token_a` - The address of the first token in the pair.
+/// * `token_b` - The address of the second token in the pair.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized or if the pair does not exist
+fn get_pair(token_a: address, token_b: address) -> result<address,FactoryError>
+
+/// Returns the address of the nth pair (0-indexed) created through the factory, or address(0) if not enough pairs have been created yet.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `n` - The index of the pair to retrieve.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized or if index `n` does not exist.
+fn all_pairs(n: u32) -> result<address,FactoryError>
+
+/// Checks if a pair exists for the given `token_a` and `token_b`.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `token_a` - The address of the first token in the pair.
+/// * `token_b` - The address of the second token in the pair.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized.
+fn pair_exists(token_a: address, token_b: address) -> result<bool,FactoryError>
+
+/// Sets the `fee_to_setter` address and initializes the factory.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `setter` - The address to set as the current `fee_to_setter`.
+/// * `pair_wasm_hash` - The Wasm hash of the pair.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is already initialized.
+fn initialize(setter: address, pair_wasm_hash: bytesn<32>) -> result<tuple<>,FactoryError>
+
+/// Sets the `fee_to` address.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `to` - The address to set as the `fee_to`.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized or if the caller is not the current `fee_to_setter`.
+fn set_fee_to(to: address) -> result<tuple<>,FactoryError>
+
+/// Sets the `fee_to_setter` address.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `new_setter` - The address to set as the new `fee_to_setter`.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized or if the caller is not the existing `fee_to_setter`.
+fn set_fee_to_setter(new_setter: address) -> result<tuple<>,FactoryError>
+
+/// Sets whether fees are enabled or disabled.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `is_enabled` - A boolean indicating whether fees are enabled or disabled.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the Factory is not yet initialized or if the caller is not the current `fee_to_setter`.
+fn set_fees_enabled(is_enabled: bool) -> result<tuple<>,FactoryError>
+
+/// Creates a pair for `token_a` and `token_b` if one doesn't exist already.
+/// 
+/// # Arguments
+/// 
+/// * `e` - An instance of the `Env` struct.
+/// * `token_a` - The address of the first token in the pair.
+/// * `token_b` - The address of the second token in the pair.
+/// 
+/// # Errors
+/// 
+/// Returns an error if the pair is not yet initialized, if `token_a` and `token_b` have identical addresses, or if the pair already exists between `token_a` and `token_b`.
+fn create_pair(token_a: address, token_b: address) -> result<address,FactoryError>
+
+// STRUCTS
+
+#[contracttype]
+struct InitializedEvent {
+  setter: address
+}
+
+#[contracttype]
+struct NewPairEvent {
+  new_pairs_length: u32,
+  pair: address,
+  token_0: address,
+  token_1: address
+}
+
+#[contracttype]
+struct FeeToSettedEvent {
+  new: address,
+  old: address,
+  setter: address
+}
+
+#[contracttype]
+struct NewSetterEvent {
+  new: address,
+  old: address
+}
+
+#[contracttype]
+struct NewFeesEnabledEvent {
+  fees_enabled: bool
+}
+
+#[contracttype]
+struct Pair {
+  0: address,
+  1: address
+}
+
+// UNIONS
+
+#[contracttype]
+enum DataKey {
+  FeeTo(),
+  FeeToSetter(),
+  PairWasmHash(),
+  FeesEnabled(),
+  TotalPairs(),
+  PairAddressesNIndexed(u32),
+  PairAddressesByTokens(Pair)
+}
+
+// ERRORS
+
+#[contracterror]
+enum Errors {
+  /// SoroswapFactory: token_a and token_b have identical addresses
+  CreatePairIdenticalTokens = 202,
+  /// SoroswapFactory: not yet initialized
+  NotInitialized = 201,
+  /// SoroswapFactory: pair already exists between token_a and token_b
+  CreatePairAlreadyExists = 203,
+  /// SoroswapFactory: already initialized
+  InitializeAlreadyInitialized = 204,
+  /// SoroswapFactory: pair does not exist
+  PairDoesNotExist = 205,
+  /// SoroswapFactory: index does not exist
+  IndexDoesNotExist = 206
+}
