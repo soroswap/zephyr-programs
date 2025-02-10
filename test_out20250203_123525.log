@@ -1,0 +1,641 @@
+yarn run v1.22.22
+$ ENVIRONMENT=prod jest
+PASS scripts/__tests__/tables.test.ts
+FAIL scripts/__tests__/contracts.test.ts
+  ● aqua contracts should exist in testnet
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      49 |   for (let contractName of aquaContractsNames) {
+      50 |     let contractAddress = getContractAddress(contractName, "TESTNET")
+    > 51 |     expect(contractAddress).toBeDefined();
+         |                             ^
+      52 |     expect(contractAddress).toMatch(/^[A-Z0-9]{56}$/);
+      53 |   }
+      54 | });
+
+      at Object.<anonymous> (scripts/__tests__/contracts.test.ts:51:29)
+
+FAIL scripts/__tests__/events.test.ts (14.114 s)
+  ● soroswap events in TESTNET return non empty array
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      19 |   const events = await getSoroswapEvents(zephyrTableGraphQL.address, 'TESTNET');
+      20 |   expect(events).toBeDefined();
+    > 21 |   expect(events.length).toBeGreaterThan(0);
+         |                         ^
+      22 | });
+      23 |
+
+      at Object.<anonymous> (scripts/__tests__/events.test.ts:21:25)
+
+FAIL scripts/__tests__/pairs.test.ts (16.084 s)
+  ● Console
+
+    console.log
+      totalPairsNative:  55
+
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:44:15)
+
+    console.log
+      totalPairsNative:  55
+
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:44:15)
+
+    console.log
+      🚀 ~ test IMPORTANT ~ soroswap mainnet pairs: [
+        'CB46LMGJC7SYSH4C7SBNLV635OX5BSNQDGRR32NRXAV7N2AVNZMQUJ3A',
+        'CB4LVW7XBXM4YMKREJK7ZLMI6H44FEEFZVRUTOYEZ5DOLS44KDS6J6XV',
+        'CBJ3WO7M3H7EI7ATEBYHLZBJCW4OXHU3FRG7LK6ZTRHLKKLFW5NHY4Q6',
+        'CACXB6KH5DQVQKQGXKHF2M5TEKFY5KIDCKSEXZYJ27Z5465V2SSALCBW',
+        'CA4VTJFKCIXVH3G2MEYAGA4U5A7IBWFFDODTSR3KUAQ4KZMI37J75CYX',
+        'CBJYBRJAAI4NMALSD6S3FNOKKDJR463CXYIGW7A7FCHOZIBAC4HIJEB7',
+        'CB2IMINSODLFTKXG6AAS7DZNETFRTJ4ES5WRBO4ROY4ANFQJTKOC6SS6',
+        'CDRS7NJPAX2HLYNENMUH3USUV6LP6KYSLZZ4ULY27RQLKIVC5DGLEVKI',
+        'CBVOZM3YLSK3IEKTL3XB3V7CMRU2JNTC3MISPEDMMU4XEUIXDQT6FP6T',
+        'CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP',
+        'CC7CDFY2VGDODJ7WPO3JIK2MXLOAXL4LRQCC43UJDBAIJ4SVFO3HNPOC',
+        'CDDEKHF7HRD3JSTIK2BQ4IHJQI64V3SO3HPR2DZBP3OBDBQBKOJNNQU7',
+        'CCOGGZBP22NP2NPNGU4IA44AUPD7BAOVU42XGLMK4IA4SVSSDC3375PU',
+        'CAX57ZNIZKVBDZ36OFH5IAMBTDDCJ4F54KUKCJRUKG5POIISYWL46P3U',
+        'CDJXIUCWP3BWZWNPPL52YRG7FHG6LWAHN5RTYR4FLY7A3PJKSZ7LGCSC',
+        'CAI7B3M2EPGDA2GMHCHUD5JS7MEJ7HA7U7GP5L2IOJWWAE7VRTMTJPNX',
+        'CCB6AP3L24Q7KW3LTMO6D3KLNV6MAFTK2TDTJ3XP7BRI2OP4O6SWQM53',
+        'CC2MSLNFYG63SKXLUTOJJOJWBORZ7NKH4IC66MG5SITKSN5MMFYH6FPE',
+        'CAURS6NIANW7PQEZX35NBZZFGQFTULHREJFP44YWNBR33KGKJLOASZIW',
+        'CAX7KGAVK4YBJJWLNV22DFEWC53LKQG3TNSUORMYEDGRT57PTW5K7BZ2',
+        'CCXCD5BD576T7DUQ7VMKMZLOQWWDQRDCKCKCN6SJBRYWIQ3Q2OEKXHWQ',
+        'CADRWHW2ASLZYF7C4UL4IGGXQGL3ERHBNYYYYTZFRIM36U4CNTS7C3SA',
+        'CAC7CX77YKAXS2LES3W54KTY6KDDMDBXRJ5TWK7UX2N4OFBY2OJEUJQW',
+        'CC7Z3FQD2FRBN2QQMN5R335YGSS7QO7YLYTJZV3HGPPS6GI373O5UZDI',
+        'CB4UVMNV25WS24YN3RCFK2DYQXHAZWAWT7LLB2NLTRXTVTHMJ52YHNGS',
+        'CB63RYTOXPVHXJAM7BGN7AUKFGHUCT5KVCK4H2BV4CHPEWIV4J3WDY3W',
+        'CCXOKQBBNRJ7YKY4Y6HTXAU5ZLV7PKENA7ZT74UAAXZ6XUEE22YQGBCS',
+        'CDQ4UKVWHJKR465B3NN2YP3IMWBEZ77YYJYTHYZA3BWNTPRHFOJ4OY57',
+        'CABIXKWFCRM6VYUPNKF5C24O5LRCINE4XGB7SRUK67T6EVYMQSRUROKH',
+        'CATUJXDUO7SSSTAKSUV5YU6RSTB4B5AVIHQDV26QTCXOB46T6SLMWNMY',
+        'CCH3CJZWG6UMW522ESP3UHL4DCZLNXZLUHKYG5GCGNG5HXRL4A6O4A23',
+        'CACTIOUW5FHYD3Q6ENKAU2IBLO2YFRWST4OGPDB4H32OGFMMJQF6SAJ5',
+        'CAYSBVJOBO34WZHGAG2RNQZ52ZUBZRUHOTSIUIBJ2ZFSAZQPY73FPQNI',
+        'CABJYKXLX5PIXGUAHJS7VG7XVMGFEPRGI5KH37F45H37YIJNEHDBVXCN',
+        'CCHAZKZPWUN7YFY5Y2TABRKJ2REEMW4QSU6HGKWPIKO7KGU3VAW2K5SL',
+        'CCWSFAZM5GRH4TPJKPUZC3KEB757T3QEFP3JUXUDDBJVAHZFPIBNMOG5',
+        'CDJDRGUCHANJDXALZVJ5IZVB76HX4MWCON5SHF4DE5HB64CBBR7W2ZCD',
+        'CAHSKDP66SYCGYQZ3NULGZMEUSN5Z67UFBYADJVCNXVKV3E7PKYR5PQ4',
+        'CBVCMXUCN4TXJAIBB6G3QTUZ2LNEXXJKLCBQVDFH77CBV43NK6XC44TL',
+        'CDLMAKG5TSJA6FGP7LLC2FKJRQW6DQYMEPP6FURFVULDEQMP3PRZ4ISI',
+        'CADMFEOU6YZBJ3RTRBU4SXLHKTTQ32YD2YVABBYERKDWP5TVFGWKFADH',
+        'CCPZ3DPINLAJZ7RLMVKZY77FZDTN3DXNSLF5TYC5CUYGGJ35OF5KJ47U',
+        'CBIQ5MND5I4AXWFSSDPDVN2X3DPR366YMBXUL6TABGUKMKVGOM2IAZJF',
+        'CCYPLDHUEYWJEOIZJTXUH56NLIQLKYGR5H2BEFQMBYG5IC3G52QF4WVD',
+        'CBKG7Y3LSLTSK76LCKM52EQP3I7GMGL2VOR6S46ZEJZW62WFPAKP4NIG',
+        'CAF65BIHBIHC44QPWIFZRL46BDDH4FN3VSRBB2DZJFPWQRAOSRPKRRQZ',
+        'CD3XW7RGZIQMSVCTLK2NOFAGPTCBKXAVXIXN6QAMEPTJRY45325BZT67',
+        'CDGLVQDF2QUD6P4XJXBATP3HT2MSBEV3NH246ZDQPP6JPNPFAYO44P5E',
+        'CDLJHWJZS3KZDIFLGEFTXUOULRAZ3Z437JTEZLGHMUZEX4DFBFYWXRFR',
+        'CA5JJHF5LKBB6LKFKOVVTOO5QE4ZPFIHULSBC5AB5PZXKX2J543HZQJX',
+        'CC4S3VFV4UHIBAKUUBRLSIQTGA33NY4DF36A6ZT7GNJWJFUDZBZNPNUS',
+        'CAKST7SVAVUZPYCDJ7QIUFLHHDAZV6HOY74F3PSVN5EKBMAGEZDR5D3I',
+        'CD2VHT23WGUKG7RWOSFCQLWDLGNPCTTKHO6LVBYYO2CVG3KZKHDIJTAA',
+        'CCCDU62TWI744KFK6COAW2PARPVPXKKE3DBVBUZCFWZOGGD7HZ5YEY3X',
+        'CBDAIZSNXOEKPJRDD56HFED5LKA2PUDAZANIHRRSMMSCH37P2I4W4CI4'
+      ]
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:30:11)
+
+    console.log
+      Ejemplo de zephyrPair: {
+        tokenA: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK',
+        tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY',
+        address: 'CCOGGZBP22NP2NPNGU4IA44AUPD7BAOVU42XGLMK4IA4SVSSDC3375PU',
+        reserveA: 60000000n,
+        reserveB: 1167168173n
+      }
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:40:11)
+
+    console.log
+      Ejemplo de onChainPair: CB46LMGJC7SYSH4C7SBNLV635OX5BSNQDGRR32NRXAV7N2AVNZMQUJ3A
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:41:11)
+
+    console.log
+      Total on-chain pairs: 55
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:47:11)
+
+    console.log
+      Total indexed pairs: 50
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:48:11)
+
+    console.log
+      Missing pairs: [
+        'CBKG7Y3LSLTSK76LCKM52EQP3I7GMGL2VOR6S46ZEJZW62WFPAKP4NIG',
+        'CAKST7SVAVUZPYCDJ7QIUFLHHDAZV6HOY74F3PSVN5EKBMAGEZDR5D3I',
+        'CD2VHT23WGUKG7RWOSFCQLWDLGNPCTTKHO6LVBYYO2CVG3KZKHDIJTAA',
+        'CCCDU62TWI744KFK6COAW2PARPVPXKKE3DBVBUZCFWZOGGD7HZ5YEY3X',
+        'CBDAIZSNXOEKPJRDD56HFED5LKA2PUDAZANIHRRSMMSCH37P2I4W4CI4'
+      ]
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:49:11)
+
+    console.log
+      Pares indexados: [
+        {
+          address: 'CCOGGZBP22NP2NPNGU4IA44AUPD7BAOVU42XGLMK4IA4SVSSDC3375PU',
+          tokenA: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK',
+          tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY'
+        },
+        {
+          address: 'CBVCMXUCN4TXJAIBB6G3QTUZ2LNEXXJKLCBQVDFH77CBV43NK6XC44TL',
+          tokenA: 'CAPIOPSODD5QP4SJNIS4ASUWML4LH7ZEKTAPBJYZSMKXCATEKDZFKLHK',
+          tokenB: 'CBBJTE34KZHJACB2A6OXCRTDDLX4LI7GKYYD6XYJSGMX46BLNAG752HS'
+        },
+        {
+          address: 'CBVOZM3YLSK3IEKTL3XB3V7CMRU2JNTC3MISPEDMMU4XEUIXDQT6FP6T',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY'
+        },
+        {
+          address: 'CABJYKXLX5PIXGUAHJS7VG7XVMGFEPRGI5KH37F45H37YIJNEHDBVXCN',
+          tokenA: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75',
+          tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY'
+        },
+        {
+          address: 'CB4LVW7XBXM4YMKREJK7ZLMI6H44FEEFZVRUTOYEZ5DOLS44KDS6J6XV',
+          tokenA: 'CBCU5VMZ3GNHHKJUWZ2GI7K36MEAXOJW2RJCIJHFPVFGBME3WADLXA6W',
+          tokenB: 'CD5E7YM4MTL5S4B4FKLAMFLMXCN26L4QGPAS7JCVBG4TPW5EIP5WXIQO'
+        },
+        {
+          address: 'CCH3CJZWG6UMW522ESP3UHL4DCZLNXZLUHKYG5GCGNG5HXRL4A6O4A23',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBLLEW7HD2RWATVSMLAGWM4G3WCHSHDJ25ALP4DI6LULV5TU35N2CIZA'
+        },
+        {
+          address: 'CDRS7NJPAX2HLYNENMUH3USUV6LP6KYSLZZ4ULY27RQLKIVC5DGLEVKI',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK'
+        },
+        {
+          address: 'CAURS6NIANW7PQEZX35NBZZFGQFTULHREJFP44YWNBR33KGKJLOASZIW',
+          tokenA: 'CAZQYRFG7A2CZTZ2NEODHZGIOORFFKOEFV7WWZOBJEYXER56ASCUBD7P',
+          tokenB: 'CBZVSNVB55ANF24QVJL2K5QCLOAB6XITGTGXYEAF6NPTXYKEJUYQOHFC'
+        },
+        {
+          address: 'CABIXKWFCRM6VYUPNKF5C24O5LRCINE4XGB7SRUK67T6EVYMQSRUROKH',
+          tokenA: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK',
+          tokenB: 'CCG27OZ5AV4WUXS6XTECWAXEY5UOMEFI2CWFA3LHZGBTLYZWTJF3MJYQ'
+        },
+        {
+          address: 'CATUJXDUO7SSSTAKSUV5YU6RSTB4B5AVIHQDV26QTCXOB46T6SLMWNMY',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CDTKPWPLOURQA2SGTKTUQOWRCBZEORB4BWBOMJ3D3ZTQQSGE5F6JBQLV'
+        },
+        {
+          address: 'CACTIOUW5FHYD3Q6ENKAU2IBLO2YFRWST4OGPDB4H32OGFMMJQF6SAJ5',
+          tokenA: 'CACXKRVCW7I6CWX6RS6ANFDKVCOUI2PB6LTDUROL3J3FMJCRZ4ZLQRF6',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CCHAZKZPWUN7YFY5Y2TABRKJ2REEMW4QSU6HGKWPIKO7KGU3VAW2K5SL',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBF4E5GSTVSITE5Q2ENOTEUQJPBZAU3SBDVLQMSQ7GLBRTSYGUAT722K'
+        },
+        {
+          address: 'CCXCD5BD576T7DUQ7VMKMZLOQWWDQRDCKCKCN6SJBRYWIQ3Q2OEKXHWQ',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBDRPADR3KIBJNUBNRTTO4P7NO5RVPMYKRJB5YCZUZ6B66RKYK324UJY'
+        },
+        {
+          address: 'CDJDRGUCHANJDXALZVJ5IZVB76HX4MWCON5SHF4DE5HB64CBBR7W2ZCD',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CDIKURWHYS4FFTR5KOQK6MBFZA2K3E26WGBQI6PXBYWZ4XIOPJHDFJKP'
+        },
+        {
+          address: 'CDDEKHF7HRD3JSTIK2BQ4IHJQI64V3SO3HPR2DZBP3OBDBQBKOJNNQU7',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBYFV4W2LTMXYZ3XWFX5BK2BY255DU2DSXNAE4FJ5A5VYUWGIBJDOIGG'
+        },
+        {
+          address: 'CCWSFAZM5GRH4TPJKPUZC3KEB757T3QEFP3JUXUDDBJVAHZFPIBNMOG5',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBPMFYWP4FFV7PQUYHXJZBXS75EHR6FXYSYEZWH2UM7AUYSKI2Z3PTCG'
+        },
+        {
+          address: 'CAC7CX77YKAXS2LES3W54KTY6KDDMDBXRJ5TWK7UX2N4OFBY2OJEUJQW',
+          tokenA: 'CBZVSNVB55ANF24QVJL2K5QCLOAB6XITGTGXYEAF6NPTXYKEJUYQOHFC',
+          tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY'
+        },
+        {
+          address: 'CCB6AP3L24Q7KW3LTMO6D3KLNV6MAFTK2TDTJ3XP7BRI2OP4O6SWQM53',
+          tokenA: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75',
+          tokenB: 'CDHBIACXSM5K2NFCCHQIJQNDJPHGPW4OHIYVXGCFMVT7PNLWXY4NGRNH'
+        },
+        {
+          address: 'CB2IMINSODLFTKXG6AAS7DZNETFRTJ4ES5WRBO4ROY4ANFQJTKOC6SS6',
+          tokenA: 'CBCU5VMZ3GNHHKJUWZ2GI7K36MEAXOJW2RJCIJHFPVFGBME3WADLXA6W',
+          tokenB: 'CDME3GWAU7YSHVB6GWKDOQORR6TYKKQG6G7FDMMO7OPMQALBCNI5A2JR'
+        },
+        {
+          address: 'CBJYBRJAAI4NMALSD6S3FNOKKDJR463CXYIGW7A7FCHOZIBAC4HIJEB7',
+          tokenA: 'CCBJNX4B23ZDXEE3KRS2IAQJSLNQY4ZJ24K44BI7FYYIF5ZAZMRYPRRD',
+          tokenB: 'CD4NTX2UXD2X257XCNSWRB45N5GUXVSHFY7L5W53IULIM5EVYAFENQGO'
+        },
+        {
+          address: 'CB63RYTOXPVHXJAM7BGN7AUKFGHUCT5KVCK4H2BV4CHPEWIV4J3WDY3W',
+          tokenA: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75',
+          tokenB: 'CDIKURWHYS4FFTR5KOQK6MBFZA2K3E26WGBQI6PXBYWZ4XIOPJHDFJKP'
+        },
+        {
+          address: 'CAX57ZNIZKVBDZ36OFH5IAMBTDDCJ4F54KUKCJRUKG5POIISYWL46P3U',
+          tokenA: 'CAZQYRFG7A2CZTZ2NEODHZGIOORFFKOEFV7WWZOBJEYXER56ASCUBD7P',
+          tokenB: 'CDHBIACXSM5K2NFCCHQIJQNDJPHGPW4OHIYVXGCFMVT7PNLWXY4NGRNH'
+        },
+        {
+          address: 'CB46LMGJC7SYSH4C7SBNLV635OX5BSNQDGRR32NRXAV7N2AVNZMQUJ3A',
+          tokenA: 'CBCU5VMZ3GNHHKJUWZ2GI7K36MEAXOJW2RJCIJHFPVFGBME3WADLXA6W',
+          tokenB: 'CCBJNX4B23ZDXEE3KRS2IAQJSLNQY4ZJ24K44BI7FYYIF5ZAZMRYPRRD'
+        },
+        {
+          address: 'CC2MSLNFYG63SKXLUTOJJOJWBORZ7NKH4IC66MG5SITKSN5MMFYH6FPE',
+          tokenA: 'CAZQYRFG7A2CZTZ2NEODHZGIOORFFKOEFV7WWZOBJEYXER56ASCUBD7P',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CC7Z3FQD2FRBN2QQMN5R335YGSS7QO7YLYTJZV3HGPPS6GI373O5UZDI',
+          tokenA: 'CBVDRT5474OBUEXF5MJB3UGQ5CG7CKGCAH5M4RV5NBCDJUBZ5OXHJLOU',
+          tokenB: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY'
+        },
+        {
+          address: 'CAYSBVJOBO34WZHGAG2RNQZ52ZUBZRUHOTSIUIBJ2ZFSAZQPY73FPQNI',
+          tokenA: 'CAAV3AE3VKD2P4TY7LWTQMMJHIJ4WOCZ5ANCIJPC3NRSERKVXNHBU2W7',
+          tokenB: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA'
+        },
+        {
+          address: 'CBJ3WO7M3H7EI7ATEBYHLZBJCW4OXHU3FRG7LK6ZTRHLKKLFW5NHY4Q6',
+          tokenA: 'CCBJNX4B23ZDXEE3KRS2IAQJSLNQY4ZJ24K44BI7FYYIF5ZAZMRYPRRD',
+          tokenB: 'CD5E7YM4MTL5S4B4FKLAMFLMXCN26L4QGPAS7JCVBG4TPW5EIP5WXIQO'
+        },
+        {
+          address: 'CB4UVMNV25WS24YN3RCFK2DYQXHAZWAWT7LLB2NLTRXTVTHMJ52YHNGS',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBZVSNVB55ANF24QVJL2K5QCLOAB6XITGTGXYEAF6NPTXYKEJUYQOHFC'
+        },
+        {
+          address: 'CDJXIUCWP3BWZWNPPL52YRG7FHG6LWAHN5RTYR4FLY7A3PJKSZ7LGCSC',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CAZQYRFG7A2CZTZ2NEODHZGIOORFFKOEFV7WWZOBJEYXER56ASCUBD7P'
+        },
+        {
+          address: 'CA4VTJFKCIXVH3G2MEYAGA4U5A7IBWFFDODTSR3KUAQ4KZMI37J75CYX',
+          tokenA: 'CD4NTX2UXD2X257XCNSWRB45N5GUXVSHFY7L5W53IULIM5EVYAFENQGO',
+          tokenB: 'CD6IN4UFNPDX35H7YB53XAA2XE6S2UPXL7AZL6DSFZFNNZSLE7FFSIVP'
+        },
+        {
+          address: 'CACXB6KH5DQVQKQGXKHF2M5TEKFY5KIDCKSEXZYJ27Z5465V2SSALCBW',
+          tokenA: 'CBCU5VMZ3GNHHKJUWZ2GI7K36MEAXOJW2RJCIJHFPVFGBME3WADLXA6W',
+          tokenB: 'CD6IN4UFNPDX35H7YB53XAA2XE6S2UPXL7AZL6DSFZFNNZSLE7FFSIVP'
+        },
+        {
+          address: 'CADMFEOU6YZBJ3RTRBU4SXLHKTTQ32YD2YVABBYERKDWP5TVFGWKFADH',
+          tokenA: 'CBEM2CAIYLM3HBOPU5HLQL7V5BUAKM3N77DYQKX4FNHTQLQUUD2ZFBOX',
+          tokenB: 'CCN2LGXV7U3LLRQNAXGPQ7XK2JT2PGMUFOLDZTSLFCKNUXE3QVYEC3PF'
+        },
+        {
+          address: 'CCXOKQBBNRJ7YKY4Y6HTXAU5ZLV7PKENA7ZT74UAAXZ6XUEE22YQGBCS',
+          tokenA: 'CBN3NCJSMOQTC6SPEYK3A44NU4VS3IPKTARJLI3Y77OH27EWBY36TP7U',
+          tokenB: 'CDTKPWPLOURQA2SGTKTUQOWRCBZEORB4BWBOMJ3D3ZTQQSGE5F6JBQLV'
+        },
+        {
+          address: 'CAX7KGAVK4YBJJWLNV22DFEWC53LKQG3TNSUORMYEDGRT57PTW5K7BZ2',
+          tokenA: 'CBZVSNVB55ANF24QVJL2K5QCLOAB6XITGTGXYEAF6NPTXYKEJUYQOHFC',
+          tokenB: 'CDHBIACXSM5K2NFCCHQIJQNDJPHGPW4OHIYVXGCFMVT7PNLWXY4NGRNH'
+        },
+        {
+          address: 'CDQ4UKVWHJKR465B3NN2YP3IMWBEZ77YYJYTHYZA3BWNTPRHFOJ4OY57',
+          tokenA: 'CDCKFBZYF2AQCSM3JOF2ZM27O3Y6AJAI4OTCQKAFNZ3FHBYUTFOKICIY',
+          tokenB: 'CDOIEBW5LN7T7PSFY6ADLPIDF52PFRX57WIYWJ637PCZ7ZFDDN5T6NCH'
+        },
+        {
+          address: 'CDLMAKG5TSJA6FGP7LLC2FKJRQW6DQYMEPP6FURFVULDEQMP3PRZ4ISI',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBEM2CAIYLM3HBOPU5HLQL7V5BUAKM3N77DYQKX4FNHTQLQUUD2ZFBOX'
+        },
+        {
+          address: 'CAI7B3M2EPGDA2GMHCHUD5JS7MEJ7HA7U7GP5L2IOJWWAE7VRTMTJPNX',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CDHBIACXSM5K2NFCCHQIJQNDJPHGPW4OHIYVXGCFMVT7PNLWXY4NGRNH'
+        },
+        {
+          address: 'CC7CDFY2VGDODJ7WPO3JIK2MXLOAXL4LRQCC43UJDBAIJ4SVFO3HNPOC',
+          tokenA: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75',
+          tokenB: 'CDTKPWPLOURQA2SGTKTUQOWRCBZEORB4BWBOMJ3D3ZTQQSGE5F6JBQLV'
+        },
+        {
+          address: 'CCPZ3DPINLAJZ7RLMVKZY77FZDTN3DXNSLF5TYC5CUYGGJ35OF5KJ47U',
+          tokenA: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK',
+          tokenB: 'CBEM2CAIYLM3HBOPU5HLQL7V5BUAKM3N77DYQKX4FNHTQLQUUD2ZFBOX'
+        },
+        {
+          address: 'CDLJHWJZS3KZDIFLGEFTXUOULRAZ3Z437JTEZLGHMUZEX4DFBFYWXRFR',
+          tokenA: 'CBCO65UOWXY2GR66GOCMCN6IU3Y45TXCPBY3FLUNL4AOUMOCKVIVV6JC',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CDGLVQDF2QUD6P4XJXBATP3HT2MSBEV3NH246ZDQPP6JPNPFAYO44P5E',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBCO65UOWXY2GR66GOCMCN6IU3Y45TXCPBY3FLUNL4AOUMOCKVIVV6JC'
+        },
+        {
+          address: 'CADRWHW2ASLZYF7C4UL4IGGXQGL3ERHBNYYYYTZFRIM36U4CNTS7C3SA',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBHIQPUXLFLC5O44ZJVUTCL5LMZFLVGU5DEIGSYKBSAPFMOGTKOQEPFM'
+        },
+        {
+          address: 'CAM7DY53G63XA4AJRS24Z6VFYAFSSF76C3RZ45BE5YU3FQS5255OOABP',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CD3XW7RGZIQMSVCTLK2NOFAGPTCBKXAVXIXN6QAMEPTJRY45325BZT67',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CBN3NCJSMOQTC6SPEYK3A44NU4VS3IPKTARJLI3Y77OH27EWBY36TP7U'
+        },
+        {
+          address: 'CC4S3VFV4UHIBAKUUBRLSIQTGA33NY4DF36A6ZT7GNJWJFUDZBZNPNUS',
+          tokenA: 'CAUIKL3IYGMERDRUN6YSCLWVAKIFG5Q4YJHUKM4S4NJZQIA3BAS6OJPK',
+          tokenB: 'CCCWT5Q6RZJWEUEICQXST5UX46MFTQNZRXBIEMP6LIPV7PJYAPH4CR3W'
+        },
+        {
+          address: 'CBIQ5MND5I4AXWFSSDPDVN2X3DPR366YMBXUL6TABGUKMKVGOM2IAZJF',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CD25MNVTZDL4Y3XBCPCJXGXATV5WUHHOWMYFF4YBEGU5FCPGMYTVG5JY'
+        },
+        {
+          address: 'CAF65BIHBIHC44QPWIFZRL46BDDH4FN3VSRBB2DZJFPWQRAOSRPKRRQZ',
+          tokenA: 'CBN3NCJSMOQTC6SPEYK3A44NU4VS3IPKTARJLI3Y77OH27EWBY36TP7U',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CCYPLDHUEYWJEOIZJTXUH56NLIQLKYGR5H2BEFQMBYG5IC3G52QF4WVD',
+          tokenA: 'CB226ZOEYXTBPD3QEGABTJYSKZVBP2PASEISLG3SBMTN5CE4QZUVZ3CE',
+          tokenB: 'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75'
+        },
+        {
+          address: 'CAHSKDP66SYCGYQZ3NULGZMEUSN5Z67UFBYADJVCNXVKV3E7PKYR5PQ4',
+          tokenA: 'CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA',
+          tokenB: 'CCN2LGXV7U3LLRQNAXGPQ7XK2JT2PGMUFOLDZTSLFCKNUXE3QVYEC3PF'
+        },
+        {
+          address: 'CA5JJHF5LKBB6LKFKOVVTOO5QE4ZPFIHULSBC5AB5PZXKX2J543HZQJX',
+          tokenA: 'CBH5FAS7EPGM4KGSUHTGMJYGNAMUUMFDXLFD7CWDWWG4JLSXBCCPAXTZ',
+          tokenB: 'CCCWT5Q6RZJWEUEICQXST5UX46MFTQNZRXBIEMP6LIPV7PJYAPH4CR3W'
+        }
+      ]
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:50:11)
+
+    console.error
+      {
+        code: 404,
+        message: 'Account not found: GBCPQMFNL6VMHHF4QGDAEXXTVUV3MXOVSQWLBETNRJTKPMB7QTOFFCG5'
+      }
+
+      42 |     });
+      43 |   } catch (e: any) {
+    > 44 |     console.error(e);
+         |             ^
+      45 |     throw Error('unable to create txBuilder');
+      46 |   }
+      47 | }
+
+      at createTxBuilder (scripts/utils/tx.ts:44:13)
+      at invoke (scripts/utils/tx.ts:24:21)
+      at invokeCustomContract (scripts/utils/contract.ts:35:10)
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:35:24)
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:82:22)
+
+    console.error
+      {
+        code: 404,
+        message: 'Account not found: GBCPQMFNL6VMHHF4QGDAEXXTVUV3MXOVSQWLBETNRJTKPMB7QTOFFCG5'
+      }
+
+      42 |     });
+      43 |   } catch (e: any) {
+    > 44 |     console.error(e);
+         |             ^
+      45 |     throw Error('unable to create txBuilder');
+      46 |   }
+      47 | }
+
+      at createTxBuilder (scripts/utils/tx.ts:44:13)
+      at invoke (scripts/utils/tx.ts:24:21)
+      at invokeCustomContract (scripts/utils/contract.ts:35:10)
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:58:24)
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:129:22)
+
+  ● soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 55
+    Received: 50
+
+      21 |   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
+      22 |   const totalPairs = await getTotalPairs('soroswap', 'MAINNET');
+    > 23 |   expect(pairs.length).toEqual(totalPairs);
+         |                        ^
+      24 | });
+      25 |
+      26 | test("soroswap pairs in MAINNET amount is equal to Factory all_pairs_length()", async () => {
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:23:24)
+
+  ● identify missing pairs in MAINNET
+
+    TypeError: Do not know how to serialize a BigInt
+        at JSON.stringify (<anonymous>)
+
+      54 |   })));
+      55 |
+    > 56 |   fs.writeFileSync('indexed-pairs.json', JSON.stringify(zephyrPairs, null, 2));
+         |                                               ^
+      57 |   fs.writeFileSync('onchain-pairs.json', JSON.stringify(onChainPairs, null, 2));
+      58 | });
+      59 |
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:56:47)
+
+  ● soroswap pairs in TESTNET return non empty array
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      64 |   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
+      65 |   expect(pairs).toBeDefined();
+    > 66 |   expect(pairs.length).toBeGreaterThan(0);
+         |                        ^
+      67 |   // console.log("🚀 ~ test ~ Soroswap testnet pairs.length:", pairs.length)
+      68 | });
+      69 |
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:66:24)
+
+  ● soroswap pairs in TESTNET amount is equal to Factory all_pairs_length()
+
+    unable to create txBuilder
+
+      43 |   } catch (e: any) {
+      44 |     console.error(e);
+    > 45 |     throw Error('unable to create txBuilder');
+         |           ^
+      46 |   }
+      47 | }
+      48 |
+
+      at createTxBuilder (scripts/utils/tx.ts:45:11)
+      at invoke (scripts/utils/tx.ts:24:21)
+      at invokeCustomContract (scripts/utils/contract.ts:35:10)
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:35:24)
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:82:22)
+
+  ● PHOENIX pairs in MAINNET amount is equal to Factory query_pools() length
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 11
+    Received: 12
+
+      108 |   const pairs = await getPairs(zephyrTableGraphQL.address, 'MAINNET');
+      109 |   const totalPairs = await getTotalPairs('phoenix', 'MAINNET');
+    > 110 |   expect(pairs.length).toEqual(totalPairs);
+          |                        ^
+      111 |
+      112 | });
+      113 |
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:110:24)
+
+  ● phoenix pairs in TESTNET return non empty array
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      118 |   const pairs = await getPairs(zephyrTableGraphQL.address, 'TESTNET');
+      119 |   expect(pairs).toBeDefined();
+    > 120 |   expect(pairs.length).toBeGreaterThan(0);
+          |                        ^
+      121 |   // console.log("🚀 ~ test ~ phoenix testnet pairs.length:", pairs.length)
+      122 | });
+      123 |
+
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:120:24)
+
+  ● PHOENIX pairs in TESTNET amount is equal to Factory query_pools() length
+
+    unable to create txBuilder
+
+      43 |   } catch (e: any) {
+      44 |     console.error(e);
+    > 45 |     throw Error('unable to create txBuilder');
+         |           ^
+      46 |   }
+      47 | }
+      48 |
+
+      at createTxBuilder (scripts/utils/tx.ts:45:11)
+      at invoke (scripts/utils/tx.ts:24:21)
+      at invokeCustomContract (scripts/utils/contract.ts:35:10)
+      at getTotalPairs (scripts/utils/get-total-pairs.ts:58:24)
+      at Object.<anonymous> (scripts/__tests__/pairs.test.ts:129:22)
+
+FAIL scripts/__tests__/rsv.test.ts (18.72 s)
+  ● Console
+
+    console.log
+      🚀 ~ test ~ Soroswap mainnet rsv_ch.length: 35527
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:15:11)
+
+    console.log
+      🚀 ~ test ~ last_rsv_ch soroswap mainnet: {
+        address: 'CD3XW7RGZIQMSVCTLK2NOFAGPTCBKXAVXIXN6QAMEPTJRY45325BZT67',
+        reserveA: '13238584804942',
+        reserveB: '4872672375652',
+        timestamp: '1738518717'
+      }
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:42:11)
+
+    console.log
+      🚀 ~ test ~ last_rsv_ch soroswap testnet: undefined
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:65:11)
+
+  ● soroswap rsv_ch in TESTNET return non empty array
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      22 |   const rsv_ch = await getSoroswapRsvCh(zephyrTableGraphQL.address, 'TESTNET');
+      23 |   expect(rsv_ch).toBeDefined();
+    > 24 |   expect(rsv_ch.length).toBeGreaterThan(0);
+         |                         ^
+      25 |   console.log("🚀 ~ test ~ Soroswap testnet rsv_ch.length:", rsv_ch.length)
+      26 |   
+      27 | });
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:24:25)
+
+  ● Last Soroswap rsv_ch  in MAINNET reflects current reserve on that pair
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "13238584804942"
+    Received: "14043543318559"
+
+      48 |
+      49 |   // Compare on-chain reserves with the last recorded reserves in the event table
+    > 50 |   expect(onChainReserveA.toString()).toBe(last_rsv_ch.reserveA);
+         |                                      ^
+      51 |   expect(onChainReserveB.toString()).toBe(last_rsv_ch.reserveB);
+      52 |
+      53 | }, 30000); // También especificar el timeout como tercer parámetro
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:50:38)
+
+  ● Last Soroswap rsv_ch  in TESTNET reflects current reserve on that pair
+
+    TypeError: Cannot read properties of undefined (reading 'address')
+
+      65 |   console.log("🚀 ~ test ~ last_rsv_ch soroswap testnet:", last_rsv_ch)
+      66 |
+    > 67 |   const reservesFromPair = await getReservesFromPair('soroswap', 'TESTNET', last_rsv_ch.address);
+         |                                                                                         ^
+      68 |     
+      69 |   // Assuming reservesFromPair gives BigInt values for reserveA and reserveB
+      70 |   const [onChainReserveA, onChainReserveB] = reservesFromPair;
+
+      at Object.<anonymous> (scripts/__tests__/rsv.test.ts:67:89)
+
+Test Suites: 4 failed, 1 passed, 5 total
+Tests:       12 failed, 5 todo, 16 passed, 33 total
+Snapshots:   0 total
+Time:        18.969 s, estimated 20 s
+Ran all test suites.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
