@@ -160,6 +160,12 @@ or
 bash scripts/verify_catchups_status.sh mainnet
 ```
 
+To manually recreate the "ssw_pairs" table, you can run:
+```bash
+yarn generate-soroswap-tables
+```
+This script fetches current pairs with their reserves and tokens from the blockchain and creates a new file called "ssw_pairs_recreate.json".
+
 ## Check that everything is working properly
 You can run tests agains your local development deployed tables that are in `.dev.tables` or those deployed for production in `public`
 
@@ -204,7 +210,7 @@ We need to do catch ups for:
 Because we can only catch upts SoroswapPairs contract after knowing what pairs do we have we will do this in 2 steps:
 
 1.- Catch ups `SoroswapFactory`, `SoroswapRouter` and `AquaRouter`
-```
+```bash
 bash scripts/factory_router_catchups.sh <network>
 ```
 This will
