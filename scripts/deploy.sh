@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check if protocol, network and dev/prod arguments are provided
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 [protocol] [network] [dev|prod]"
+if [ $# -ne 4 ]; then
+    echo "Usage: $0 [protocol] [network] [dev|prod] [force|no-force]"
     exit 1
 fi
 
